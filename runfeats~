@@ -1,0 +1,6 @@
+#!/bin/sh
+export FSLPARALLEL=true
+
+for i in $1; do
+feat $i
+done

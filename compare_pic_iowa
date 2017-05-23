@@ -1,0 +1,55 @@
+#!/bin/bash
+session=$1
+filePrefix=$2
+matlabDir=/project_space/pboord/MATLAB
+cwd=$(pwd)
+TR=2
+HPF=$(echo "100/$TR"|bc -l)
+#cd $session
+#bet T1.nii.gz T1_brain.nii.gz
+#fast -g -o T1_brain -p T1_brain.nii.gz
+#ln -sf T1_brain_seg_2.nii T1_brain_wmseg.nii
+run_nonparamPic $MCRROOT /project_space/pboord/PIC/iowa/raw $session $filePrefix mask.nii 100
+exit
+cd $cwd/$session
+epi_reg --epi=${session}.results/mean_func --t1=T1 --t1brain=T1_brain --out=func_to_T1
+flirt -in $MNI2mm -ref T1_brain -omat mni_to_T1.mat
+convert_xfm -omat T1_to_mni.mat -inverse mni_to_T1.mat
+convert_xfm -omat func_to_mni.mat -concat T1_to_mni.mat func_to_T1.mat
+convert_xfm -omat mni_to_func.mat -inverse func_to_mni.mat
+for coord in $(ls $matlabDir/mniCoordMm_*); do
+	cp -f $coord .
+done
+for coord in $(ls mniCoordMm_*); do
+	coordName=$(echo $coord|cut -d'_' -f 2)
+	std2imgcoord -img ${session}.results/mean_func -std $MNI2mm -xfm func_to_mni.mat -vox $coord > func_$coordName
+done
+exit
+
+exit
+
+3drefit -TR $TR raw_resting.nii
+#rm -f proc.$session
+#rm -rf ${session}.results
+afni_proc.py -subj_id $session -dsets raw_resting.nii \
+		-blocks despike tshift volreg mask regress \
+		-volreg_base_ind 1 $(($(3dinfo -nv raw_resting.nii)/2)) \
+		-regress_motion_per_run \
+		-regress_apply_mot_types demean deriv \
+		-regress_run_clustsim no
+chmod +x proc.$session
+./proc.$session
+cd $cwd/$session/${session}.results
+3dAFNItoNIFTI -prefix mask full_mask.${session}+orig
+3dAFNItoNIFTI -prefix raw pb00.${session}.r01.tcat+orig
+3dAFNItoNIFTI -prefix despike pb01.${session}.r01.despike+orig
+3dAFNItoNIFTI -prefix tshift pb02.${session}.r01.tshift+orig
+3dAFNItoNIFTI -prefix volreg pb03.${session}.r01.volreg+orig
+3dAFNItoNIFTI -prefix regress all_runs.${session}+orig
+fslmaths raw -bptf $HPF -1 raw.hpf
+fslmaths despike -bptf $HPF -1 despike.hpf
+fslmaths tshift -bptf $HPF -1 tshift.hpf
+fslmaths volreg -bptf $HPF -1 volreg.hpf
+fslmaths regress -bptf $HPF -1 regress.hpf
+fslmaths regress -Tmean -mas mask mean_func
+

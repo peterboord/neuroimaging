@@ -1,0 +1,4 @@
+#c3d_affine_tool -ref T1_brain.nii.gz -src mean_func.nii.gz mean_func_to_T1.mat -fsl2ras -oitk mean_func_to_T1_ras.txt
+${ANTSPATH}WarpImageMultiTransform 3 mean_func_to_MNI.nii.gz mean_func_warpedBack.nii.gz -R mean_func.nii.gz \
+-i mean_func_to_T1_ras.txt -i xfm_dir/T1_to_CT_Affine.txt xfm_dir/T1_to_CT_InverseWarp.nii.gz -i Standard/CT_to_mni_Affine.txt \
+Standard/CT_to_mni_InverseWarp.nii.gz

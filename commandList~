@@ -1,0 +1,25 @@
+#!/bin/bash
+if [ "x$1" = "x" ]; then
+echo Usage:
+echo    $0 commandEval preStr postStr secondStr strList
+else
+commandEval=$1
+preStr=$2
+postStr=$3
+secondStr=$4
+
+shift 4
+for i in $@; do
+	if [ -z $secondStr ]
+	then eval $commandEval ${preStr}$i${postStr}
+	else eval $commandEval ${preStr}$i${postStr} $i$secondStr
+	fi
+done
+fi
+
+# Examples
+# commandList echo 'rm -r ' '/reg*.feat' $(basenameList '/projects2/udall/standardFC/RC4???-?/reg*+.feat' '/reg*+.feat')
+# commandList echo 'mkdir ' '/reg2mm' $(basenameList '/projects2/udall/standardFC/RC4???-?/reg.feat' '/reg.feat')
+# commandList echo 'mv ' '/reg' '/reg2mm' $(basenameList '/projects2/udall/standardFC/RC4???-?/reg.feat' '/reg.feat')
+# for c in 1 2 3 4 5 6;do commandList echo 'rm -r ' '/cluster'$c'.feat/reg' '' $(basenameList '/projects2/udall/standardFC/RC4???-?/cluster'$c'.feat/reg' '/cluster'$c'.feat/reg');done
+# for c in 1 2 3 4 5 6;do commandList echo 'cp -r ' '/reg.feat/reg' '/cluster'$c'.feat/.' $(basenameList '/projects2/udall/standardFC/RC4???-?/cluster'$c'.feat' '/cluster'$c'.feat');done

@@ -1,0 +1,6 @@
+#!/bin/sh
+fslmaths $1 -add 1 numerator
+fslmaths $1 -mul 0 -add 1 -sub $1 denominator
+fslmaths numerator -div denominator fraction
+fslmaths fraction -log -mul 0.5 z_$1
+rm numerator denominator fraction

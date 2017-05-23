@@ -1,0 +1,6 @@
+#!/bin/sh
+func=$(basename $1 .nii.gz)
+mask=$2
+fslmaths ${func} -fmean -Tstd -sqr -mul 27 -mas ${mask} ${func}_sumVar
+fslmaths ${func} -Tstd -sqr -fmean -mul 27 -mas ${mask} ${func}_varSum
+fslmaths ${func}_sumVar -div ${func}_varSum -mul 100 ${func}_propVar

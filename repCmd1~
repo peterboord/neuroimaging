@@ -1,0 +1,18 @@
+#!/bin/bash
+if [ "x$1" = "x" ]; then
+echo $(basename $0) 'repeats a single-argument command for a given list'
+echo 'Usage:'
+echo $(basename $0) 'preArgStr postArgStr strList'
+echo 'preArgStr and postArgStr must be in quotes if they contain whitespace'
+echo "postArgStr must be supplied, as '' if necessary"
+echo 'Note: postArgStr concatenates to list string *without* whitespace'
+echo 'so include a space in postArgStr (in quotes) if needed'
+else
+preArgStr=$1
+postArgStr=$2
+
+shift 2
+for listArg in $@; do
+	eval ${preArgStr} ${listArg}${postArgStr}
+done
+fi

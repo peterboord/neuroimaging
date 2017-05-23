@@ -1,0 +1,74 @@
+#!/bin/bash 
+#
+# Find the correct Physio data for 4D data set
+# Uses act_extractphysio to get cardiac and respiration files
+# 
+#
+# breathhold length is 122 TRs @ 2.5 seconds/TR, or 305
+# resting length is 288 TRs @ 2.5 seconds/TR, or 720
+
+# location of other programs
+BIN=/projects2/act-plus/bin/
+
+if [ $# -lt 4 ]
+then
+  echo "Usage: act_findphysio subjectid scantype scantime occasion"
+  echo "<scantype> = rest or breathhold"
+  echo "<scantime>= seconds"
+  echo "<occasion> = 1 .... ?"
+  echo "Assumes ACT folder structure beneath timepoint"
+  echo "Finds correct physio file matching the par-recs and extracts cardiac and resp data into files"
+  echo "Run in folder which contains subject folder"
+  exit 1
+fi
+
+subjectid=$1
+scantype=$2
+scantime=$3
+occ=$4
+
+#Check input to make sure scantype agrees with directory containing Parrec folder
+destroot="/projects2/act-plus/subjects/session${occ}/${subjectid}"
+ParrecDir=${destroot}/parrec
+PhysioDir=${destroot}/physio
+
+if [ "X"$scantype = "Xbreathhold" ]
+then
+scanid="BreathHold"
+fi
+
+if [ "X"$scantype = "Xrest" ]
+then
+scanid="ME-RS"
+fi
+
+
+#Find the start time of the scan from earliest parrec
+if [ ! -d ${ParrecDir} ]
+then
+   echo act_findphysio: Parrec directory ${ParrecDir} does not exist. Exiting.
+   exit 1
+fi
+
+cd ${ParrecDir}
+# use the par file (specified by the scan id) to identify what sequence this
+# scan was (nr)
+parfile=*${scanid}*.PAR
+nr=`grep Acquisition $parfile|awk '{print $5}'`
+
+echo parfile is $parfile and nr is $nr
+
+# Find the physio log file with that sequence - the log files are in sort order
+# by time, print the $nr'th one
+cd ${PhysioDir}
+correctphysio=`ls -1 SCANPHYSLOG*.log|awk '{if (NR=='$nr') print;}'`
+echo $correctphysio
+
+# Call act_extractphysio to create cardiac and resp files
+${BIN}/act_extractphysio ${correctphysio} ${scantime} > physiooutput.txt
+awk '{print $5}' physiooutput.txt > ${subjectid}_${scantype}_cardio.txt
+awk '{print $6}' physiooutput.txt > ${subjectid}_${scantype}_resp.txt
+rm -f physiooutput.txt
+
+
+

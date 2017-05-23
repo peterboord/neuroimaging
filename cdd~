@@ -1,0 +1,11 @@
+#!/bin/bash
+# lists directories in ${pbubin}/pbdirs and cd's to chosen directory
+dirFile=$pbubin/pbdirs
+dirs=( $(cat $dirFile) )
+for dirNr in $(seq 0 $((${#dirs[@]}-1))); do
+	echo $dirNr\ "${dirs[$dirNr]}"|sed 's/#//'
+done
+read goDir
+echo $goDir
+#cd $goDir
+#ls

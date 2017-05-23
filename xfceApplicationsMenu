@@ -1,0 +1,2 @@
+# run using: ./xfceApplicationsMenu
+java -jar /opt/lxmed/LXMenuEditor.jar &

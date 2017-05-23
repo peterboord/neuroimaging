@@ -1,0 +1,129 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="1813648697" file="/project_space/pboord/usr/bin/matlab/physioSge.prj" location="/project_space/pboord/usr/bin/matlab" name="physioSge" preferred-package-location="/project_space/pboord/usr/bin/matlab/physioSge/for_redistribution" preferred-package-type="package.type.install" target="target.ezdeploy.standalone" target-name="MATLAB Compiler for Standalone Applications">
+    <param.appname>physioSge</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.summary />
+    <param.description />
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>/physioSge/</param.installpath.string>
+    <param.installpath.combo>option.installpath.user</param.installpath.combo>
+    <param.logo />
+    <param.install.notes>On the target computer, append the following to your LD_LIBRARY_PATH environment variable (Where {MCR_ROOT} is the directory the MCR has been installed into):&lt;br&gt; {MCR_ROOT}/runtime/glnxa64&lt;br&gt; {MCR_ROOT}/bin/glnxa64&lt;br&gt; {MCR_ROOT}/sys/os/glnxa64&lt;br&gt;{MCR_ROOT}/sys/opengl/lib/glnxa64&lt;br&gt;</param.install.notes>
+    <param.intermediate>${PROJECT_ROOT}/physioSge/for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}/physioSge/for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}/physioSge/for_redistribution</param.output>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.embed.ctf>true</param.embed.ctf>
+    <param.server.ctf>${PROJECT_ROOT}/physioSge/for_testing/.ctf</param.server.ctf>
+    <param.server.readme>${PROJECT_ROOT}/physioSge/for_testing/readme.txt</param.server.readme>
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.required.mcr.products>
+      <item>35000</item>
+    </param.required.mcr.products>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.summary />
+      <param.description />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.enable.clean.build />
+      <param.embed.ctf />
+      <param.server.ctf />
+      <param.server.readme />
+      <param.target.type />
+      <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/physioSge.m</file>
+    </fileset.main>
+    <fileset.resources>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/MRIfspec.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/MRIread.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_analyze.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_analyze_hdr.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_mgh.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_nifti.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_nifti_hdr.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/strlen.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_0to1.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_1to0.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_tkreg.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_fileexists.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_ldbhdr.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_ldbslice.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_mri_struct.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_bfiledim.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_bvoldim.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_hdrdatstruct.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_ldbfile.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_lddat2.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_lddat3.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/qoe.m</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}/physioSge/for_testing" name="readme.txt" optional="true">/project_space/pboord/usr/bin/matlab/physioSge/for_testing/readme.txt</file>
+      <file location="${PROJECT_ROOT}/physioSge/for_testing" name="run_physioSge.sh" optional="false">/project_space/pboord/usr/bin/matlab/physioSge/for_testing/run_physioSge.sh</file>
+      <file location="${PROJECT_ROOT}/physioSge/for_testing" name="splash.png" optional="false">/project_space/pboord/usr/bin/matlab/physioSge/for_testing/splash.png</file>
+      <file location="${PROJECT_ROOT}/physioSge/for_testing" name="physioSge" optional="false">/project_space/pboord/usr/bin/matlab/physioSge/for_testing/physioSge</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/usr/local/MATLAB/R2014b</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>false</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>true</linux>
+      <solaris>false</solaris>
+      <osver>3.2.0-4-amd64</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>glnxa64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

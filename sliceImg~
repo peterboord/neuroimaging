@@ -1,0 +1,69 @@
+#!/bin/bash
+if [ "x$1" = "x" ]; then
+	echo 'sliceImg - make overlay png image'
+	echo 'Usage:'
+	echo $0 'bgImage overlayImage scale axis sliceNr [min max]'
+	echo 'inputs:'
+	echo 'bgImage = background image'
+	echo 'overlayImage = overlay image'
+	echo 'scale = size scaling'
+	echo 'axis = x, y, or z'
+	echo 'sliceNr = 0-based slice number'
+	echo 'min = lower threshold'
+	echo 'max = upper threshold'
+else
+	bgImage=$1
+	overlayImage=$(basename $2 .nii.gz)
+	scale=$3
+	axis=$4
+	sliceNr=$5
+	imageOutName=overlay_${overlayImage}_${axis}${sliceNr}
+	echo 'output image is '${imageOutName}'.png'
+	if [ $# == 7 ]; then
+		robustRange=$6' '$7
+	else
+		robustRange=$(fslstats $overlayImage -r)
+		echo 'robust range is '$robustRange
+	fi
+	#nrClusters=`fslstats $overlayImage -R|sed 's/0.000000 //'|sed 's/.000000//'` ; \
+	overlay 0 1 $bgImage -a $overlayImage $robustRange ${imageOutName}
+	slicer ${imageOutName} -l /projects2/udall/pboord/results/blue.lut -u -s $scale -$axis -$sliceNr ${imageOutName}.ppm
+	#slicer ${imageOutName} -u -s $scale -$axis -$sliceNr ${imageOutName}.ppm
+	mogrify -format png ${imageOutName}.ppm
+	rm ${imageOutName}.ppm
+	rm ${imageOutName}.nii.gz
+fi
+
+# EXAMPLES
+#  2247  sliceImg MNI152_T1_1mm_brain.nii.gz cope10_thresh_zstat1.nii.gz 1 x 84 2.306145 3.277556
+#  2248  sliceImg MNI152_T1_1mm_brain.nii.gz cope10_thresh_zstat1.nii.gz 1 y 70 2.306145 3.277556
+#  2249  sliceImg MNI152_T1_1mm_brain.nii.gz cope10_thresh_zstat1.nii.gz 1 z 133 2.306145 3.277556
+
+# OVERLAY
+# Usage: overlay <colour_type> <output_type> [-c] <background_image> <bg_min> <bg_max> <stat_image_1> <s1_min> <s1_max> [stat_image_2 s2min s2max] <output_image> [cbartype] [cbarfilename]
+# colour_type: 0=solid 1=transparent colours
+# output_type: 0=floating point (32 bit real) 1=integer (16 bit signed integer)
+# -c : use checkerboard mask for overlay
+# <bg_min> <bg_max> can be replaced by -a for automatic estimation of background display range or -A to use the full image range
+# valid cbartypes colours are: ybg, valid cbartypes options are: s (stack)
+
+# SLICER
+# Usage: slicer <input> [input2] [main options] [output options - any number of these]
+#
+# Main options: [-L] [-l <lut>] [-s <scale>] [-i <intensitymin> <intensitymax>] [-e <thr>] [-t] [-n] [-u]
+# These must be before output options.
+# -L       : Label slices with slice number.
+# -l <lut> : use a different colour map from that specified in the header.
+# -i <min> <max> : specify intensity min and max for display range.
+# -e <thr> : use the specified threshold for edges (if >0 use this proportion of max-min, if <0, use the absolute value)
+# -t       : produce semi-transparent (dithered) edges.
+# -n       : use nearest-neighbour interpolation for output.
+# -u       : do not put left-right labels in output.
+#
+# Output options:
+# [-x/y/z <slice> <filename>]      : output sagittal, coronal or axial slice
+#      (if <slice> >0 it is a fraction of image dimension, if <0, it is an absolute slice number)
+# [-a <filename>]                  : output mid-sagittal, -coronal and -axial slices into one image
+# [-A <width> <filename>]          : output _all_ axial slices into one image of _max_ width <width>
+# [-S <sample> <width> <filename>] : as -A but only include every <sample>'th slice
+

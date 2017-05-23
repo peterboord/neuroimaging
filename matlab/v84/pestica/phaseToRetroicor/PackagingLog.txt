@@ -1,0 +1,31 @@
+ant:
+<ant>
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/v84/pestica/phaseToRetroicor/for_redistribution" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/v84/pestica/phaseToRetroicor/for_testing" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/v84/pestica/phaseToRetroicor/for_redistribution_files_only" />
+</ant>
+mcc -C -R -nodisplay -R -nojvm -R -nosplash -p /project_space/pboord/MATLAB/pestica_afni_v2 -p /project_space/pboord/MATLAB/pestica_afni_v2/matlab_retroicor -p /project_space/pboord/MATLAB/afni_matlab/matlab -p /usr/local/freesurfer/stable5_3/matlab -p /usr/local/freesurfer/stable5_3/fsfast/toolbox -o phaseToRetroicor -W WinMain:phaseToRetroicor -T link:exe -d /project_space/pboord/usr/bin/matlab/v84/pestica/phaseToRetroicor/for_testing -C -v /project_space/pboord/usr/bin/matlab/v84/pestica/phaseToRetroicor.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/BrikInfo.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/BrikInfo_SectionValue.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/BrikLoad.m -a /project_space/pboord/MATLAB/pestica_afni_v2/disassemble_timeseries_to_slices.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/eq_str.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/ErrEval.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/filexist.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/FindChar.m -a /project_space/pboord/MATLAB/pestica_afni_v2/get_slice_timing.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/GetNextLine.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/GetWord.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/Info_1D.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/newid.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/NextString.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/pad_strn.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/PurgeComments.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/Read_1D.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/Remove1DExtension.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/RemoveExtension.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/RemoveNiftiExtension.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/SkipMatlabHelp.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/uiget1Dfile.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/WordCount.m -a /project_space/pboord/MATLAB/afni_matlab/matlab/zdeblank.m 
+process 22691: arguments to dbus_move_error() were incorrect, assertion "(dest) == NULL || !dbus_error_is_set ((dest))" failed in file ../../dbus/dbus-errors.c line 282.
+This is normally a bug in some application using the D-Bus library.
+libhal.c 3483 : Error unsubscribing to signals, error=The name org.freedesktop.Hal was not provided by any .service files
+Warning: You have specified '-R -nojvm', which may restrict or eliminate MATLAB graphics functionality at runtime.
+Compiler version: 5.2 (R2014b)
+Dependency analysis by REQUIREMENTS.
+[Warning: Adding path "/project_space/pboord/usr/bin/matlab/v84/pestica" to
+Compiler path instance.] 
+Parsing file "/project_space/pboord/usr/bin/matlab/v84/pestica/phaseToRetroicor.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 7 temporary MEX authorization files.
+Removing: '/tmp/058a3FL3Nzg_22691.auth'.
+Removing: '/tmp/058a3oDpzDo_22691.auth'.
+Removing: '/tmp/058a3FCXmHw_22691.auth'.
+Removing: '/tmp/058a3yLQPME_22691.auth'.
+Removing: '/tmp/058a3LeGwSM_22691.auth'.
+Removing: '/tmp/058a3qfsjYU_22691.auth'.
+Removing: '/tmp/058a3UiSj42_22691.auth'.
+Generating file "/project_space/pboord/usr/bin/matlab/v84/pestica/phaseToRetroicor/for_testing/readme.txt".
+Generating file "/project_space/pboord/usr/bin/matlab/v84/pestica/phaseToRetroicor/for_testing/run_phaseToRetroicor.sh".
+Packaging...
+Creating the bundle...
+Web based installer created at /project_space/pboord/usr/bin/matlab/v84/pestica/phaseToRetroicor/for_redistribution/MyAppInstaller_web.install.
+Packaging complete.

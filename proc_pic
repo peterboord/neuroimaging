@@ -1,0 +1,38 @@
+#!/bin/bash
+session=$1
+cwd=$(pwd)
+physioDir=/projects2/udall/physio
+rawDir=/projects2/udall/rest/raw
+TR=2.4
+HPF=$(echo "100/$TR"|bc -l)
+	mkdir -p $cwd/$session
+	cd $cwd/$session
+	ln -sf $physioDir/$session/oba.slibase.1D
+	ln -sf $rawDir/${session}_rest+orig.BRIK
+	ln -sf $rawDir/${session}_rest+orig.HEAD
+	ln -sf $rawDir/${session}_T1.nii.gz
+	3drefit -TR $TR ${session}_rest+orig.HEAD
+	rm -f proc.$session
+	#rm -rf ${session}.results
+	afni_proc.py -subj_id $session -dsets ${session}_rest+orig \
+		-blocks despike ricor tshift volreg mask regress \
+		-volreg_base_ind 1 $(($(3dinfo -nv ${session}_rest+orig)/2)) \
+		-ricor_regs oba.slibase.1D \
+		-regress_motion_per_run \
+		-regress_apply_mot_types demean deriv \
+		-regress_run_clustsim no
+	chmod +x proc.$session
+	#./proc.$session
+	cd $cwd/$session/${session}.results
+#	3dAFNItoNIFTI pb00.${session}.r01.tcat+orig
+#	3dAFNItoNIFTI pb01.${session}.r01.despike+orig
+#	3dAFNItoNIFTI pb02.${session}.r01.ricor+orig
+#	3dAFNItoNIFTI pb03.${session}.r01.tshift+orig
+#	3dAFNItoNIFTI pb04.${session}.r01.volreg+orig
+#	3dAFNItoNIFTI all_runs.${session}+orig
+	fslmaths pb00.${session}.r01.tcat -bptf $HPF -1 pb00.${session}.r01.tcat.hpf
+	fslmaths pb01.${session}.r01.despike -bptf $HPF -1 pb01.${session}.r01.despike.hpf
+	fslmaths pb02.${session}.r01.ricor -bptf $HPF -1 pb02.${session}.r01.ricor.hpf 
+	fslmaths pb03.${session}.r01.tshift -bptf $HPF -1 pb03.${session}.r01.tshift.hpf
+	fslmaths pb04.${session}.r01.volreg -bptf $HPF -1 pb04.${session}.r01.volreg.hpf
+	fslmaths all_runs.${session} -bptf $HPF -1 all_runs.${session}.hpf

@@ -1,0 +1,158 @@
+function spaceFile () {
+	while IFS='' read -r line || [[ -n "$line" ]]; do
+    		echo $line
+	done < "$1"
+}
+
+function imMin () {
+	local range=($(fslstats $1 -R))
+	echo ${range[0]}
+}
+function imMax () {
+	local range=($(fslstats $1 -R))
+	echo ${range[1]}
+}
+float2int() {
+	printf "%.0f\n" "$@"
+}
+function imMinInt () {
+	local range=($(fslstats $1 -R))
+	echo $(float2int ${range[0]})
+}
+function imMaxInt () {
+	local range=($(fslstats $1 -R))
+	echo $(float2int ${range[1]})
+}
+function masks () {
+	nrMasks=$(imMaxInt $1)
+	if [ $nrMasks -lt 10 ]; then
+		for maskNr in $(seq 1 $nrMasks); do
+			fslmaths $1 -thr  $maskNr -uthr $maskNr -bin $(basename $1 .nii.gz)_$maskNr
+		done
+	fi
+}
+function arrayInit () {
+	# $1 = nrRows
+	# $2 = nrColumns
+	local rowNr=$1
+	local colNr=$2
+	#cmd="printf '%.s0 ' {1..$(($rowNr*colNr))}"
+	local cmd="echo {1..$(($rowNr*colNr))}"
+	declare -a arr=( $rowNr $colNr $(eval $cmd) )
+	echo "${arr[@]}"
+	unset arr
+}
+function arraySet () {
+	# $1 = array
+	# $2 = row
+	# $3 = column
+	# $4 = data
+	declare -a arr=("${!1}")
+	local nrCols=${arr[1]}
+	local rowNr=$2
+	local colNr=$3
+	local idx=$((($rowNr-1)*$nrCols+$colNr+1))
+	arr[$idx]=$4
+	echo "${arr[@]}"
+	unset arr
+}
+function arrayLoad () {
+	# $1 = filename
+	# $2 = nr top rows to delete
+	# eg.	a=($(arrayLoad dmn1 0))
+	#	echo ${a[3]}
+	local filename=$1
+	if [ $# = 2 ]; then
+		nrRowDel=$2
+	else
+		# delete first row by default
+		nrRowDel=1
+	fi
+	spaceFile $1 > tmpArrayLoadFile
+	local nrRows=$(($(wc -l < tmpArrayLoadFile) - $nrRowDel))
+	local nrCols=$(tail -1 tmpArrayLoadFile | tr ' ' '\n'|wc -l)
+	# -s: discard first $nrRowDel lines
+	# -t: remove trailing newline characters
+	readarray -s $nrRowDel -t arrIn < tmpArrayLoadFile
+	unset arr
+	declare -a arr=($nrRows $nrCols)
+	for rowNr in $(seq 0 $(($nrRows - 1))); do
+		arr=("${arr[@]}" "${arrIn[$rowNr]}")
+	done
+	echo "${arr[@]}"
+	unset arrIn
+	unset arr
+	rm tmpArrayLoadFile
+}
+function arrayGet () {
+	# $1 = array
+	# $2 = row
+	# $3 = column
+	# declare -a arr=("${!1}")
+	name=$1[@]
+	arr=("${!name}")
+#	echo "${arr[@]}"
+#	echo ${arr[3]}
+	local nrRows=${arr}
+	local nrCols=${arr[1]}
+	local rowNr=$2
+	local colNr=$3
+#	if [ $rowNr = : ]; then
+#		local idxStart=$(($colNr+1))
+#		local idxEnd=$((($nrRows-1)*$nrCols+$idxStart))
+#		eval echo $(printf '${arr[%s]} ' $(seq $idxStart $nrCols $idxEnd))
+#	elif [ $colNr = : ]; then
+#		local idx=$((($rowNr-1)*$nrCols+1+1))
+#		echo "${arr[@]:$idx:$nrCols}"	
+#	else
+#		echo "rowNr=$rowNr nrCols=$nrCols colNr=$colNr"
+		local idx=$((($rowNr-1)*$nrCols+$colNr+1))
+#		echo "idx= $idx"
+		echo "${arr[$idx]}"	
+#	fi
+	unset arr
+}
+function arrayDisp () {
+	declare -a arr=("${!1}")
+	echo "${arr[@]}"
+	unset arr
+}
+function arrayDisp2d () {
+	declare -a arr=("${!1}")
+	local nrRows=${arr}
+	local nrCols=${arr[1]}
+	for rowNr in $(seq 1 $nrRows); do
+		thisRow=($(arrayGet arr[@] $rowNr :))
+		echo "${thisRow[@]}"
+	done
+	unset arr
+}
+function arrayDisp2dTranspose () {
+	declare -a arr=("${!1}")
+	local nrRows=${arr}
+	local nrCols=${arr[1]}
+	for colNr in $(seq 1 $nrCols); do
+		thisCol=($(arrayGet arr[@] : $colNr))
+		echo $(echo "${thisCol[@]}"|tr ' ' ',')
+	done
+	unset arr
+}
+function arrayGet_successiveRows () {
+	# $1 = array
+	# $2 = row
+	# $3 = column
+	local nrCols=${arr[1]}
+	declare -a arr=("${!1}")
+	if [ $rowNr = : ]; then
+		local idx=$((($colNr-1)*$nrCols+1+1))
+		echo "${arr[@]:$idx:$nrCols}"	
+	elif [ $colNr = : ]; then
+		local idxStart=$(($rowNr+1))
+		local idxEnd=$((($nrCols-1)*$nrCols+$rowNr+1))
+		eval echo $(printf '${arr[%s]} ' $(seq $idxStart $nrCols $idxEnd))
+	else
+		local idx=$((($rowNr-1)*$nrCols+$colNr+1))
+		echo "${arr[$idx]}"	
+	fi
+	unset arr
+}

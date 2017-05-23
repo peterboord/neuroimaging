@@ -1,0 +1,5 @@
+# Usage:
+# source setupfsl5
+unset FSL_BIN FSLDIR FSL_DIR
+source /etc/fsl/fsl.sh
+FSLOUTPUTTYPE=NIFTI

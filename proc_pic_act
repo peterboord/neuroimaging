@@ -1,0 +1,101 @@
+#!/bin/bash
+session=$1
+dataDir=$(pwd)
+cd $session
+
+# constants
+brainVoxCenter="88 128 128"
+nrRand=100
+TR=2.5
+nrSlices=37
+sliceOrder=seq+z
+restFilePrefix=rest_e002
+subjDir=/projects2/act-plus/subjects
+matlabDir=/project_space/pboord/MATLAB
+physioDir=/projects2/act-plus/physio
+
+if [ 1 = 2 ]; then
+
+# code
+echo "Starting code"
+\rm -f ${restFilePrefix}.nii.gz
+\cp -f $subjDir/$session/session1/rest/${restFilePrefix}.nii.gz .
+gunzip -f ${restFilePrefix}.nii.gz
+\mv -f ${restFilePrefix}.nii raw_resting.nii
+3drefit -TR $TR raw_resting.nii
+# physio
+run_McRetroTS $MCRROOT Opt.Respfile=rest_resp_ds.txt Opt.Cardfile=rest_cardio_ds.txt Opt.VolTR=$TR Opt.Nslices=$nrSlices Opt.PhysFS=100 Opt.SliceOrder=$sliceOrder
+# process rest
+echo "processing rest file"
+rm -f proc.$session
+rm -rf ${session}.results
+afni_proc.py -subj_id $session -dsets raw_resting.nii \
+		-blocks despike ricor tshift volreg mask regress \
+		-tshift_opts_ts -tpattern seq+z -TR ${TR}s \
+		-volreg_base_ind 1 $(($(3dinfo -nv raw_resting.nii)/2)) \
+		-ricor_regs oba.slibase.1D \
+		-regress_motion_per_run \
+		-regress_apply_mot_types demean deriv \
+		-regress_run_clustsim no
+chmod +x proc.$session
+./proc.$session
+3dAFNItoNIFTI -prefix mask ${session}.results/full_mask.${session}+orig
+3dAFNItoNIFTI -prefix raw ${session}.results/pb00.${session}.r01.tcat+orig
+3dAFNItoNIFTI -prefix despike ${session}.results/pb01.${session}.r01.despike+orig
+3dAFNItoNIFTI -prefix ricor ${session}.results/pb02.${session}.r01.ricor+orig
+3dAFNItoNIFTI -prefix tshift ${session}.results/pb03.${session}.r01.tshift+orig
+3dAFNItoNIFTI -prefix volreg ${session}.results/pb04.${session}.r01.volreg+orig
+3dAFNItoNIFTI -prefix regress ${session}.results/all_runs.${session}+orig
+# HPF
+echo "Filtering"
+HPF=$(echo "100/$TR"|bc -l)
+fslmaths raw -bptf $HPF -1 raw.hpf
+fslmaths despike -bptf $HPF -1 despike.hpf
+fslmaths ricor -bptf $HPF -1 ricor.hpf
+fslmaths tshift -bptf $HPF -1 tshift.hpf
+fslmaths volreg -bptf $HPF -1 volreg.hpf
+fslmaths regress -bptf $HPF -1 regress.hpf
+fslmaths regress -Tmean -mas mask mean_func
+# xfm
+echo "Transforming"
+\rm -f T1.nii.gz T1_brain.nii.gz
+\cp -f $subjDir/$session/session1/memprage/T1.nii.gz .
+gunzip -f T1.nii.gz
+bet T1 T1_brain -c $brainVoxCenter
+fslreorient2std T1 T1
+fslreorient2std T1_brain T1_brain
+fast -g -o T1_brain -p T1_brain.nii.gz
+ln -sf T1_brain_seg_2.nii T1_brain_wmseg.nii
+echo "epi_reg"
+epi_reg --epi=mean_func --t1=T1 --t1brain=T1_brain --out=func_to_T1
+echo "flirt"
+flirt -in $MNI2mm -ref T1_brain -omat mni_to_T1.mat -out mni_to_T1
+convert_xfm -omat T1_to_mni.mat -inverse mni_to_T1.mat
+flirt -in T1_brain -ref $MNI2mm -applyxfm -init T1_to_mni.mat -out T1_to_mni
+convert_xfm -omat func_to_mni.mat -concat T1_to_mni.mat func_to_T1.mat
+convert_xfm -omat mni_to_func.mat -inverse func_to_mni.mat
+flirt -in mean_func -ref $MNI2mm -applyxfm -init func_to_mni.mat -out func_to_mni
+for coord in $(ls $matlabDir/mniCoordMm_*); do
+	cp -f $coord .
+done
+for coord in $(ls mniCoordMm_*); do
+	coordName=$(echo $coord|cut -d'_' -f 2)
+	std2imgcoord -img mean_func -std $MNI2mm -xfm func_to_mni.mat -vox $coord > func_$coordName
+done
+
+fi
+
+# PIC
+echo "Running PIC"
+echo "despike"
+run_nonparamPic $MCRROOT $dataDir $session despike.hpf mask.nii $nrRand
+echo "ricor"
+run_nonparamPic $MCRROOT $dataDir $session ricor.hpf mask.nii $nrRand
+echo "raw"
+run_nonparamPic $MCRROOT $dataDir $session raw.hpf mask.nii $nrRand
+echo "tshift"
+run_nonparamPic $MCRROOT $dataDir $session tshift.hpf mask.nii $nrRand
+echo "volreg"
+run_nonparamPic $MCRROOT $dataDir $session volreg.hpf mask.nii $nrRand
+echo "regress"
+run_nonparamPic $MCRROOT $dataDir $session regress.hpf mask.nii $nrRand

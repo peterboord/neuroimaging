@@ -1,0 +1,274 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="1250207874" file="/project_space/pboord/usr/bin/matlab/McRetroTS.prj" location="/project_space/pboord/usr/bin/matlab" name="McRetroTS" preferred-package-location="/project_space/pboord/usr/bin/matlab/McRetroTS/for_redistribution" preferred-package-type="package.type.install" target="target.ezdeploy.standalone" target-name="MATLAB Compiler for Standalone Applications">
+    <param.appname>McRetroTS</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.summary />
+    <param.description />
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>/McRetroTS/</param.installpath.string>
+    <param.installpath.combo>option.installpath.user</param.installpath.combo>
+    <param.logo />
+    <param.install.notes>On the target computer, append the following to your LD_LIBRARY_PATH environment variable (Where {MCR_ROOT} is the directory the MCR has been installed into):&lt;br&gt; {MCR_ROOT}/runtime/glnxa64&lt;br&gt; {MCR_ROOT}/bin/glnxa64&lt;br&gt; {MCR_ROOT}/sys/os/glnxa64&lt;br&gt;{MCR_ROOT}/sys/opengl/lib/glnxa64&lt;br&gt;</param.install.notes>
+    <param.intermediate>${PROJECT_ROOT}/McRetroTS/for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}/McRetroTS/for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}/McRetroTS/for_redistribution</param.output>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options>-C -R -nodisplay -R -nosplash</param.user.defined.mcr.options>
+    <param.embed.ctf>false</param.embed.ctf>
+    <param.server.ctf>${PROJECT_ROOT}/McRetroTS/for_testing/.ctf</param.server.ctf>
+    <param.server.readme>${PROJECT_ROOT}/McRetroTS/for_testing/readme.txt</param.server.readme>
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.required.mcr.products>
+      <item>35000</item>
+    </param.required.mcr.products>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.summary />
+      <param.description />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.enable.clean.build />
+      <param.server.ctf />
+      <param.server.readme />
+      <param.target.type />
+      <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+    </unset>
+    <fileset.main>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/McRetroTS.m</file>
+    </fileset.main>
+    <fileset.resources>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/Args_to_opts.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/ErrEval.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/FindChar.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/GetNextLine.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/GetPath.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/GetWord.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/Info_1D.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/NextString.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/PeakFinder.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/PhaseEstimator.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/PurgeComments.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/RVT_from_PeakFinder.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/Read_1D.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/Remove1DExtension.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/RemoveExtension.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/RetroTS.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/Show_RVT_Peak.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/SkipMatlabHelp.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/WordCount.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/afni_fig_interface.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/eq_str.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/filexist.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/iseven.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/keep.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/newid.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/pad_strn.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/plotsign2.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/uiget1Dfile.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/wryte3.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/zdeblank.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/zglobb.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/zscale.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/Contents.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/badchannels.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/badtrials.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/cache.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/chanlabels.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/chantype.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/check.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/clone.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/conditions.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/condlist.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/coor2D.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/delete.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/display.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/dtype.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/ecgchannels.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/emgchannels.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/eogchannels.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/events.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/fiducials.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/fieldnames.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/fname.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/fnamedat.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/frequencies.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/fsample.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/ftraw.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/fttimelock.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/getcache.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/getfield.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/history.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/indchannel.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/indchantype.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/indfrequency.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/indsample.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/indtrial.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/isfield.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/meeg.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/meegchannels.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/modality.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/nchannels.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/nconditions.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/nfrequencies.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/nsamples.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/ntrials.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/path.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/pickconditions.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/private/checkmeeg.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/private/getset.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/private/match_str.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/reject.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/repl.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/rmfield.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/save.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/sconfounds.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/selectchannels.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/selectdata.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/sensors.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/size.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/subsasgn.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/subsref.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/time.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/timeonset.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/transformtype.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/trialonset.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/type.m</file>
+      <file>/project_space/pboord/MATLAB/spm8/@meeg/units.m</file>
+      <file>/usr/local/spm12/@meeg/Contents.m</file>
+      <file>/usr/local/spm12/@meeg/badchannels.m</file>
+      <file>/usr/local/spm12/@meeg/badsamples.m</file>
+      <file>/usr/local/spm12/@meeg/badtrials.m</file>
+      <file>/usr/local/spm12/@meeg/blank.m</file>
+      <file>/usr/local/spm12/@meeg/chanlabels.m</file>
+      <file>/usr/local/spm12/@meeg/chantype.m</file>
+      <file>/usr/local/spm12/@meeg/check.m</file>
+      <file>/usr/local/spm12/@meeg/clone.m</file>
+      <file>/usr/local/spm12/@meeg/conditions.m</file>
+      <file>/usr/local/spm12/@meeg/condlist.m</file>
+      <file>/usr/local/spm12/@meeg/coor2D.m</file>
+      <file>/usr/local/spm12/@meeg/copy.m</file>
+      <file>/usr/local/spm12/@meeg/delete.m</file>
+      <file>/usr/local/spm12/@meeg/display.m</file>
+      <file>/usr/local/spm12/@meeg/events.m</file>
+      <file>/usr/local/spm12/@meeg/fiducials.m</file>
+      <file>/usr/local/spm12/@meeg/fieldnames.m</file>
+      <file>/usr/local/spm12/@meeg/fname.m</file>
+      <file>/usr/local/spm12/@meeg/fnamedat.m</file>
+      <file>/usr/local/spm12/@meeg/frequencies.m</file>
+      <file>/usr/local/spm12/@meeg/fsample.m</file>
+      <file>/usr/local/spm12/@meeg/ftraw.m</file>
+      <file>/usr/local/spm12/@meeg/fttimelock.m</file>
+      <file>/usr/local/spm12/@meeg/fullfile.m</file>
+      <file>/usr/local/spm12/@meeg/getfield.m</file>
+      <file>/usr/local/spm12/@meeg/history.m</file>
+      <file>/usr/local/spm12/@meeg/indchannel.m</file>
+      <file>/usr/local/spm12/@meeg/indchantype.m</file>
+      <file>/usr/local/spm12/@meeg/indfrequency.m</file>
+      <file>/usr/local/spm12/@meeg/indsample.m</file>
+      <file>/usr/local/spm12/@meeg/indtrial.m</file>
+      <file>/usr/local/spm12/@meeg/isempty.m</file>
+      <file>/usr/local/spm12/@meeg/isequal.m</file>
+      <file>/usr/local/spm12/@meeg/isfield.m</file>
+      <file>/usr/local/spm12/@meeg/islinked.m</file>
+      <file>/usr/local/spm12/@meeg/link.m</file>
+      <file>/usr/local/spm12/@meeg/meeg.m</file>
+      <file>/usr/local/spm12/@meeg/modality.m</file>
+      <file>/usr/local/spm12/@meeg/montage.m</file>
+      <file>/usr/local/spm12/@meeg/move.m</file>
+      <file>/usr/local/spm12/@meeg/nchannels.m</file>
+      <file>/usr/local/spm12/@meeg/nconditions.m</file>
+      <file>/usr/local/spm12/@meeg/nfrequencies.m</file>
+      <file>/usr/local/spm12/@meeg/nsamples.m</file>
+      <file>/usr/local/spm12/@meeg/ntrials.m</file>
+      <file>/usr/local/spm12/@meeg/path.m</file>
+      <file>/usr/local/spm12/@meeg/private/checkmeeg.m</file>
+      <file>/usr/local/spm12/@meeg/private/getset.m</file>
+      <file>/usr/local/spm12/@meeg/private/match_str.m</file>
+      <file>/usr/local/spm12/@meeg/private/warning_flexible.m</file>
+      <file>/usr/local/spm12/@meeg/reload.m</file>
+      <file>/usr/local/spm12/@meeg/repl.m</file>
+      <file>/usr/local/spm12/@meeg/rmdata.m</file>
+      <file>/usr/local/spm12/@meeg/rmfield.m</file>
+      <file>/usr/local/spm12/@meeg/save.m</file>
+      <file>/usr/local/spm12/@meeg/sconfounds.m</file>
+      <file>/usr/local/spm12/@meeg/selectchannels.m</file>
+      <file>/usr/local/spm12/@meeg/selectdata.m</file>
+      <file>/usr/local/spm12/@meeg/sensors.m</file>
+      <file>/usr/local/spm12/@meeg/size.m</file>
+      <file>/usr/local/spm12/@meeg/subsasgn.m</file>
+      <file>/usr/local/spm12/@meeg/subsref.m</file>
+      <file>/usr/local/spm12/@meeg/time.m</file>
+      <file>/usr/local/spm12/@meeg/timeonset.m</file>
+      <file>/usr/local/spm12/@meeg/transformtype.m</file>
+      <file>/usr/local/spm12/@meeg/trialonset.m</file>
+      <file>/usr/local/spm12/@meeg/type.m</file>
+      <file>/usr/local/spm12/@meeg/units.m</file>
+      <file>/usr/local/spm12/@meeg/unlink.m</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}/McRetroTS/for_testing" name="readme.txt" optional="true">/project_space/pboord/usr/bin/matlab/McRetroTS/for_testing/readme.txt</file>
+      <file location="${PROJECT_ROOT}/McRetroTS/for_testing" name="splash.png" optional="false">/project_space/pboord/usr/bin/matlab/McRetroTS/for_testing/splash.png</file>
+      <file location="${PROJECT_ROOT}/McRetroTS/for_testing" name="run_McRetroTS.sh" optional="false">/project_space/pboord/usr/bin/matlab/McRetroTS/for_testing/run_McRetroTS.sh</file>
+      <file location="${PROJECT_ROOT}/McRetroTS/for_testing" name="McRetroTS.ctf" optional="false">/project_space/pboord/usr/bin/matlab/McRetroTS/for_testing/McRetroTS.ctf</file>
+      <file location="${PROJECT_ROOT}/McRetroTS/for_testing" name="McRetroTS" optional="false">/project_space/pboord/usr/bin/matlab/McRetroTS/for_testing/McRetroTS</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/usr/local/MATLAB/R2014b</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>false</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>true</linux>
+      <solaris>false</solaris>
+      <osver>3.2.0-4-amd64</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>glnxa64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

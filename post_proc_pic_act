@@ -1,0 +1,139 @@
+#!/bin/bash
+filePrefix=$1
+seed=$2
+#subjPattern=109???
+subjPattern=$3
+metrics=("pic" "fc")
+nrRand=100
+p=0.001
+posThrIdx=$(echo "($(echo "(1-${p})*(${nrRand}-1)"|bc)+0.5)/1"|bc)
+negThrIdx=$(echo "($(echo "${p}*(${nrRand}-1)"|bc)+0.5)/1"|bc)
+thrPercent=99.999
+negThrPercent=0.001
+cwd=$(pwd)
+nrSubj=$(ls -d $subjPattern|wc -l)
+echo "nrSubj = " $nrSubj
+if [ $seed == picFcCorr ]; then
+	cd $cwd
+	nrSubj=$(ls $subjPattern/$filePrefix/$seed/0.nii|wc -l)
+	echo "nrSubj for picFcCorr = " $nrSubj
+	for session in $(ls -d $subjPattern); do
+		echo $seed
+		echo $session
+		cd $cwd/$session/$filePrefix/$seed
+		flirt -in 0.nii -ref $MNI2mm -applyxfm -init $cwd/$session/func_to_mni.mat -out 0_mni
+		fslmerge -t 0_rand.nii $(ls [1-9]*.nii)
+		3dTsort -overwrite -prefix 0_rand 0_rand.nii
+		3dAFNItoNIFTI 0_rand+orig
+		\rm -f 0_rand+orig.*
+		# pos tail
+		fslroi 0_rand.nii 0_rand_posThr.nii $posThrIdx 1
+		fslmaths 0.nii -sub 0_rand_posThr.nii -thr 0 -bin -mul 0.nii 0_posThr_${p}
+		flirt -in 0_posThr_${p} -ref $MNI2mm -applyxfm -init $cwd/$session/func_to_mni.mat -interp nearestneighbour -out 0_posThr_${p}_mni
+		fslmaths 0_posThr_${p}_mni -bin 0_posThr_${p}_mni_bin
+		# neg tail
+		fslroi 0_rand.nii 0_rand_negThr.nii $negThrIdx 1
+		\rm -f 0_rand.nii
+		fslmaths 0.nii -sub 0_rand_negThr.nii -mul -1 -thr 0 -bin -mul 0.nii -mas $cwd/$session/mask.nii 0_negThr_${p}
+		flirt -in 0_negThr_${p} -ref $MNI2mm -applyxfm -init $cwd/$session/func_to_mni.mat -interp nearestneighbour -out 0_negThr_${p}_mni
+		fslmaths 0_negThr_${p}_mni -mul -1 -bin 0_negThr_${p}_mni_bin
+	done
+	cd $cwd
+	# pos tail
+	fslmerge -t ${filePrefix}_${seed}_pos $(ls $cwd/$subjPattern/$filePrefix/${seed}/0_posThr_${p}_mni.nii)
+	fslmerge -t ${filePrefix}_${seed}_posThr_stat $(ls $cwd/$subjPattern/$filePrefix/${seed}/0_posThr_${p}_mni_bin.nii)
+	fslmaths ${filePrefix}_${seed}_posThr_stat -Tmean -mul $nrSubj ${filePrefix}_${seed}_posThr_stat
+	# neg tail
+	fslmerge -t ${filePrefix}_${seed}_neg $(ls $cwd/$subjPattern/$filePrefix/${seed}/0_negThr_${p}_mni.nii)
+	fslmerge -t ${filePrefix}_${seed}_negThr_stat $(ls $cwd/$subjPattern/$filePrefix/${seed}/0_negThr_${p}_mni_bin.nii)
+	fslmaths ${filePrefix}_${seed}_negThr_stat -Tmean -mul $nrSubj ${filePrefix}_${seed}_negThr_stat
+else
+	cd $cwd
+	for metric in ${metrics[@]}; do
+		nrSubj=$(ls $subjPattern/$filePrefix/$metric/$seed/0.nii|wc -l)
+		echo "nrSubj for $metric = " $nrSubj
+		for session in $(ls -d $subjPattern); do
+			echo $metric
+			echo $session
+			cd $cwd/$session/$filePrefix/$metric/$seed
+			pwd
+			flirt -in 0.nii -ref $MNI2mm -applyxfm -init $cwd/$session/func_to_mni.mat -out 0_mni
+			fslmerge -t 0_rand $(ls [1-9]*.nii)
+			3dTsort -overwrite -prefix 0_rand 0_rand.nii*
+			3dAFNItoNIFTI 0_rand+orig
+			\rm -f 0_rand+orig.*
+			# pos tail
+			fslroi 0_rand 0_rand_posThr $posThrIdx 1
+			fslmaths 0.nii -sub 0_rand_posThr -thr 0 -bin -mul 0.nii 0_posThr_${p}
+			flirt -in 0_posThr_${p} -ref $MNI2mm -applyxfm -init $cwd/$session/func_to_mni.mat -interp nearestneighbour -out 0_posThr_${p}_mni
+			fslmaths 0_posThr_${p}_mni -bin 0_posThr_${p}_mni_bin
+			# neg tail
+			fslroi 0_rand 0_rand_negThr $negThrIdx 1
+			\rm -f 0_rand.nii*
+			fslmaths 0.nii -sub 0_rand_negThr -mul -1 -thr 0 -bin -mul 0.nii -mas $cwd/$session/mask 0_negThr_${p}
+			flirt -in 0_negThr_${p} -ref $MNI2mm -applyxfm -init $cwd/$session/func_to_mni.mat -interp nearestneighbour -out 0_negThr_${p}_mni
+			fslmaths 0_negThr_${p}_mni -mul -1 -bin 0_negThr_${p}_mni_bin
+		done
+		cd $cwd
+		# pos tail
+		fslmerge -t ${filePrefix}_${metric}_${seed}_pos $(ls $cwd/$subjPattern/$filePrefix/${metric}/${seed}/0_posThr_${p}_mni.nii*)
+		fslmerge -t ${filePrefix}_${metric}_${seed}_posThr_stat_bin $(ls $cwd/$subjPattern/$filePrefix/${metric}/${seed}/0_posThr_${p}_mni_bin.nii*)
+		fslmaths ${filePrefix}_${metric}_${seed}_posThr_stat_bin -Tmean -mul $nrSubj ${filePrefix}_${metric}_${seed}_posThr_stat
+		# neg tail
+		fslmerge -t ${filePrefix}_${metric}_${seed}_neg $(ls $cwd/$subjPattern/$filePrefix/${metric}/${seed}/0_negThr_${p}_mni.nii*)
+		fslmerge -t ${filePrefix}_${metric}_${seed}_negThr_stat_bin $(ls $cwd/$subjPattern/$filePrefix/${metric}/${seed}/0_negThr_${p}_mni_bin.nii*)
+		fslmaths ${filePrefix}_${metric}_${seed}_negThr_stat_bin -Tmean -mul $nrSubj ${filePrefix}_${metric}_${seed}_negThr_stat
+	done
+	# Conjunction of FC>neg thresh & FC<pos thresh & PIC>thresh
+	fslmaths ${filePrefix}_fc_${seed}_posThr_stat_bin -add ${filePrefix}_fc_${seed}_negThr_stat_bin -bin -mul -1 -add ${filePrefix}_pic_${seed}_posThr_stat_bin -bin ${filePrefix}_pic_no_fc_${seed}_stat_bin
+	fslmaths ${filePrefix}_pic_no_fc_${seed}_stat_bin -Tmean -mul $nrSubj ${filePrefix}_pic_no_fc_${seed}_stat
+fi
+exit
+#cd $session
+#bet T1.nii.gz T1_brain.nii.gz
+#fast -g -o T1_brain -p T1_brain.nii.gz
+#ln -sf T1_brain_seg_2.nii T1_brain_wmseg.nii
+run_nonparamPic $MCRROOT /project_space/pboord/PIC/iowa/raw $session $filePrefix mask.nii 100
+exit
+cd $cwd/$session
+epi_reg --epi=mean_func --t1=T1 --t1brain=T1_brain --out=func_to_T1
+flirt -in $MNI2mm -ref T1_brain -omat mni_to_T1.mat
+convert_xfm -omat T1_to_mni.mat -inverse mni_to_T1.mat
+convert_xfm -omat func_to_mni.mat -concat T1_to_mni.mat func_to_T1.mat
+convert_xfm -omat mni_to_func.mat -inverse func_to_mni.mat
+for coord in $(ls $matlabDir/mniCoordMm_*); do
+	cp -f $coord .
+done
+for coord in $(ls mniCoordMm_*); do
+	coordName=$(echo $coord|cut -d'_' -f 2)
+	std2imgcoord -img mean_func -std $MNI2mm -xfm func_to_mni.mat -vox $coord > func_$coordName
+done
+exit
+
+exit
+
+3drefit -TR $TR raw_resting.nii
+#rm -f proc.$session
+#rm -rf ${session}.results
+afni_proc.py -subj_id $session -dsets raw_resting.nii \
+		-blocks despike tshift volreg mask regress \
+		-volreg_base_ind 1 $(($(3dinfo -nv raw_resting.nii)/2)) \
+		-regress_motion_per_run \
+		-regress_apply_mot_types demean deriv \
+		-regress_run_clustsim no
+chmod +x proc.$session
+./proc.$session
+cd $cwd/$session/${session}.results
+3dAFNItoNIFTI -prefix mask full_mask.${session}+orig
+3dAFNItoNIFTI -prefix raw pb00.${session}.r01.tcat+orig
+3dAFNItoNIFTI -prefix despike pb01.${session}.r01.despike+orig
+3dAFNItoNIFTI -prefix tshift pb02.${session}.r01.tshift+orig
+3dAFNItoNIFTI -prefix volreg pb03.${session}.r01.volreg+orig
+3dAFNItoNIFTI -prefix regress all_runs.${session}+orig
+fslmaths raw -bptf $HPF -1 raw.hpf
+fslmaths despike -bptf $HPF -1 despike.hpf
+fslmaths tshift -bptf $HPF -1 tshift.hpf
+fslmaths volreg -bptf $HPF -1 volreg.hpf
+fslmaths regress -bptf $HPF -1 regress.hpf
+fslmaths regress -Tmean -mas mask mean_func
+

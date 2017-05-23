@@ -1,0 +1,5 @@
+#!/bin/bash
+useSGEqsub=1
+nrCPUcores=30
+rigidBodyReg=1
+${ANTSPATH}/buildtemplateparallel.sh -d 3 -o udall_ -c $useSGEqsub -j $nrCPUcores -r $rigidBodyReg RC4???_brain.nii.gz

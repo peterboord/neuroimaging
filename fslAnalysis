@@ -1,0 +1,18 @@
+#!/bin/sh
+
+$FSLDIR/bin/flameo --cope=4dcope --mask=mask --ld=stats --dm=design.mat --cs=design.grp --tc=design.con --runmode=ols
+echo $($FSLDIR/bin/fslnvols 4dcope) - 2 | bc -l  > stats/dof
+/bin/rm -f stats/zem* stats/zols* stats/mask*
+$FSLDIR/bin/smoothest -d $(cat stats/dof) -m mask -r stats/res4d > stats/smoothness
+rm -f stats/res4d*
+for statNr in $(seq 1 $(cat design.fsf |grep "set fmri(ncon_real)"|sed 's/set fmri(ncon_real) //')); do
+	awk '/VOLUME/ {print $2}' stats/smoothness > thresh_zstat${statNr}.vol
+	awk '/DLH/ {print $2}' stats/smoothness > thresh_zstat${statNr}.dlh
+	$FSLDIR/bin/fslmaths stats/zstat${statNr} -mas mask thresh_zstat${statNr}
+	$FSLDIR/bin/cluster -i thresh_zstat${statNr} -c stats/cope${statNr} -t 2.3 -p 0.05 -d $(cat thresh_zstat${statNr}.dlh) --volume=$(cat thresh_zstat${statNr}.vol) --othresh=thresh_zstat${statNr} -o cluster_mask_zstat${statNr} --connectivity=26 --mm --olmax=lmax_zstat${statNr}_tal.txt > cluster_zstat${statNr}_std.txt
+	$FSLDIR/bin/cluster2html . cluster_zstat${statNr} -std
+	MinMax=$($FSLDIR/bin/fslstats thresh_zstat${statNr} -l 0.0001 -R)
+	$FSLDIR/bin/overlay 1 0 example_func -a thresh_zstat${statNr} $MinMax rendered_thresh_zstat${statNr}
+	$FSLDIR/bin/slicer rendered_thresh_zstat${statNr} -S 2 750 rendered_thresh_zstat${statNr}.png
+done
+/bin/cp $FSLDIR/etc/luts/ramp.gif .ramp.gif

@@ -1,0 +1,233 @@
+#!/bin/sh
+
+unset module
+
+# called from preproc dir with:
+# old: $(rawDir)/$@_rest.nii.gz
+# cmd="$(scriptDir)/preproc_anaticor subject""
+
+echo $(hostname) $1
+if [ $(hostname) = genu ]; then
+	queueType=debian
+elif [ $(hostname) = sessionmanager ]; then
+	queueType=debian
+else
+	queueType=ubuntu
+fi
+
+subject=$1
+if [ $queueType = debian ]; then
+        export MCRROOT=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v84
+        LD_LIBRARY_PATH=/usr/lib/fsl/5.0:/opt/SGE/sge6_2u5/lib/UNSUPPORTED-lx3.2.0-4-amd64-amd64:/usr/lib/mrtrix/lib
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MCRROOT/v84/runtime/glnxa64:$MCRROOT/v84/bin/glnxa64:$MCRROOT/v84/sys/os/glnxa64:$MC$
+        export XAPPLRESDIR=$MCRROOT/v84/X11/app-defaults
+        run_picDir=/project_space/pboord/usr/bin/matlab/v84/pic/pic/for_redistribution_files_only
+	sessionNr=1
+elif [ $queueType = ubuntu ]; then
+        export MCRROOT=/usr/local/MATLAB/MATLAB_Compiler_Runtime_8.1/v81
+        export LD_LIBRARY_PATH=/usr/lib/fsl/5.0:/opt/SGE/sge6_2u5/lib/UNSUPPORTED-lx3.2.0-4-amd64-amd64:/usr/lib/mrtrix/lib
+        run_picDir=/project_space/pboord/usr/bin/matlab/pic/pic/distrib
+	sessionNr=2
+else
+	echo $queueType is unknown
+fi
+
+############
+#export MCRROOT=/usr/local/MATLAB/MATLAB_Compiler_Runtime_8.1/v81
+#export LD_LIBRARY_PATH=/usr/lib/fsl/5.0:/opt/SGE/sge6_2u5/lib/UNSUPPORTED-lx3.2.0-4-amd64-amd64:/usr/lib/mrtrix/lib
+#run_picDir=/project_space/pboord/usr/bin/matlab/pic/pic/distrib
+#sessionNr=1
+############
+
+session=${subject}-$sessionNr
+funcName=${session}_rest
+funcNii=${funcName}.nii
+funcFile=${funcNii}.gz
+funcHead=${funcName}+orig.HEAD
+
+echo $session $funcName $funcNii $funcFile $funcHead
+
+TR=2.4
+export SUBJECTS_DIR=/projects2/udall/freesurferS1S2
+restDir=/projects2/udall/standardFC
+rawDir=/projects2/udall/pboord/pic/raw
+anaticorDir=/projects2/udall/pboord/pic/preproc/anaticor
+scriptDir=/projects2/udall/pboord/pic/scripts
+MNI1mm=${FSLDIR}/data/standard/MNI152_T1_1mm_brain.nii.gz
+ANTSdir=/projects2/udall/ANTS
+resultsDir=${anaticorDir}/${session}.results
+regFeatDir=/projects2/udall/standardFC/$session/reg.feat
+	cd $rawDir
+	if [ ! -e $funcHead ]; then
+		if [ -e $funcNii ]; then
+			3dcalc -a $funcNii -prefix $funcName -expr 'a'
+			gzip -f $funcNii
+		else
+			if [ -e $rawDir/$funcFile ]; then
+				gzip -df $funcFile
+				3dcalc -a $funcNii -prefix $funcName -expr 'a'
+				gzip -f $funcNii
+			else
+				echo $rawDir/$funcFile not found
+				exit
+			fi
+		fi
+	fi
+if [ DO_THIS_STUFF = YES ]; then
+	cd ${anaticorDir}
+	afni_proc.py -subj_id $session -dsets $rawDir/${funcName}+orig.HEAD \
+		-blocks despike tshift volreg regress \
+		-volreg_base_ind 1 $(( $(fslnvols $rawDir/$funcFile)/2 - 1 )) \
+		-regress_no_motion
+        chmod +x proc.$session
+        proc.$session
+	cd $resultsDir
+	mri_convert $SUBJECTS_DIR/${subject}.s${sessionNr}/mri/aseg.mgz ${session}_aseg_in_FS.nii.gz
+	flirt -ref $regFeatDir/example_func.nii.gz \
+		-in ${session}_aseg_in_FS.nii.gz \
+		-out ${session}_aseg_in_func.nii.gz \
+		-applyxfm -init /projects2/udall/dynamicMinimal/${session}/regressors/fs_to_rest.mat \
+		-interp nearestneighbour
+	gzip -df ${session}_aseg_in_func.nii.gz
+	@ANATICOR -ts all_runs.${session}+orig.HEAD \
+		-polort 3 \
+		-motion motion_${session}_enorm.1D \
+		-aseg ${session}_aseg_in_func.nii \
+		-prefix ${session}_anaticor \
+		-radius 30 \
+		-Rsq_WMe \
+		-coverage
+	gzip -f ${session}_aseg_in_func.nii
+	rm -f ${session}_aseg_in_func.nii
+	3dAFNItoNIFTI ${session}_anaticor+orig.HEAD
+	gzip -f ${session}_anaticor.nii
+	rm -f ${session}_anaticor.nii
+	rm RC4101_anaticor+orig.BRIK
+	rm -f ${session}_mask.nii ${session}_mask.nii.gz
+	ln -s $restDir/$session/reg.feat/mask.nii.gz ${session}_mask.nii.gz
+	fslmaths ${session}_anaticor -mas ${session}_mask ${session}_anaticor
+else
+	cd $resultsDir
+fi
+if [ NO = YES ]; then
+	$run_picDir/run_pic.sh ${MCRROOT} . ${session}_anaticor.nii.gz ${session}_mask.nii.gz
+	fslmaths pic_${session}_anaticor -Tmean mn_pic_${session}_anaticor
+	fslmaths pic_${session}_anaticor -Tstd sd_pic_${session}_anaticor
+	fslmaths picRes_${session}_anaticor -Tmean mn_picRes_${session}_anaticor
+	fslmaths picRes_${session}_anaticor -Tstd sd_picRes_${session}_anaticor
+fi
+	rm -f highres2example_func.nii.gz
+	# replace link below if epi_reg is used in future:
+	#flirt -in $regFeatDir/reg/highres -ref $regFeatDir/reg/example_func -applyxfm -init /projects2/udall/dynamicMinimal/${session}/xfm_dir/T1_to_rest.mat -out highres2example_func
+	ln -sf $regFeatDir/reg/highres2example_func.nii.gz highres2example_func.nii.gz
+	ln -sf $regFeatDir/mean_func.nii.gz mean_func.nii.gz
+if [ ! -e z_picRes_${session}_anaticor_fslBpf ]; then
+	fslmaths ${session}_anaticor -bptf 41.7 4.17 ${session}_anaticor_fslBpf
+	mri_binarize --i ${session}_aseg_in_func.nii.gz --match $(cat $scriptDir/FreeSurferColorLUT_gm_codes) --o ${session}_gm.nii.gz
+	$run_picDir/run_pic.sh ${MCRROOT} . ${session}_anaticor_fslBpf.nii.gz ${session}_gm.nii.gz
+	fslmaths z_picRes_${session}_anaticor_fslBpf -Tstd sd_z_picRes_${session}_anaticor_fslBpf
+	fslmaths z_picRes_${session}_anaticor_fslBpf -Tmean mn_z_picRes_${session}_anaticor_fslBpf
+	fslmaths z_pic_${session}_anaticor_fslBpf -Tstd sd_z_pic_${session}_anaticor_fslBpf
+	fslmaths z_pic_${session}_anaticor_fslBpf -Tmean mn_z_pic_${session}_anaticor_fslBpf
+fi
+# xfm to template
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		${session}_gm.nii.gz \
+		tem_${session}_gm.nii.gz \
+		-R $ANTSdir/udall_template.nii.gz \
+		--use-NN \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		${session}_aseg_in_func.nii.gz \
+		tem_${session}_aseg_in_func.nii.gz \
+		-R $ANTSdir/udall_template.nii.gz \
+		--use-NN \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		sd_z_picRes_${session}_anaticor_fslBpf.nii.gz \
+		tem_sd_z_picRes_${session}_anaticor_fslBpf.nii.gz \
+		-R $ANTSdir/udall_template.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		mn_z_picRes_${session}_anaticor_fslBpf.nii.gz \
+		tem_mn_z_picRes_${session}_anaticor_fslBpf.nii.gz \
+		-R $ANTSdir/udall_template.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		sd_z_pic_${session}_anaticor_fslBpf.nii.gz \
+		tem_sd_z_pic_${session}_anaticor_fslBpf.nii.gz \
+		-R $ANTSdir/udall_template.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		mn_z_pic_${session}_anaticor_fslBpf.nii.gz \
+		tem_mn_z_pic_${session}_anaticor_fslBpf.nii.gz \
+		-R $ANTSdir/udall_template.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+# xfm to mni
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		${session}_gm.nii.gz \
+		mni_${session}_gm.nii.gz \
+		-R $MNI1mm \
+		--use-NN \
+		$ANTSdir/ANTStemplate_to_MNI_Warp.nii.gz \
+		$ANTSdir/ANTStemplate_to_MNI_Affine.txt \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		${session}_aseg_in_func.nii.gz \
+		mni_${session}_aseg_in_func.nii.gz \
+                -R $MNI1mm \
+		--use-NN \
+		$ANTSdir/ANTStemplate_to_MNI_Warp.nii.gz \
+		$ANTSdir/ANTStemplate_to_MNI_Affine.txt \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		sd_z_picRes_${session}_anaticor_fslBpf.nii.gz \
+		mni_sd_z_picRes_${session}_anaticor_fslBpf.nii.gz \
+                -R $MNI1mm \
+		$ANTSdir/ANTStemplate_to_MNI_Warp.nii.gz \
+		$ANTSdir/ANTStemplate_to_MNI_Affine.txt \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		mn_z_picRes_${session}_anaticor_fslBpf.nii.gz \
+		mni_mn_z_picRes_${session}_anaticor_fslBpf.nii.gz \
+                -R $MNI1mm \
+		$ANTSdir/ANTStemplate_to_MNI_Warp.nii.gz \
+		$ANTSdir/ANTStemplate_to_MNI_Affine.txt \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		sd_z_pic_${session}_anaticor_fslBpf.nii.gz \
+		mni_sd_z_pic_${session}_anaticor_fslBpf.nii.gz \
+                -R $MNI1mm \
+		$ANTSdir/ANTStemplate_to_MNI_Warp.nii.gz \
+		$ANTSdir/ANTStemplate_to_MNI_Affine.txt \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt
+	${ANTSPATH}WarpImageMultiTransform 3 \
+		mn_z_pic_${session}_anaticor_fslBpf.nii.gz \
+		mni_mn_z_pic_${session}_anaticor_fslBpf.nii.gz \
+                -R $MNI1mm \
+		$ANTSdir/ANTStemplate_to_MNI_Warp.nii.gz \
+		$ANTSdir/ANTStemplate_to_MNI_Affine.txt \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Warp.nii.gz \
+		$ANTSdir/$subject/T1_to_ANTStemplate_Affine.txt \
+		$restDir/${session}/example_func2highres_ras.txt

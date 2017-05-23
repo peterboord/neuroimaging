@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ "x$1" = "x" ]; then
+	echo $0 ' - description'
+	echo 'Usage:'
+	echo $0 ' argument list'
+	echo 'inputs:'
+	echo 'outputs:'
+else
+	# rename arguments
+	# function
+fi

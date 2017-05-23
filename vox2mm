@@ -1,0 +1,18 @@
+#!/bin/bash
+if [ "x$1" = "x" ]; then
+	echo 'Usage:'
+	echo $0 'image x y z'
+	echo 'image = MNI1mm, MNI2mm, or user supplied'
+else
+	x=$2
+	y=$3
+	z=$4
+	if [ $1 = 'MNI1mm' ]; then
+		image=${FSLDIR}/data/standard/MNI152_T1_1mm_brain.nii.gz
+	elif [ $1 = 'MNI2mm' ]; then
+		image=${FSLDIR}/data/standard/MNI152_T1_2mm_brain.nii.gz
+	else
+		image=$1
+	fi
+	echo $x $y $z | img2stdcoord -img $image -std $image -vox -
+fi

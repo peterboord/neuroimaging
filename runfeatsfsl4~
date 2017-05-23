@@ -1,0 +1,15 @@
+#!/bin/bash
+source /etc/fsl/4.1/fsl.sh
+unset FSL_BIN
+unset FSL_DIR
+export FSLPARALLEL=true
+if [ -z $FSL_DIR ]; then
+	echo "Must unset FSL 5.0 environments variables in calling shell"
+	echo unset FSL_BIN
+	echo unset FSL_DIR
+	echo source /etc/fsl/4.1/fsl.sh
+else
+	for i in $@; do
+		/usr/share/fsl/4.1/bin/feat $i
+	done
+fi

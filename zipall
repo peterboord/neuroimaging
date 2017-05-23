@@ -1,0 +1,23 @@
+#!/bin/bash
+export IFS=$'\n'
+niiList=($(tree --noreport -isfP '*.nii'|grep nii))
+totalNr=${#niiList[@]}
+echo "There are $totalNr nii files"
+nrBigNii=0
+for niiString in "${niiList[@]}"; do
+	niiSize=$(echo $niiString|cut -d']' -f 1|sed -e 's/\[//' -e 's/ //g')
+	if (( $niiSize > 100000000 )); then
+		nrBigNii=$(($nrBigNii + 1))
+	fi
+done
+for niiString in "${niiList[@]}"; do
+	niiSize=$(echo $niiString|cut -d']' -f 1|sed -e 's/\[//' -e 's/ //g')
+	if (( $niiSize > 100000000 )); then
+		echo "There are $nrBigNii files left to zip"
+		niiPath=$(echo $niiString|cut -d']' -f 2)
+		cmd="gzip $niiPath"
+		echo $cmd
+		eval $cmd
+		nrBigNii=$(($nrBigNii - 1))
+	fi
+done

@@ -1,0 +1,70 @@
+tsoc = np.array(optcom(catd,t2s,tes,mask),dtype=float)
+
+catd = cat2echos(catim.get_data(),ne)
+t2s,s0   = np.array(t2smap(catd,mask,tes),dtype=np.float)
+tes = np.fromstring(options.tes,sep=',',dtype=np.float32)
+
+def t2smap(catd,mask,tes):
+        """
+        t2smap(catd,mask,tes)
+
+        Input:
+
+        catd  has shape (nx,ny,nz,Ne,nt)
+        mask  has shape (nx,ny,nz)
+        tes   is a 1d numpy array
+        """
+        nx,ny,nz,Ne,nt = catd.shape
+        N = nx*ny*nz
+
+        echodata = fmask(catd,mask)
+        Nm = echodata.shape[0]
+
+        #Do Log Linear fit
+        B = np.reshape(np.abs(echodata), (Nm,Ne*nt)).transpose()
+        B = np.log(B)
+        x = np.array([np.ones(Ne),-tes])
+        X = np.tile(x,(1,nt))
+        X = np.sort(X)[:,::-1].transpose()
+
+        beta,res,rank,sing = np.linalg.lstsq(X,B)
+        t2s = 1/beta[1,:].transpose()
+        s0  = np.exp(beta[0,:]).transpose()
+
+        out = unmask(t2s,mask),unmask(s0,mask)
+        out[0][np.isnan(out[0])]=0.
+
+        return out
+
+
+def optcom(data,t2s,tes,mask):
+        """
+        out = optcom(data,t2s)
+
+
+        Input:
+
+        data.shape = (nx,ny,nz,Ne,Nt)
+        t2s.shape  = (nx,ny,nz)
+        tes.shape  = (Ne,)
+
+        Output:
+
+        out.shape = (nx,ny,nz,Nt)
+        """
+        nx,ny,nz,Ne,Nt = data.shape
+
+        fdat = fmask(data,mask)
+        ft2s = fmask(t2s,mask)
+
+        tes = tes[np.newaxis,:]
+        ft2s = ft2s[:,np.newaxis]
+
+        alpha = tes * np.exp(-tes /ft2s)
+        alpha = np.tile(alpha[:,:,np.newaxis],(1,1,Nt))
+
+        fout  = np.average(fdat,axis = 1,weights=alpha)
+        out = unmask(fout,mask)
+        print 'Out shape is ', out.shape
+        return out
+

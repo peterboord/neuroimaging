@@ -1,0 +1,32 @@
+#!/bin/bash
+backupList[0]='/project_space/pboord/usr/bin'
+backupList[1]='/projects2/udall/pboord/bin'
+backupList[2]='/projects2/udall/pboord/analysis'
+backupList[3]='/projects2/udall/pboord/pic/scripts'
+#backupList[4]='/projects2/act-plus/physio'
+
+backupFileList[0]='/mnt/home/pboord/.bashrc'
+backupFileList[1]='/mnt/home/pboord/.bash_aliases'
+backupFileList[2]='/projects2/udall/pboord/analysis/analysis.mk'
+
+
+timeStampDir=$(date +%g%m%d%H%M)
+#backupDir='/media/POCKETDRIVE/backup/'${timeStampDir}
+backupDir='/project_space/pboord/backup/'${timeStampDir}
+
+mkdir $backupDir
+
+for dirNr in $(seq 0 $((${#backupList[@]}-1))); do
+	sourceDir=${backupList[${dirNr}]}
+	sourceName=$(echo ${sourceDir}|sed 's|/||g')
+	mkdir ${backupDir}/${sourceName}
+	rsync -arltz ${sourceDir}/* ${backupDir}/${sourceName}/.
+done
+for fileNr in $(seq 0 $((${#backupFileList[@]}-1))); do
+	cp ${backupFileList[${fileNr}]} ${backupDir}/$(basename ${backupFileList[${fileNr}]})
+done
+#tar -czf ${backupDir}.tar.gz --remove-files ${backupDir}
+tar -czf ${backupDir}.tar.gz ${backupDir}
+
+echo 'Files backed up to '${backupDir}
+du -hs ${backupDir}.tar.gz

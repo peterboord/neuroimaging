@@ -1,0 +1,12 @@
+#!/bin/bash
+cwd=$(pwd)
+cd $pbubin
+for symLink in run_*; do
+echo ${symLink}
+symLinkTarget=$(readlink ${symLink})
+echo ${symLinkTarget}
+cat ${symLinkTarget}|sed 's/echo "------------------------------------------"//'|sed 's/  echo Setting up environment variables//'|sed 's/  echo ---//'|sed 's/  echo LD_LIBRARY_PATH is ${LD_LIBRARY_PATH};//'>tmp
+mv tmp ${symLinkTarget}
+chmod +x ${symLinkTarget}
+done
+cd $cwd

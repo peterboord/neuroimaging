@@ -1,0 +1,10 @@
+#!/bin/bash
+rootDir=/project_space/pboord/PIC/iowa/raw
+movePattern=*.hpf
+for sourceDir in $(ls -d 3???); do
+	destDir=$sourceDir/${sourceDir}.results
+	mkdir -p $destDir
+	cmd="mv $rootDir/$destDir/$movePattern $destDir/."
+	echo $cmd
+	eval $cmd
+done

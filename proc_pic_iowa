@@ -1,0 +1,59 @@
+#!/bin/bash
+session=$1
+
+
+matlabDir=/project_space/pboord/MATLAB
+cwd=$(pwd)
+TR=2
+HPF=$(echo "100/$TR"|bc -l)
+cd $cwd/$session
+#fslreorient2std T1 T1
+#fslreorient2std T1_brain T1_brain
+#bet T1.nii.gz T1_brain.nii.gz
+#fast -g -o T1_brain -p T1_brain.nii.gz
+#ln -sf T1_brain_seg_2.nii T1_brain_wmseg.nii
+#epi_reg --epi=${session}.results/mean_func --t1=T1 --t1brain=T1_brain --out=func_to_T1
+#flirt -in $MNI2mm -ref T1_brain -omat mni_to_T1.mat -out mni_to_T1
+#convert_xfm -omat T1_to_mni.mat -inverse mni_to_T1.mat
+#flirt -in T1_brain -ref $MNI2mm -applyxfm -init T1_to_mni.mat -out T1_to_mni
+#convert_xfm -omat func_to_mni.mat -concat T1_to_mni.mat func_to_T1.mat
+#convert_xfm -omat mni_to_func.mat -inverse func_to_mni.mat
+#flirt -in ${session}.results/mean_func -ref $MNI2mm -applyxfm -init func_to_mni.mat -out func_to_mni
+for coord in $(ls $matlabDir/mniCoordMm_*); do
+	cp -f $coord .
+done
+for coord in $(ls mniCoordMm_*); do
+	coordName=$(echo $coord|cut -d'_' -f 2)
+	std2imgcoord -img mean_func -std $MNI2mm -xfm func_to_mni.mat -vox $coord > func_$coordName
+done
+
+3drefit -TR $TR raw_resting.nii
+rm -f proc.$session
+rm -rf ${session}.results
+afni_proc.py -subj_id $session -dsets raw_resting.nii \
+		-blocks despike tshift volreg mask regress \
+		-tshift_opts_ts -tpattern seq+z -TR ${TR}s \
+		-volreg_base_ind 1 $(($(3dinfo -nv raw_resting.nii)/2)) \
+		-regress_motion_per_run \
+		-regress_apply_mot_types demean deriv \
+		-regress_run_clustsim no
+chmod +x proc.$session
+./proc.$session
+3dAFNItoNIFTI -prefix mask ${session}.results/full_mask.${session}+orig
+3dAFNItoNIFTI -prefix raw ${session}.results/pb00.${session}.r01.tcat+orig
+3dAFNItoNIFTI -prefix despike ${session}.results/pb01.${session}.r01.despike+orig
+3dAFNItoNIFTI -prefix tshift ${session}.results/pb02.${session}.r01.tshift+orig
+3dAFNItoNIFTI -prefix volreg ${session}.results/pb03.${session}.r01.volreg+orig
+3dAFNItoNIFTI -prefix regress ${session}.results/all_runs.${session}+orig
+fslmaths raw -bptf $HPF -1 raw.hpf
+fslmaths despike -bptf $HPF -1 despike.hpf
+fslmaths tshift -bptf $HPF -1 tshift.hpf
+fslmaths volreg -bptf $HPF -1 volreg.hpf
+fslmaths regress -bptf $HPF -1 regress.hpf
+fslmaths regress -Tmean -mas mask ../mean_func
+
+run_nonparamPic $MCRROOT /project_space/pboord/PIC/iowa/raw $session raw.hpf mask.nii 100
+run_nonparamPic $MCRROOT /project_space/pboord/PIC/iowa/raw $session despike.hpf mask.nii 100
+run_nonparamPic $MCRROOT /project_space/pboord/PIC/iowa/raw $session tshift.hpf mask.nii 100
+run_nonparamPic $MCRROOT /project_space/pboord/PIC/iowa/raw $session volreg.hpf mask.nii 100
+run_nonparamPic $MCRROOT /project_space/pboord/PIC/iowa/raw $session regress.hpf mask.nii 100

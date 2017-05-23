@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ "x$1" = "x" ]; then
+  echo Usage:
+  echo    $0 "pathsIn" "postPatternToRemove"
+else
+#echo $1 $3
+$(eval echo $1..$3)
+#pathsIn="$1"
+#postPatternToRemove="$2"
+#ls -d $pathsIn|sed 's|'$postPatternToRemove'||'|sed 's|.*/||'
+fi

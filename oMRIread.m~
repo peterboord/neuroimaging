@@ -1,0 +1,8 @@
+#!/usr/bin/octave -qf
+# usage:
+# oMRIread.m inFile
+
+arg_list = argv();
+inFile = arg_list{1};
+inS = MRIread(inFile);
+printf("%d",inS.nframes];

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FAVORITESROOT version="2">
+   
+   <title>My Shortcuts</title>
+   
+   <FAVORITECATEGORY>
+      
+      <name>Help Browser Favorites</name>
+   
+      <FAVORITE>
+         <label>Create Toolbars for Programmatic GUIs</label>
+         <icon>Help icon</icon>
+         <callback>web(fullfile(docroot, 'matlab/creating_guis/creating-toolbars-for-programmatic-guis.html'))</callback>
+         <editable>true</editable>
+      </FAVORITE>
+      <FAVORITE>
+         <label>Access Property Values</label>
+         <icon>Help icon</icon>
+         <callback>web(fullfile(docroot, 'matlab/creating_plots/access-and-modify-property-values.html'))</callback>
+         <editable>true</editable>
+      </FAVORITE>
+   </FAVORITECATEGORY>
+
+</FAVORITESROOT>

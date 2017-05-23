@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ $# -lt 2 ]; then
+	echo "Function to extract a mask of the eyes from a functional image"
+	echo "Usage:"
+	echo $0 "funcFile (without suffix) TR (in seconds)"
+	echo "funcFile must contain eyes"
+else
+	funcFile=$1
+	TR=$2
+	if [ ! -e ${funcFile}_hpf.nii* ]; then
+		fslmaths $funcFile -bptf $(echo "100/$TR"|bc -l) -1 ${funcFile}_hpf
+	fi
+	fslmaths ${funcFile}_hpf -Tstd ${funcFile}_hpf_std
+	thrP99=$(fslstats ${funcFile}_hpf_std -P 99)
+	echo "99th percentile of non-zero voxels is" $thrP99
+	fslmaths ${funcFile}_hpf_std -thrP 99 ${funcFile}_hpf_std_thrP99
+	fslmaths ${funcFile}_hpf_std_thrP99 -ero ${funcFile}_hpf_std_thrP99_ero
+	cluster -i ${funcFile}_hpf_std_thrP99_ero -t $thrP99 -o ${funcFile}_hpf_std_thrP99_ero_clusters
+	clusterRange=($(fslstats ${funcFile}_hpf_std_thrP99_ero_clusters -R))
+	fslmaths ${funcFile}_hpf_std_thrP99_ero_clusters -thr $(($(printf "%.0f\n" ${clusterRange[1]})-1)) -dilM -bin eyes
+fi

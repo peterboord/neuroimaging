@@ -1,0 +1,18 @@
+mcc -C -R -nodisplay -R -nosplash -o helloWorld -W main:helloWorld -T link:exe -d /project_space/pboord/usr/bin/matlab/helloWorld/for_testing -C -v /project_space/pboord/usr/bin/matlab/helloWorld.m 
+Compiler version: 6.1 (R2015b)
+
+Dependency analysis by REQUIREMENTS.
+
+[Warning: Adding path "/project_space/pboord/usr/bin/matlab" to Compiler path
+instance.] 
+[] 
+Parsing file "/project_space/pboord/usr/bin/matlab/helloWorld.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 0 temporary MEX authorization files.
+Generating file "/project_space/pboord/usr/bin/matlab/helloWorld/for_testing/readme.txt".
+Generating file "/project_space/pboord/usr/bin/matlab/helloWorld/for_testing/run_helloWorld.sh".
+Packaging...
+Creating the bundle...
+Web based installer created at /project_space/pboord/usr/bin/matlab/helloWorld/for_redistribution/MyAppInstaller_web.install.
+Packaging complete.
+Elapsed packaging time was: 1 minutes and 1 seconds.

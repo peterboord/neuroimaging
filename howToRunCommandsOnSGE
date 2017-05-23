@@ -1,0 +1,1 @@
+for i in /projects2/udall/task/fnirt/RC4???; do qsub -b y "rm -r $i"; done

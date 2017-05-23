@@ -1,0 +1,19 @@
+SHELL=/bin/bash
+export IFS=$'\n'
+niiList=$(shell tree --noreport -isfP '*.prj'|grep .prj|sed 's/ //g')
+.PHONY: all
+all: $(niiList)
+
+%:
+	echo $@
+
+tmp:
+	for niiString in "${niiList[@]}"; do
+	niiSize=$(echo $niiString|cut -d']' -f 1|sed -e 's/\[//' -e 's/ //g')
+	niiPath=$(echo $niiString|cut -d']' -f 2)
+	if (( $niiSize > 100000000 )); then
+		cmd="gzip $niiPath"
+		echo $cmd
+		eval $cmd
+	fi
+	done

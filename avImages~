@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ "x$1" = "x" ]; then
+	echo "Usage: $0 outDir imList1 imList2"
+else
+	outDir=$1
+	shift
+	declare -a imList
+	itemNr=0
+	nrImages=$(($#/2))
+	while (( $# )); do
+		imList[$itemNr]=$(basename $1 .nii.gz)
+		shift
+		itemNr=$(($itemNr + 1))
+	done
+	for imNr in $(seq 0 $((nrImages - 1))); do
+		fslmaths "${imList[$imNr]}" -add "${imList[$(($imNr + $nrImages))]}" -div 2 $outDir/"${imList[$imNr]}"_"${imList[$(($imNr + $nrImages))]}"
+	done
+fi

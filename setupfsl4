@@ -1,0 +1,9 @@
+# Usage:
+# source setupfsl4
+unset FSL_BIN FSLDIR FSL_DIR
+source /etc/fsl/4.1/fsl.sh
+export FSL_BIN=/usr/share/fsl/4.1/bin
+export FSLDIR=/usr/share/fsl/4.1
+export FSL_DIR=/usr/share/fsl/4.1
+export FSLOUTPUTTYPE=NIFTI
+

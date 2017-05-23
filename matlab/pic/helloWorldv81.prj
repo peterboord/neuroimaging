@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment-project plugin="plugin.deploytool" plugin-version="1.0">
+  <configuration target="target.standalone" target-name="Standalone Application" name="helloWorldv81" location="/project_space/pboord/usr/bin/matlab/pic" file="/project_space/pboord/usr/bin/matlab/pic/helloWorldv81.prj" build-checksum="3856128395">
+    <param.project.name>/project_space/pboord/usr/bin/matlab/pic/helloWorldv81.prj</param.project.name>
+    <param.target.type>Standalone Application</param.target.type>
+    <param.appname>helloWorldv81</param.appname>
+    <param.intermediate>${PROJECT_ROOT}/helloWorldv81/src</param.intermediate>
+    <param.output>${PROJECT_ROOT}/helloWorldv81/distrib</param.output>
+    <param.embed.ctf>true</param.embed.ctf>
+    <param.tbx_on_path>
+      <item>all</item>
+    </param.tbx_on_path>
+    <param.warnings>
+      <warning.fullpath>on</warning.fullpath>
+      <warning.duplicate>on</warning.duplicate>
+      <warning.option.ignored>on</warning.option.ignored>
+      <warning.libname>on</warning.libname>
+      <warning.demo>on</warning.demo>
+    </param.warnings>
+    <param.version>1.0</param.version>
+    <param.user.only.registration>false</param.user.only.registration>
+    <param.c.cpp.options.file />
+    <param.include.dirs />
+    <param.lib.dirs />
+    <param.lib.files />
+    <param.defines />
+    <param.undefines />
+    <param.debug>false</param.debug>
+    <param.share.mcr>false</param.share.mcr>
+    <param.disable.jvm>true</param.disable.jvm>
+    <param.disable.display>true</param.disable.display>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <param.user.defined.mcr.options />
+    <unset>
+      <param.project.name />
+      <param.target.type />
+      <param.appname />
+      <param.intermediate />
+      <param.output />
+      <param.embed.ctf />
+      <param.tbx_on_path />
+      <param.warnings />
+      <param.version />
+      <param.user.only.registration />
+      <param.c.cpp.options.file />
+      <param.include.dirs />
+      <param.lib.dirs />
+      <param.lib.files />
+      <param.defines />
+      <param.undefines />
+      <param.debug />
+      <param.share.mcr />
+      <param.create.log />
+      <param.log.file />
+      <param.user.defined.mcr.options />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/helloWorld.m</file>
+    </fileset.main>
+    <fileset.resources />
+    <fileset.package />
+    <build-deliverables>
+      <file name="helloWorldv81" location="${PROJECT_ROOT}/helloWorldv81/distrib" optional="false">/project_space/pboord/usr/bin/matlab/pic/helloWorldv81/distrib/helloWorldv81</file>
+      <file name="run_helloWorldv81.sh" location="${PROJECT_ROOT}/helloWorldv81/distrib" optional="false">/project_space/pboord/usr/bin/matlab/pic/helloWorldv81/distrib/run_helloWorldv81.sh</file>
+      <file name="readme.txt" location="${PROJECT_ROOT}/helloWorldv81/distrib" optional="true">/project_space/pboord/usr/bin/matlab/pic/helloWorldv81/distrib/readme.txt</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/usr/local/MATLAB/R2013a</root>
+      <toolboxes />
+      <path>
+        <directory>/project_space/pboord/MATLAB</directory>
+        <directory>/project_space/pboord/MATLAB/afni_matlab/matlab</directory>
+        <directory>/project_space/pboord/MATLAB/lesion</directory>
+        <directory>/project_space/pboord/MATLAB/NIFTI_20110610</directory>
+        <directory>/project_space/pboord/MATLAB/r2agui_v27</directory>
+        <directory>/project_space/pboord/MATLAB/eeglab13_0_1b</directory>
+        <directory>/project_space/pboord/MATLAB/shading</directory>
+        <directory>/project_space/pboord/MATLAB/spm8</directory>
+        <directory>/project_space/pboord/MATLAB/freesurfer_matlab</directory>
+        <directory>/project_space/pboord/MATLAB/export_fig</directory>
+        <directory>/project_space/pboord/MATLAB/conn</directory>
+        <directory>/project_space/pboord/MATLAB/EEG-fMRI</directory>
+        <directory>/project_space/pboord/MATLAB/CSDtoolbox/func</directory>
+        <directory>/project_space/pboord/MATLAB/CSDtoolbox/resource</directory>
+        <directory>/project_space/pboord/MATLAB/PhLEMv2.0</directory>
+        <directory>/mnt/home/pboord/matlab</directory>
+        <directory>/usr/local/nii_tools</directory>
+        <directory>/usr/local/spm8</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychAlpha</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychAlphaBlending</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychBasic</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychBasic/MatlabWindowsFilesR2007a</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychBasic/Octave3LinuxFiles</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychBasic/Octave3LinuxFiles64</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychBasic/Octave3OSXFiles64</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychBasic/PsychPlugins</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychCal</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychCalDemoData</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychColorimetric</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychColorimetric/PsychMunsell</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychColorimetricData</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychColorimetricData/PsychColorimetricMatFiles</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychContributed</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychContributed/WinTab</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychContributed/macidpascalsource</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychContributed/x64</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/ARToolkitDemoData</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/ARToolkitDemoData/multi</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/AlphaImageDemo</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/MovieDemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/OpenGL4MatlabDemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/OpenGL4MatlabDemos/GLSLDemoShaders</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/OpenGL4MatlabDemos/MorphDemo</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/PsychExampleExperiments</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/PsychExampleExperiments/OldNewRecognition</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/PsychExampleExperiments/OldNewRecognition/stims</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/PsychTutorials</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDemos/SoundFiles</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychDocumentation</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychFiles</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychGLImageProcessing</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychGamma</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/BitsPlusToolbox</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/BitsPlusToolbox/BitsPlusDemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/BitsPlusToolbox/BitsPlusTests</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/BrightSideDisplay</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/BrightSideDisplay/BSRuntimeLibs</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/ColorCal2</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/Daq</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/Daq/Utilities</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/DatapixxToolbox</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/DatapixxToolbox/DatapixxBasic</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkBasic</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/EyelinkShortDemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/GazeContingentDemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/SR-ResearchDemo</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/SR-ResearchDemo/AntiSaccade</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/SR-ResearchDemo/ELCustomCalibration</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/SR-ResearchDemo/EyelinkFixationWindow</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/SR-ResearchDemo/change</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/SR-ResearchDemo/pursuit</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/notOSXed</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/notOSXed/EyelinkDemoExperiment_notOSXed</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkDemos/notOSXed/Palmerdemo_notOSXed</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkOneLiners</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/EyelinkToolbox/EyelinkTests</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/FORP</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/PR650Toolbox</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/PR655Toolbox</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/PR670Toolbox</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/PsychGamepad</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/iViewXToolbox</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/iViewXToolbox/Obsolete</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/iViewXToolbox/cbase64</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/iViewXToolbox/iviewxtests</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/iViewXToolbox/tcp_udp_ip</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychHardware/iViewXToolbox/tcp_udp_ip/tcpip</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychInitialize</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychJava</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychMatlabTests</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychObsolete</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOneliners</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL/ExampleCodeForC</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL/MOGL</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL/MOGL/core</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL/MOGL/core/x64</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL/MOGL/source</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL/MOGL/source/headers</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL/MOGL/wrap</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL/PsychGLEyetracking</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOpenGL/PsychGLSLShaders</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychOptics</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychPriority</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychProbability</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychRects</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychSignal</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychSound</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychSound/MOAL</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychSound/MOAL/core</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychSound/MOAL/source</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychSound/MOAL/wrap</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychStairCase</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychTests</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychTests/UnitTests</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/PsychVideoCapture</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/Psychometric</directory>
+        <directory>${MATLAB_ROOT}/toolbox/Psychtoolbox/Quest</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/demos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/testframework</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/graph2d</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/graph3d</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/graphics</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/plottools</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/scribe</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/specgraph</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/uitools</directory>
+        <directory>${MATLAB_ROOT}/toolbox/local</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/optimfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/codetools</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/datafun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/datamanager</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/datatypes</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/elfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/elmat</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/funfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/general</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/guide</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/helptools</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/iofun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/lang</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/matfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/ops</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/polyfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/randfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/sparfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/specfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/strfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/timefun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/verctrl</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dastudio</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dspblks/dspblks</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dspblks/dspmex</directory>
+        <directory>${MATLAB_ROOT}/toolbox/images/colorspaces</directory>
+        <directory>${MATLAB_ROOT}/toolbox/images/images</directory>
+        <directory>${MATLAB_ROOT}/toolbox/images/imuitools</directory>
+        <directory>${MATLAB_ROOT}/toolbox/images/iptformats</directory>
+        <directory>${MATLAB_ROOT}/toolbox/images/iptutils</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/hwconnectinstaller/common</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/testmeaslib/graphics</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/controllib/graphics</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/controllib/graphics/utils</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/controllib/graphics/plotoptions</directory>
+        <directory>${MATLAB_ROOT}/toolbox/signal/signal</directory>
+        <directory>${MATLAB_ROOT}/toolbox/signal/sigtools</directory>
+        <directory>${MATLAB_ROOT}/toolbox/signal/sptoolgui</directory>
+        <directory>${MATLAB_ROOT}/toolbox/compiler/compilerdemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/connector/connector</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/measure</directory>
+        <directory>${MATLAB_ROOT}/toolbox/dsp/dsp</directory>
+        <directory>${MATLAB_ROOT}/toolbox/dsp/dsputilities</directory>
+        <directory>${MATLAB_ROOT}/toolbox/dsp/dsputilities/dspinit</directory>
+        <directory>${MATLAB_ROOT}/toolbox/dsp/dsputilities/dspmex</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/coder/coder</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/controllib/general</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/optimlib</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/apps</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/multimedia</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dsp/hdl</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/spcuilib</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/audiovideo</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/system/sfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/rptgen</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/statslib</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/timeseries</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/hds</directory>
+        <directory>${MATLAB_ROOT}/toolbox/dsp/filterdesign</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/filterdesignlib</directory>
+        <directory>${MATLAB_ROOT}/toolbox/compiler</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/advisor</directory>
+        <directory>${MATLAB_ROOT}/toolbox/dsp/dspdemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/testmeaslib/general</directory>
+        <directory>${MATLAB_ROOT}/toolbox/fixedpoint/fixedpoint</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/imageslib</directory>
+        <directory>${MATLAB_ROOT}/help/toolbox/dsp/examples</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/siglib</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/asynciolib</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/configset</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/instrument</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nncontrol</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nndemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nndemos/nndatasets</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnadapt</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nndatafun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnderivative</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nndistance</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nndivision</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nninitlayer</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nninitnetwork</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nninitweight</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnlearn</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnnetfun</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnnetinput</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnnetwork</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnperformance</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnplot</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnprocess</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnsearch</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nntopology</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nntrain</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nntransfer</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnet/nnweight</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnguis</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnobsolete</directory>
+        <directory>${MATLAB_ROOT}/toolbox/nnet/nnutils</directory>
+        <directory>${MATLAB_ROOT}/toolbox/signal/sigdemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/imagesci</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dsp/simulink/dsp</directory>
+        <directory>${MATLAB_ROOT}/toolbox/stats/stats</directory>
+        <directory>${MATLAB_ROOT}/toolbox/stats/classreg</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/simulink</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/m3i</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/cgxe/cgxe</directory>
+        <directory>${MATLAB_ROOT}/toolbox/matlab/system</directory>
+        <directory>${MATLAB_ROOT}/toolbox/stats/statsdemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/coder/profile</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/system/coreblocks</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/system/fixedpoint</directory>
+        <directory>${MATLAB_ROOT}/toolbox/images/imdemos</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dsp/vision/matlab/utilities</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dsp/vision/simulink/utilities</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dsp/vision/matlab/utilities/mex</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dsp/vision/simulink/utilities/mex</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dsp/vision/matlab/utilities/init</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dsp/vision/matlab/vision</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/dsp/vision/simulink/vision</directory>
+        <directory>${MATLAB_ROOT}/toolbox/shared/comparisons</directory>
+        <directory>/usr/local/freesurfer/stable5_3/matlab</directory>
+        <directory>/usr/local/freesurfer/stable5_3/fsfast/toolbox</directory>
+      </path>
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>false</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>true</linux>
+      <solaris>false</solaris>
+      <osver>3.6.0-030600-generic</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>glnxa64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
+

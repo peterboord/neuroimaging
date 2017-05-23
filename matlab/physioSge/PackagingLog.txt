@@ -1,0 +1,32 @@
+ant:
+<ant>
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/physioSge/for_redistribution" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/physioSge/for_testing" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/physioSge/for_redistribution_files_only" />
+</ant>
+mcc  -o physioSge -W WinMain:physioSge -T link:exe -d /project_space/pboord/usr/bin/matlab/physioSge/for_testing -v /project_space/pboord/usr/bin/matlab/physioSge.m 
+process 12295: arguments to dbus_move_error() were incorrect, assertion "(dest) == NULL || !dbus_error_is_set ((dest))" failed in file ../../dbus/dbus-errors.c line 282.
+This is normally a bug in some application using the D-Bus library.
+libhal.c 3483 : Error unsubscribing to signals, error=The name org.freedesktop.Hal was not provided by any .service files
+Compiler version: 5.2 (R2014b)
+Dependency analysis by REQUIREMENTS.
+[Warning: Adding path "/project_space/pboord/usr/bin/matlab" to Compiler path
+instance.] 
+Parsing file "/project_space/pboord/usr/bin/matlab/physioSge.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 9 temporary MEX authorization files.
+Removing: '/tmp/03007TfRHlR_12295.auth'.
+Removing: '/tmp/03007tRxNiR_12295.auth'.
+Removing: '/tmp/030071x9FQR_12295.auth'.
+Removing: '/tmp/030076CwzJR_12295.auth'.
+Removing: '/tmp/03007cKFyCR_12295.auth'.
+Removing: '/tmp/03007hxwNyR_12295.auth'.
+Removing: '/tmp/03007cDUhvR_12295.auth'.
+Removing: '/tmp/03007zzbTrR_12295.auth'.
+Removing: '/tmp/03007CRLJoR_12295.auth'.
+Generating file "/project_space/pboord/usr/bin/matlab/physioSge/for_testing/readme.txt".
+Generating file "/project_space/pboord/usr/bin/matlab/physioSge/for_testing/run_physioSge.sh".
+Packaging...
+Creating the bundle...
+Web based installer created at /project_space/pboord/usr/bin/matlab/physioSge/for_redistribution/MyAppInstaller_web.install.
+Packaging complete.

@@ -1,0 +1,74 @@
+#!/bin/bash
+dataDir=$(pwd)
+session=109003
+#session=$1
+#cd $session
+# constants
+brainVoxCenter="88 128 128"
+TR=2.5
+subjDir=/projects2/act-plus/subjects
+matlabDir=/project_space/pboord/MATLAB
+antsDir=/projects2/act-plus/Standard
+if [ 1 = 2 ]; then
+echo error
+exit
+# T1
+echo "Transforming"
+\rm -f T1.nii* T1_brain.nii*
+\cp -f $subjDir/$session/session1/memprage/T1.nii.gz .
+bet T1 T1_brain -c $brainVoxCenter
+fslreorient2std T1 T1
+fslreorient2std T1_brain T1_brain
+fast -g -o T1_brain -p T1_brain.nii.gz
+ln -sf T1_brain_seg_2.nii.gz T1_brain_wmseg.nii.gz
+fi
+# func
+\cp -f $subjDir/session1/$session/rest/rest_e00213_tsoc_reoriented.nii.gz .
+\cp -f $subjDir/session1/$session/rest/rest_e00213_medn_reoriented.nii.gz .
+fslroi rest_e00213_tsoc_reoriented.nii.gz rest_tsoc 0 -1 0 -1 8 -1 0 -1
+fslroi rest_e00213_medn_reoriented.nii.gz rest_medn 0 -1 0 -1 8 -1 0 -1
+restFilePrefix=rest_medn
+fslmaths $restFilePrefix -Tmax -abs -bin mask
+cp -f ${restFilePrefix}.nii.gz raw_resting.nii.gz
+gunzip -f raw_resting.nii.gz
+3drefit -TR $TR raw_resting.nii
+gzip -f *.nii
+fslmaths rest_tsoc -Tmean mean_func
+#echo "epi_reg"
+echo B0 stuff
+epi_reg_withB0.sh "*_WIP_ME-RS_SENSE_3_1.PAR" "*_WIP_B0_*.PAR" 2.5 mean_func mean_func_to_T1 T1 T1_brain
+echo "flirt"
+# warp mask
+applywarp -i mask -r T1 -w mean_func_to_T1_warp -o mask_to_T1
+fslmaths mask_to_T1 -thr 0.5 -bin mask_to_T1
+# mean_func_to_MNI.nii.gz
+ln -sf /projects2/act-plus/subjects/$session/session1/xfm_dir
+c3d_affine_tool -ref T1_brain.nii.gz -src mean_func.nii.gz mean_func_to_T1.mat -fsl2ras -oitk mean_func_to_T1_ras.txt
+${ANTSPATH}WarpImageMultiTransform 3 mean_func.nii.gz mean_func_to_MNI.nii.gz -R $MNI1mm $antsDir/CT_to_mni_Warp.nii.gz \
+$antsDir/CT_to_mni_Affine.txt xfm_dir/T1_to_CT_Warp.nii.gz xfm_dir/T1_to_CT_Affine.txt mean_func_to_T1_ras.txt
+
+# seeds to func space
+for coordImg in $(ls $matlabDir/mniCoordVox_*.nii.gz); do
+	seed=$(basename $coordImg .nii.gz|sed 's/mniCoordVox_//')
+	cmd="${ANTSPATH}WarpImageMultiTransform 3 $coordImg func_${seed}.nii.gz -R mean_func.nii.gz \
+	-i mean_func_to_T1_ras.txt -i xfm_dir/T1_to_CT_Affine.txt xfm_dir/T1_to_CT_InverseWarp.nii.gz \
+	-i $antsDir/CT_to_mni_Affine.txt $antsDir/CT_to_mni_InverseWarp.nii.gz"
+	echo $cmd
+	eval $cmd
+	fslstats func_${seed}.nii.gz -x > func_${seed}
+done
+
+invwarp -w mean_func_to_T1_warp -o inv_mean_func_to_T1_warp -r mean_func
+# aseg
+mri_label2vol --seg aseg.mgz --temp rawavg.mgz --o aseg_in_T1.mgz --regheader aseg.mgz
+mri_convert aseg_in_T1.mgz aseg_in_T1.nii.gz
+applywarp -i aseg_in_T1.nii.gz -r mean_func -w inv_mean_func_to_T1_warp -o aseg_in_func --interp=nn
+mri_binarize --i aseg_in_func.nii.gz --match $(cat $pbubin/FreeSurferColorLUT_gm_codes) --o func_gm.nii.gz
+fslmaths func_gm.nii.gz -mas mask func_gm.nii.gz
+# aparc+aseg
+mri_label2vol --seg aparc+aseg.mgz --temp rawavg.mgz --o aparc+aseg_in_T1.mgz --regheader aparc+aseg.mgz
+mri_convert aparc+aseg_in_T1.mgz aparc+aseg_in_T1.nii.gz
+applywarp -i aparc+aseg_in_T1.nii.gz -r mean_func -w inv_mean_func_to_T1_warp -o aparc+aseg_in_func --interp=nn
+mri_binarize --i aparc+aseg_in_func.nii.gz --match 2 41 --o func_wm.nii.gz
+fslmaths func_wm.nii.gz -mas mask func_wm.nii.gz
+

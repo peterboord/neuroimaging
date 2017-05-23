@@ -1,0 +1,409 @@
+source $pbubin/functions
+restDir=/projects2/udall/standardFC
+featRestDir=/projects2/udall/pboord/analysis/feat/rest	
+func=rest_ssmooth.nii.gz
+removeInvalid=removeInvalid
+#removeInvalid=""
+
+function drawNets () {
+overlay 0 0 $MNI1mm -a networkDir/dan_mask.gfeat/cope1.feat/thresh_zstat5.nii* 4 6 danOverlayFile
+overlay 0 0 $MNI1mm -a networkDir/dmn_mask.gfeat/cope1.feat/thresh_zstat5.nii* 4 6 dmnOverlayFile
+overlay 0 0 $MNI1mm -a networkDir/fptc_mask.gfeat/cope1.feat/thresh_zstat5.nii* 4 6 fptcOverlayFile
+overlay 0 0 $MNI1mm -a networkDir/van_mask.gfeat/cope1.feat/thresh_zstat5.nii* 4 6 vanOverlayFile
+zlist=(-23 -9 0 4 8 24 41 55 62)
+cmd="pngappend"
+for zmm in ${zlist[@]}; do
+	vox=($(mm2vox MNI1mm 0 0 $zmm))
+	z="${vox[@]:2:1}"
+	echo "$zmm $z"
+	slicer danOverlayFile -s 2 -u -z -$z dan_${zmm}_z.png
+	slicer dmnOverlayFile -s 2 -u -z -$z dmn_${zmm}_z.png
+	slicer fptcOverlayFile -s 2 -u -z -$z fptc_${zmm}_z.png
+	slicer vanOverlayFile -s 2 -u -z -$z van_${zmm}_z.png
+	cmd="${cmd} dan_${zmm}_z.png + dmn_${zmm}_z.png + fptc_${zmm}_z.png + van_${zmm}_z.png -"
+done
+cmd=$(echo $cmd"REMOVE"|sed 's/-REMOVE/nets.png/')
+echo $cmd
+eval $cmd
+}
+
+function roiValidity () {
+# If zMax x,y,z is more GM than WM returns 1, otherwise 0
+	# $1=cluster_zstat*_std.txt file
+	# $2=roiNr
+	local filename=$1
+	local roiNr=$2
+	local nrRoi=$(($(wc -l < $filename) - 1))
+	if [ $roiNr -gt $nrRoi ]; then
+		echo "roi requested, $roiNr, exceeds nrRoi, $nrRoi"
+	else
+		local a=($(arrayLoad $filename 1))
+		local rowNr=$((nrRoi - roiNr + 1))
+		x=$(arrayGet a $rowNr 6)
+		y=$(arrayGet a $rowNr 7)
+		z=$(arrayGet a $rowNr 8)
+		nrVox=$(arrayGet a $rowNr 2)
+		vox=$(mm2vox MNI2mm $x $y $z)
+		#echo $x $y $z
+		#echo $vox
+	 	gm=$(float2int $(fslmeants -i /usr/share/fsl/5.0/data/standard/tissuepriors/avg152T1_gray.hdr -c $vox))
+		wm=$(float2int $(fslmeants -i /usr/share/fsl/5.0/data/standard/tissuepriors/avg152T1_white.hdr -c $vox))
+		csf=$(float2int $(fslmeants -i /usr/share/fsl/5.0/data/standard/tissuepriors/avg152T1_csf.hdr -c $vox))
+		#echo $gm $wm $csf
+		# https://www.jiscmail.ac.uk/cgi-bin/webadmin?A2=fsl;ef10f125.1206
+		if [[ $gm -gt $((255/2)) ]]; then echo -n 1; else echo -n 0;fi
+		echo " $(mm2vox MNI1mm $x $y $z) $nrVox $x $y $z"
+	fi
+}
+
+function getNetFc () {
+firstLine=firstLine
+filename="/NAS_II/Projects/Udall/task/linear/group/CombinedBaseline_fnirt_linear/noAgeEdu/cope10.gfeat/cope1.feat/cluster_zstat1_std.txt"
+maskFile="/NAS_II/Projects/Udall/task/linear/group/CombinedBaseline_fnirt_linear/noAgeEdu/cope10.gfeat/cope1.feat/cluster_mask_zstat1.nii.gz"
+threshFile="/NAS_II/Projects/Udall/task/linear/group/CombinedBaseline_fnirt_linear/noAgeEdu/cope10.gfeat/cope1.feat/thresh_zstat1.nii.gz"
+local a=($(arrayLoad $filename 1))
+nets=(dan dmn fptc van)
+nrRoi=$(imMaxInt $maskFile)
+for s in $(ls -d $restDir/RC4???); do
+	colHdr=netFc
+	curLine=$(basename $s)
+	for fcnet in ${nets[@]}; do
+		for roiNr in $(seq 1 $nrRoi); do
+			roiNrValid=($(roiValidity $filename $roiNr))
+			nrVox="${roiNrValid[@]:4:1}"
+			if (( ${roiNrValid} )); then
+				colHdr=${colHdr},${fcnet}${roiNr}
+				fslmaths $maskFile -thr $roiNr -uthr $roiNr -bin -mul $threshFile -mul $s/${fcnet}_mask.gfeat/cope1.feat/stats/zstat1.nii* weightedRoi
+				curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)*$nrVox"|bc -l))
+			fi
+		done
+	done
+	if [ $firstLine ]; then
+		firstLine=""
+		echo $colHdr
+	fi
+	echo $curLine
+done
+}
+
+function gmStatIm () {
+featDir=$1
+c=$2
+\cp -f $featDir/thresh_zstat${c}.nii.gz gmStat.nii.gz
+maskFile=$featDir/cluster_mask_zstat${c}
+nrRoi=$(imMaxInt $maskFile)
+if [ $nrRoi -ne 0 ]; then
+	for roiNr in $(seq 1 $nrRoi); do
+		roiNrValid=($(roiValidity $featDir/cluster_zstat${c}_std.txt $roiNr))
+		if [ ${roiNrValid} = 0 ]; then
+			fslmaths $maskFile -thr $roiNr -uthr $roiNr -binv -mul gmStat gmStat
+		fi
+	done
+fi
+}
+
+function getFcMax () {
+firstLine=firstLine
+firstSubject=firstSubject
+for s in $(ls -d $restDir/RC4???); do
+  colHdr=fcData
+  roiSize=roiSize
+  curLine=$(basename $s)
+  for g in $(ls -d *.gfeat); do
+        seedRoi=$(basename $g .gfeat)
+        for c in $(seq 1 2); do
+          if [ $c = 1 ]; then
+                cName=pg
+          else
+                cName=cg
+          fi
+	  # make images
+	  if [ $firstSubject ]; then
+	    gmStatIm $g/cope1.feat $c
+	    statsIm=$g/cope1.feat/thresh_zstat${c}
+	    overlay 0 0 $MNI1mm -a gmStat $(fslstats gmStat -r) tmpOverlayFile
+	    rm gmStat.nii*
+	  fi
+          maskFile=$g/cope1.feat/cluster_mask_zstat${c}
+          nrRoi=$(imMaxInt $maskFile)
+          if [ $nrRoi -ne 0 ]; then
+                for roiNr in $(seq 1 $nrRoi); do
+		  roiNrValid=($(roiValidity $g/cope1.feat/cluster_zstat${c}_std.txt $roiNr))
+		  x="${roiNrValid[@]:1:1}"
+		  y="${roiNrValid[@]:2:1}"
+		  z="${roiNrValid[@]:3:1}"
+		  nrVox="${roiNrValid[@]:4:1}"
+		  if (( ${roiNrValid} )); then
+			colHdr=${colHdr},${seedRoi}_${cName}${roiNr}
+			roiSize=${roiSize},$nrVox
+			curLine=${curLine},$(echo -n $(fslmeants -i $s/$g/cope1.feat/stats/zstat1.nii* -c $x $y $z))
+	  #echo $x $y $z $nrVox
+			if [ $firstSubject ]; then
+				slicer tmpOverlayFile -s 2 -u -x -$x ${seedRoi}${cName}_${x}_x.png -y -$y ${seedRoi}${cName}_${y}_y.png -z -$z ${seedRoi}${cName}_${z}_z.png
+			fi				
+		  fi
+                done
+          fi
+        done
+  done
+  if [ $firstLine ]; then
+    firstLine=""
+    echo $colHdr
+    echo $roiSize
+  fi
+  echo $curLine
+  if [ $firstSubject ]; then
+    firstSubject=""
+    rm tmpOverlayFile.nii*
+  fi
+done
+}
+
+function getFcWeight () {
+firstLine=firstLine
+firstSubject=firstSubject
+for s in $(ls -d $restDir/RC4???); do
+  colHdr=fcData
+  roiSize=roiSize
+  curLine=$(basename $s)
+  roiIdx=0
+  for g in $(ls -d cluster?.gfeat); do
+        seedRoi=$(basename $g .gfeat)
+        for c in $(seq 1 2); do
+          if [ $c = 1 ]; then
+                cName=pg
+          else
+                cName=cg
+          fi
+	  # make images
+	  if [ $firstSubject ]; then
+		if [ $removeInvalid ]; then
+	    		gmStatIm $g/cope1.feat $c
+	    	else
+		   	\cp -f $g/cope1.feat/thresh_zstat${c}.nii* gmStat.nii.gz
+		fi
+	    	statsIm=$g/cope1.feat/thresh_zstat${c}
+	    	#overlay 0 0 $MNI1mm -a gmStat $(fslstats gmStat -r) tmpOverlayFile
+	    	overlay 0 0 $MNI1mm -a gmStat 2.3 4 tmpOverlayFile
+	    	rm gmStat.nii*
+	  fi
+          maskFile=$g/cope1.feat/cluster_mask_zstat${c}
+          threshFile=$g/cope1.feat/thresh_zstat${c}
+          nrRoi=$(imMaxInt $maskFile)
+          if [ $nrRoi -ne 0 ]; then
+                for roiNr in $(seq 1 $nrRoi); do
+		  roiNrValid=($(roiValidity $g/cope1.feat/cluster_zstat${c}_std.txt $roiNr))
+		  #echo ${roiNrValid[@]}
+		  if [ -z $removeInvalid ]; then
+		  	roiNrValid=1
+		  fi
+		  x="${roiNrValid[@]:1:1}"
+		  y="${roiNrValid[@]:2:1}"
+		  z="${roiNrValid[@]:3:1}"
+		  nrVox="${roiNrValid[@]:4:1}"
+		  zmm="${roiNrValid[@]:7:1}"
+		  if (( ${roiNrValid} )); then
+			roiIdx=$(($roiIdx + 1))
+			colHdr=${colHdr},${seedRoi}_${cName}${roiNr}
+			roiSize=${roiSize},$nrVox
+			fslmaths $maskFile -thr $roiNr -uthr $roiNr -bin -mul $threshFile weightedMask
+			fslmaths weightedMask -mul $s/$g/cope1.feat/stats/zstat1.nii* weightedRoi
+			curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)/$(fslstats weightedMask -M)"|bc -l))
+			if [ $firstSubject ]; then
+				#slicer tmpOverlayFile -s 2 -u -x -$x ${seedRoi}${cName}_${x}_x.png -y -$y ${seedRoi}${cName}_${y}_y.png -z -$z ${seedRoi}${cName}_${z}_z.png
+				slicer tmpOverlayFile -s 2 -u -z -$z ${seedRoi}${cName}_${zmm}_z.png
+			fi
+			colHdr=${colHdr},dan$roiIdx
+			fslmaths weightedMask -mul $s/dan_mask.gfeat/cope1.feat/stats/zstat1.nii* weightedRoi
+			curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)/$(fslstats weightedMask -M)"|bc -l))
+			colHdr=${colHdr},dmn$roiIdx
+			fslmaths weightedMask -mul $s/dmn_mask.gfeat/cope1.feat/stats/zstat1.nii* weightedRoi
+			curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)/$(fslstats weightedMask -M)"|bc -l))
+			colHdr=${colHdr},fptc$roiIdx
+			fslmaths weightedMask -mul $s/fptc_mask.gfeat/cope1.feat/stats/zstat1.nii* weightedRoi
+			curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)/$(fslstats weightedMask -M)"|bc -l))
+			colHdr=${colHdr},van$roiIdx
+			fslmaths weightedMask -mul $s/van_mask.gfeat/cope1.feat/stats/zstat1.nii* weightedRoi
+			curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)/$(fslstats weightedMask -M)"|bc -l))
+		  fi
+                done
+          fi
+        done
+  done
+  # proximity of cope10 clusters to nets
+  maskFile="/NAS_II/Projects/Udall/task/linear/group/CombinedBaseline_fnirt_linear/noAgeEdu/cope10.gfeat/cope1.feat/cluster_mask_zstat1.nii.gz"
+  threshFile="/NAS_II/Projects/Udall/task/linear/group/CombinedBaseline_fnirt_linear/noAgeEdu/cope10.gfeat/cope1.feat/thresh_zstat1.nii.gz"
+  for roiNr in 1 2 3 4; do
+  	fslmaths $maskFile -thr $roiNr -uthr $roiNr -bin -mul $threshFile weightedMask
+	colHdr=${colHdr},cope10_dan$roiNr
+	fslmaths weightedMask -mul $s/dan_mask.gfeat/cope1.feat/stats/zstat1.nii* weightedRoi
+	curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)/$(fslstats weightedMask -M)"|bc -l))
+	colHdr=${colHdr},cope10_dmn$roiNr
+	fslmaths weightedMask -mul $s/dmn_mask.gfeat/cope1.feat/stats/zstat1.nii* weightedRoi
+	curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)/$(fslstats weightedMask -M)"|bc -l))
+	colHdr=${colHdr},cope10_fptc$roiNr
+	fslmaths weightedMask -mul $s/fptc_mask.gfeat/cope1.feat/stats/zstat1.nii* weightedRoi
+	curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)/$(fslstats weightedMask -M)"|bc -l))
+  	colHdr=${colHdr},cope10_van$roiNr
+	fslmaths weightedMask -mul $s/van_mask.gfeat/cope1.feat/stats/zstat1.nii* weightedRoi
+	curLine=${curLine},$(echo -n $(echo "$(fslstats weightedRoi -M)/$(fslstats weightedMask -M)"|bc -l))
+  done
+  if [ $firstLine ]; then
+    firstLine=""
+    echo $colHdr
+    #echo $roiSize
+  fi
+  echo $curLine
+  if [ $firstSubject ]; then
+    firstSubject=""
+    rm tmpOverlayFile.nii*
+  fi
+done
+}
+
+function getFcSum () {
+firstLine=firstLine
+firstSubject=firstSubject
+for s in $(ls -d $restDir/RC4???); do
+  colHdr=fcData
+  roiSize=roiSize
+  curLine=$(basename $s)
+  for g in $(ls -d *.gfeat); do
+        seedRoi=$(basename $g .gfeat)
+        for c in $(seq 1 2); do
+          if [ $c = 1 ]; then
+                cName=pg
+          else
+                cName=cg
+          fi
+	  # make images
+	  if [ $firstSubject ]; then
+	    gmStatIm $g/cope1.feat $c
+	    statsIm=$g/cope1.feat/thresh_zstat${c}
+	    overlay 0 0 $MNI1mm -a gmStat $(fslstats gmStat -r) tmpOverlayFile
+	    rm gmStat.nii*
+	  fi
+          maskFile=$g/cope1.feat/cluster_mask_zstat${c}
+	  curMask=($(fslstats -K $maskFile $s/$g/cope1.feat/stats/zstat1.nii* -M))
+          nrRoi=$(imMaxInt $maskFile)
+          if [ $nrRoi -ne 0 ]; then
+                for roiNr in $(seq 1 $nrRoi); do
+		  roiNrValid=($(roiValidity $g/cope1.feat/cluster_zstat${c}_std.txt $roiNr))
+		  x="${roiNrValid[@]:1:1}"
+		  y="${roiNrValid[@]:2:1}"
+		  z="${roiNrValid[@]:3:1}"
+		  nrVox="${roiNrValid[@]:4:1}"
+		  if (( ${roiNrValid} )); then
+			colHdr=${colHdr},${seedRoi}_${cName}${roiNr}
+			roiSize=${roiSize},$nrVox
+			curLine=${curLine},$(echo "${curMask[$(($roiNr-1))]}*$nrVox"|bc -l)
+			if [ $firstSubject ]; then
+				slicer tmpOverlayFile -s 2 -u -x -$x ${seedRoi}${cName}_${x}_x.png -y -$y ${seedRoi}${cName}_${y}_y.png -z -$z ${seedRoi}${cName}_${z}_z.png
+			fi				
+		  fi
+                done
+          fi
+        done
+  done
+  if [ $firstLine ]; then
+    firstLine=""
+    echo $colHdr
+    #echo $roiSize
+  fi
+  echo $curLine
+  if [ $firstSubject ]; then
+    firstSubject=""
+    rm tmpOverlayFile.nii*
+  fi
+done
+}
+
+function getFcOld () {
+firstLine=firstLine
+for s in $(ls -d $restDir/RC4???); do
+  colHdr=fcData
+  curLine=$(basename $s)
+  for g in $(ls -d *.gfeat); do
+  	seedRoi=$(basename $g .gfeat)
+	for c in $(seq 1 2); do
+	  if [ $c = 1 ]; then
+	  	cName=pg
+	  else
+	  	cName=cg
+	  fi
+	  maskFile=$g/cope1.feat/cluster_mask_zstat${c}
+	  nrRoi=$(imMaxInt $maskFile)
+	  if [ $nrRoi -ne 0 ]; then
+		for roiNr in $(seq 1 $nrRoi); do
+		  colHdr=${colHdr},${seedRoi}_${cName}${roiNr}
+		done
+		curLine=${curLine},$(echo -n $(fslstats -K $maskFile $s/$g/cope1.feat/stats/zstat1.nii* -M)|tr ' ' ',')
+	  fi
+	done
+  done
+ if [ $firstLine ]; then
+   firstLine=""
+   echo $colHdr
+ fi
+ echo $curLine
+done
+}
+function makeMask () {
+	fileName=$1
+	a=($(arrayLoad $fileName 0))
+	nrSeeds=${a[0]}
+	for seedNr in $(seq 1 $nrSeeds); do
+		x=$(arrayGet a $seedNr 1)
+		y=$(arrayGet a $seedNr 2)
+		z=$(arrayGet a $seedNr 3)
+		vox=($(mm2vox MNI1mm $x $y $z))
+	        outFile=${fileName}_mask_$seedNr
+	        fslmaths $MNI1mm -mul 0 -add 1 -roi ${vox[0]} 1 ${vox[1]} 1 ${vox[2]} 1 0 1 -bin $outFile
+        	fslmaths $outFile -kernel sphere 3 -fmean -thr 1e-8 -bin $outFile -odt float
+	done
+	fslmerge -t ${fileName}_mask $(ls ${fileName}_mask_*)
+	\rm -f ${fileName}_mask_*
+	fslmaths ${fileName}_mask -Tmean -bin ${fileName}_mask
+}
+function meants () {
+	r=$1
+	c=$(basename $2 .nii.gz)
+	flirt -in $c -ref $r/reg.feat/reg/example_func.nii.gz -applyxfm -init $r/reg.feat/reg/standard2example_func.mat -out $r/$c -interp nearestneighbour
+	fslmeants -i $r/$func -o $r/${c}.txt -m $r/$c
+}
+function fsf_session () {                
+	s=$(basename $1)
+	c=$(basename $2 .nii.gz)
+	nrVols=$(fslnvols $1/$func)
+	echo $s/$func
+	echo ${nrVols}
+	cat FC_SESSION.fsf | sed 's/SESSION/'${s}'/g' | sed 's/SEED/'${c}'/g'| sed 's/fmri(npts) 300/fmri(npts) '${nrVols}'/' > $featRestDir/session/${s}_${c}.fsf
+}
+function fsf_subject () {                
+	s=$(basename $1)
+	c=$(basename $2 .nii.gz)
+	ln -sf $1-1/reg.feat/reg $1-1/${c}.feat
+	ln -sf $1-2/reg.feat/reg $1-2/${c}.feat
+	cat FC_SUBJECT.fsf | sed 's/SUBJECT/'${s}'/g' | sed 's/SEED/'${c}'/g' > $featRestDir/subject/${s}_${c}.fsf
+}                        
+function fsf_group () {                
+	c=$(basename $1 .nii.gz)
+	cat FC_GROUP.fsf | sed 's/SEED/'${c}'/g' > $featRestDir/group/${c}.fsf
+}                        
+if [ 1 = 2 ]; then
+masks cope10_cluster_mask_zstat1.nii.gz
+ln -s cope10_cluster_mask_zstat1_1.nii.gz cluster1.nii.gz
+ln -s cope10_cluster_mask_zstat1_2.nii.gz cluster2.nii.gz
+ln -s cope10_cluster_mask_zstat1_3.nii.gz cluster3.nii.gz
+ln -s cope10_cluster_mask_zstat1_4.nii.gz cluster4.nii.gz
+ln -s cope8_cluster_mask_zstat1.nii.gz cluster5.nii.gz
+ln -s cope8_cluster_mask_zstat2.nii.gz cluster6.nii.gz
+for c in $(ls cluster?.nii.gz);do (for r in $(ls -d $restDir/RC4???-?);do meants $r $c;done;) & done
+for c in $(ls cluster?.nii.gz);do for r in $(ls -d $restDir/RC4???-?);do fsf_session $r $c;done;done
+for c in $(ls cluster?.nii.gz);do for r in $(ls -d $restDir/RC4???);do fsf_subject $r $c;done;done
+for c in $(ls cluster?.nii.gz);do fsf_group $c;done
+for c in $(ls *_mask.nii.gz);do (for r in $(ls -d $restDir/RC4???-?);do meants $r $c;done;) & done
+for c in $(ls *_mask.nii.gz);do for r in $(ls -d $restDir/RC4???-?);do fsf_session $r $c;done;done
+for c in $(ls *_mask.nii.gz);do for r in $(ls -d $restDir/RC4???);do fsf_subject $r $c;done;done
+for c in $(ls *_mask.nii.gz);do fsf_group $c;done
+fi

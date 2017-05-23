@@ -1,0 +1,31 @@
+ant:
+<ant>
+  <mkdir dir="/mnt/home/pboord/pbubin/matlab/v84/pic/pic/for_redistribution" />
+  <mkdir dir="/mnt/home/pboord/pbubin/matlab/v84/pic/pic/for_testing" />
+  <mkdir dir="/mnt/home/pboord/pbubin/matlab/v84/pic/pic/for_redistribution_files_only" />
+</ant>
+mcc -C -R -nodisplay -R -nojvm -R -nosplash -p /project_space/pboord/MATLAB/pestica_afni_v2 -p /project_space/pboord/MATLAB/pestica_afni_v2/matlab_retroicor -p /project_space/pboord/MATLAB/afni_matlab/matlab -p /project_space/pboord/usr/bin/matlab/v84/pestica -p /usr/local/freesurfer/stable5_3/matlab -p /usr/local/freesurfer/stable5_3/fsfast/toolbox -o pic -W WinMain:pic -T link:exe -d /mnt/home/pboord/pbubin/matlab/v84/pic/pic/for_testing -C -v /mnt/home/pboord/pbubin/matlab/v84/pic/pic.m -a /project_space/pboord/MATLAB/corrColumns.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_fileexists.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_ldbhdr.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_ldbslice.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_mri_struct.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_svbhdr.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_svbslice.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_bfiledim.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_bvoldim.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_hdrdatstruct.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_ldbfile.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_lddat2.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_lddat3.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_svbfile.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_analyze.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_analyze_hdr.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_mgh.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_nifti.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_nifti_hdr.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/mar.m -a /project_space/pboord/MATLAB/freesurfer_matlab/MRIfspec.m -a /project_space/pboord/MATLAB/freesurfer_matlab/MRIread.m -a /project_space/pboord/MATLAB/freesurfer_matlab/MRIwrite.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/qoe.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/reshape1d.m -a /project_space/pboord/MATLAB/freesurfer_matlab/save_mgh.m -a /project_space/pboord/MATLAB/freesurfer_matlab/save_nifti.m -a /project_space/pboord/MATLAB/freesurfer_matlab/strlen.m -a /project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_0to1.m -a /project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_1to0.m -a /project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_tkreg.m -a /project_space/pboord/MATLAB/freesurfer_matlab/vox2rasToQform.m 
+process 17716: arguments to dbus_move_error() were incorrect, assertion "(dest) == NULL || !dbus_error_is_set ((dest))" failed in file ../../dbus/dbus-errors.c line 282.
+This is normally a bug in some application using the D-Bus library.
+libhal.c 3483 : Error unsubscribing to signals, error=The name org.freedesktop.Hal was not provided by any .service files
+Warning: You have specified '-R -nojvm', which may restrict or eliminate MATLAB graphics functionality at runtime.
+Compiler version: 5.2 (R2014b)
+Dependency analysis by REQUIREMENTS.
+[Warning: Adding path "/mnt/home/pboord/pbubin/matlab/v84/pic" to Compiler path
+instance.] 
+Parsing file "/mnt/home/pboord/pbubin/matlab/v84/pic/pic.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 7 temporary MEX authorization files.
+Removing: '/tmp/04534rlknNK_17716.auth'.
+Removing: '/tmp/04534vJRUat_17716.auth'.
+Removing: '/tmp/04534ZFsxyb_17716.auth'.
+Removing: '/tmp/04534NdxFXT_17716.auth'.
+Removing: '/tmp/04534uoE0mC_17716.auth'.
+Removing: '/tmp/04534eHorMk_17716.auth'.
+Removing: '/tmp/04534u1Z6b3_17716.auth'.
+Generating file "/project_space/pboord/usr/bin/matlab/v84/pic/pic/for_testing/readme.txt".
+Generating file "/mnt/home/pboord/pbubin/matlab/v84/pic/pic/for_testing/run_pic.sh".
+Packaging...
+Creating the bundle...
+Web based installer created at /mnt/home/pboord/pbubin/matlab/v84/pic/pic/for_redistribution/MyAppInstaller_web.install.
+Packaging complete.

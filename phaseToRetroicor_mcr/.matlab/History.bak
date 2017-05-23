@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<history>
+<session>
+<command time_stamp="14a12b630b5">%-- 12/03/2014 04:32:18 PM --%</command>
+<command error="true" execution_time="362" repeat="2">pd</command>
+</session>
+<session>
+<command time_stamp="14a12d687c9">%-- 12/03/2014 05:07:37 PM --%</command>
+<command error="true" execution_time="765">pd</command>
+</session>
+<session>
+<command time_stamp="14bc33caee0">%-- 02/25/2015 04:15:09 PM --%</command>
+</session>
+<session>
+<command time_stamp="14bec2723bd">%-- 03/05/2015 02:56:03 PM --%</command>
+<command error="true" execution_time="388">deplotool</command>
+<command error="true" execution_time="139">deploytool</command>
+</session>
+<session>
+<command time_stamp="14bec711dd8">%-- 03/05/2015 04:16:51 PM --%</command>
+<command error="true" execution_time="190">deploytool</command>
+</session>
+<session>
+<command time_stamp="14bec72b90e">%-- 03/05/2015 04:18:36 PM --%</command>
+<command error="true" execution_time="344">deploytool</command>
+</session>
+<session>
+<command time_stamp="14bf936c2de">%-- 03/08/2015 04:48:11 AM --%</command>
+</session>
+<session>
+<command time_stamp="14c0038dd85">%-- 03/09/2015 01:27:49 PM --%</command>
+</session>
+<session>
+<command time_stamp="14c013cfd1d">%-- 03/09/2015 06:11:56 PM --%</command>
+</session>
+<session>
+<command time_stamp="14c13ae1480">%-- 03/13/2015 08:08:38 AM --%</command>
+<command execution_time="58" repeat="5">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c168cba0f">%-- 03/13/2015 09:31:04 PM --%</command>
+<command execution_time="15">a=1:5</command>
+<command execution_time="16">a(6:5)=[]</command>
+<command execution_time="3910" repeat="2">pic('/projects2/udall/pboord/pic/data/preprocessed/anaticor/RC4101-1.results','RC4101-1_anaticor_fslBpf.nii.gz','RC4101-1_gm.nii')</command>
+<command execution_time="84">size a</command>
+<command execution_time="17">size(a)</command>
+<command execution_time="25">imInS.volsize</command>
+<command execution_time="71" repeat="2">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c23970948">%-- 03/16/2015 10:17:23 AM --%</command>
+<command error="true" execution_time="196">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c239cb427">%-- 03/16/2015 10:23:35 AM --%</command>
+<command error="true" execution_time="245">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c239dc1bc">%-- 03/16/2015 10:24:44 AM --%</command>
+<command execution_time="22" repeat="2">deploytool</command>
+<command error="true" execution_time="125">pic('/projects2/udall/pboord/pic/preproc/anaticor/RC4101-1.results','picRes_RC4101-1_anaticor_fslBpf.nii.g','RC4101-1_gm.nii')</command>
+<command execution_time="142384">pic('/projects2/udall/pboord/pic/preproc/anaticor/RC4101-1.results','picRes_RC4101-1_anaticor_fslBpf.nii.gz','RC4101-1_gm.nii')</command>
+<command execution_time="50">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c23d59677">%-- 03/16/2015 11:25:43 AM --%</command>
+</session>
+<session>
+<command time_stamp="14c23d6b3da">%-- 03/16/2015 11:26:56 AM --%</command>
+<command execution_time="57" repeat="4">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c2478fb8a">%-- 03/16/2015 02:24:11 PM --%</command>
+<command error="true" execution_time="81">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c247a3907">%-- 03/16/2015 02:25:32 PM --%</command>
+<command error="true" execution_time="326">svn</command>
+<command error="true" execution_time="176">corr</command>
+<command execution_time="461">corr([2,3,4;4,5,7;5,3,21])</command>
+<command execution_time="11">license</command>
+<command execution_time="132">ver</command>
+</session>
+<session>
+<command time_stamp="14c27c8c856">%-- 03/17/2015 05:50:12 AM --%</command>
+<command execution_time="48" repeat="4">deploytool</command>
+<command execution_time="133">ver</command>
+</session>
+<session>
+<command time_stamp="14c29e45534">%-- 03/17/2015 03:39:32 PM --%</command>
+<command execution_time="1651">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c38e0d6f6">%-- 03/20/2015 01:30:01 PM --%</command>
+<command error="true" execution_time="128">dicominfo('RC4101.MR.UDALL.1001.1.20120529.103819.1juhtci.dcm")</command>
+<command execution_time="422">dicominfo('RC4101.MR.UDALL.1001.1.20120529.103819.1juhtci.dcm')</command>
+<command execution_time="2749">dicominfo('RC4101.MR.UDALL.1001.1.20120529.103819.zpuk7h.dcm')</command>
+<command execution_time="17">clear</command>
+<command execution_time="2685">dicominfo('RC4101.MR.UDALL.1001.1.20120529.103819.zpuk7h.dcm')</command>
+</session>
+<session>
+<command time_stamp="14c38f23c92">%-- 03/20/2015 01:49:02 PM --%</command>
+<command error="true" execution_time="380">dcminfo('RC4101.MR.UDALL.1001.1.20120529.103819.1juhtci.dcm')</command>
+<command execution_time="262">dicominfo('RC4101.MR.UDALL.1001.1.20120529.103819.1juhtci.dcm')</command>
+<command execution_time="170">a=dicominfo('RC4101.MR.UDALL.1001.1.20120529.103819.1juhtci.dcm')</command>
+<command error="true" execution_time="14">b=dicominfo('RC4101.MR.UDALL.1001.1.20120529.103819.zpuk7h.dcm")</command>
+<command execution_time="2591">b=dicominfo('RC4101.MR.UDALL.1001.1.20120529.103819.zpuk7h.dcm')</command>
+</session>
+<session>
+<command time_stamp="14c38fe3919">%-- 03/20/2015 02:02:07 PM --%</command>
+<command error="true" execution_time="10876">dicominfo('RC4101.MR.UDALL.501.1.20120529.103819.57jyte.dcm')</command>
+<command error="true" execution_time="127">adicominfo('RC4101.MR.UDALL.501.1.20120529.103819.57jyte.dcm');</command>
+<command error="true" execution_time="182565">a=dicominfo('RC4101.MR.UDALL.501.1.20120529.103819.57jyte.dcm');</command>
+<command execution_time="160">a=dicominfo('RC4101.MR.UDALL.501.1.20120529.103819.pc77yf.dcm');</command>
+<command execution_time="158">a=dicominfo('RC4101.MR.UDALL.501.1.20120529.103819.pc77yf.dcm')</command>
+<command error="true" execution_time="11030">a=dicominfo('RC4101.MR.UDALL.501.1.20120529.103819.57jyte.dcm');</command>
+</session>
+<session>
+<command time_stamp="14c3908af14">%-- 03/20/2015 02:13:33 PM --%</command>
+<command execution_time="451685">a=dicominfo('RC4101.MR.UDALL.501.1.20120529.103819.57jyte.dcm');</command>
+<command error="true" execution_time="591">dicm2nii</command>
+<command execution_time="13754">dicm2nii('/NAS_II/Projects/Udall/subjects/RC4101/session1/dicoms/rest/DICOM','/NAS_II/Projects/Udall/subjects/RC4101/session1/dicoms/rest/DICOM')</command>
+<command execution_time="67">dict = dicm_dict('Philips');</command>
+<command execution_time="47">[s, info] = dicm_hdr('/NAS_II/Projects/Udall/subjects/RC4101/session1/dicoms/rest/DICOM', dict);</command>
+<command execution_time="1388">[s, info] = dicm_hdr('/NAS_II/Projects/Udall/subjects/RC4101/session1/dicoms/rest/DICOM/RC4101.MR.UDALL.501.1.20120529.103819.57jyte.dcm', dict);</command>
+<command error="true" execution_time="43">s.('EchoTime')</command>
+<command execution_time="1291" repeat="4">[s, info] = dicm_hdr('/NAS_II/Projects/Udall/subjects/RC4101/session1/dicoms/rest/DICOM/RC4101.MR.UDALL.501.1.20120529.103819.57jyte.dcm', dict);</command>
+<command execution_time="52">a</command>
+<command execution_time="68" repeat="2">s</command>
+<command execution_time="18">WaterFatShift=12.0912</command>
+<command execution_time="19">EPIFactor=43</command>
+<command execution_time="18">etl=EPIFactor</command>
+<command execution_time="18">wfs=WaterFatShift</command>
+<command execution_time="18">echoSpacing=(1000*wfs)/(434.215 *(etl+1))</command>
+<command execution_time="22" repeat="2">a=[-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856]</command>
+<command error="true" execution_time="235">cog</command>
+<command execution_time="23">cog=[-0.285045 6.169118 26.998392];</command>
+<command execution_time="22">cog_vox=[39,34,20]</command>
+<command execution_time="14">fsl000vox=[38,29,12];</command>
+<command execution_time="15">imdim=[80,80,43];</command>
+<command execution_time="32">t=a(4:6)</command>
+<command execution_time="18">r=a(1:3)</command>
+<command error="true" execution_time="142">M=makeFslXfmMatrix(t,r,[1,1,1],fsl_0000.mat</command>
+<command execution_time="238">M=makeFslXfmMatrix(t,r,[1,1,1],'fsl_0000.mat')</command>
+<command error="true" execution_time="78">cat 'fsl_0000.mat'</command>
+<command error="true" execution_time="40">fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856])</command>
+<command execution_time="54" repeat="2">fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],80,80,43)</command>
+<command error="true" execution_time="149">Afsl_shifted*[0;1;0]</command>
+<command error="true" execution_time="133">Afsl_shifted*[0;1;0;0]</command>
+<command execution_time="29">Afsl_shifted=fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],80,80,43);</command>
+<command execution_time="58">Afsl_shifted*[0;1;0;0]</command>
+<command execution_time="19">Afsl_shifted(1:3,1:3)*[0;1;0]</command>
+<command execution_time="99">Afsl_shifted=fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],80,80,43);</command>
+<command execution_time="85">Afsl_shifted=fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],80,80,43,3);</command>
+<command execution_time="404" repeat="3">Afsl_shifted=fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],80,80,43,3)</command>
+<command error="true" execution_time="14">a=read filename</command>
+<command error="true" execution_time="30">a=read(filename,'-ascii')</command>
+<command execution_time="38">a=load(filename,'-ascii')</command>
+<command batch="1">filename='/projects2/udall/pboord/pic/preproc/nogmwm/fsl_RC4101-1/prefiltered_func_data_mcf.mat/MAT_0000';</command>
+<command batch="1" execution_time="16">Afsl=load(filename,'-ascii')</command>
+<command execution_time="51" repeat="9">Afsl_shifted=fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],80,80,43,3)</command>
+<command execution_time="45">Afsl_shifted=fsl2afni('MAT_0000',80,80,43,3)</command>
+<command execution_time="64" repeat="4">Afsl_shifted=fsl2afni('MAT_0000',80,80,43,3);</command>
+<command execution_time="15">1-(-2)</command>
+<command execution_time="53" repeat="5">Afsl_shifted=fsl2afni('MAT_0000',80,80,43,3);</command>
+<command execution_time="18">afniMat=[2.999728,-0.040382,0.000126,-115.6412;-0.038908,-2.887699,0.812203,77.62011;0.010811,0.812136,2.887943,-60.70567;0 0 0 1]</command>
+<command execution_time="19">afniMat*[0;0;0;0]</command>
+<command execution_time="19">afniMat*[0;0;0;1]</command>
+<command error="true" execution_time="20">afniMat*[39,39,21;1]</command>
+<command execution_time="18">afniMat*[39;39;21;1]</command>
+<command execution_time="34" repeat="2">Afsl_shifted=fsl2afni('MAT_0000',80,80,43,3);</command>
+<command execution_time="47">Afsl_shifted=fsl2afni('MAT_0149',80,80,43,3);</command>
+<command execution_time="18">mp=load('/projects2/udall/pboord/pic/preproc/nogmwm/afni_RC4101-1/motion_params');</command>
+<command execution_time="9956">plot(mp(:,4))</command>
+<command execution_time="38" repeat="5">Afsl_shifted=fsl2afni('MAT_0000',80,80,43,3);</command>
+<command execution_time="34" repeat="9">Afsl_shifted=fsl2afni('MAT_0001',80,80,43,3);</command>
+<command execution_time="485" repeat="2">Afsl_shifted=fsl2afni('MAT_0000',80,80,43,3);</command>
+<command execution_time="15">Afsl*[0;19.4;32;1]</command>
+<command execution_time="15">fslVolCenter=[0.22;19.46;32.04;1]</command>
+<command execution_time="15">Afsl*fslVolCenter</command>
+<command execution_time="14">Afsl*fslVolCenter - fslVolCenter</command>
+<command execution_time="14">fslVolCenter=[-2.74;22.39;32.86;1]</command>
+<command execution_time="21">Afsl*fslVolCenter - fslVolCenter</command>
+<command execution_time="15">fslVolCenter=[115.64-(-2.74);77.62+22.39;60.71+32.86;1]</command>
+<command execution_time="22">Afsl*fslVolCenter - fslVolCenter</command>
+<command execution_time="18">fslVolCenter=[115.64;-77.62;-60.71;1]</command>
+<command execution_time="24">Afsl*fslVolCenter - fslVolCenter</command>
+<command execution_time="17">fslVolCenter=[-0.285045 6.169118 26.998392]</command>
+<command error="true" execution_time="57">Afsl*fslVolCenter - fslVolCenter</command>
+<command execution_time="15">fslVolCenter=[-0.285045;6.169118;26.998392]</command>
+<command error="true" execution_time="24">Afsl*fslVolCenter - fslVolCenter</command>
+<command execution_time="13">fslVolCenter=[-0.285045;6.169118;26.998392;1]</command>
+<command execution_time="19">Afsl*fslVolCenter - fslVolCenter</command>
+<command execution_time="17">fslVolCenter=[-0.285045;6.169118;26.998392;1]</command>
+<command execution_time="13">fslVolCog=[-0.285045;6.169118;26.998392;1]</command>
+<command execution_time="18">fslVolCenter=[115.64;-77.62;-60.71;1]</command>
+<command execution_time="13">fslFlirtCenter=fslVolCenter-fslVolCog</command>
+<command execution_time="14">Afsl*fslFlirtCenter</command>
+<command execution_time="12">Afsl*fslFlirtCenter - fslFlirtCenter</command>
+<command execution_time="13">Afsl*-fslFlirtCenter - fslFlirtCenter</command>
+<command execution_time="21">Afsl*-fslFlirtCenter + fslFlirtCenter</command>
+<command execution_time="13">Afsl*abs(fslFlirtCenter)</command>
+<command execution_time="13">Afsl*abs(fslFlirtCenter)-abs(fslFlirtCenter)</command>
+<command error="true" execution_time="20" repeat="2">fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],80,80,43)</command>
+<command execution_time="613">fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856])</command>
+<command execution_time="13">Afsl</command>
+<command execution_time="14">Afsl*[1;0;0;1]</command>
+<command execution_time="14">diag(Afsl*[1;0;0;1])</command>
+<command execution_time="14">sum(diag(Afsl*[1;0;0;1]))</command>
+<command execution_time="814" repeat="2">fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],'MAT_0000')</command>
+<command execution_time="23">a=[1 0 0 1;0 1 0 2;0 0 1 3;0 0 0 1]</command>
+<command execution_time="139">inv(a)</command>
+<command batch="2">Afsl=makeFslXfmMatrix(Tfsl,Rfsl,[1,1,1],'fsl_0000.mat')</command>
+<command batch="2">filename=['/projects2/udall/pboord/pic/preproc/nogmwm/fsl_RC4101-1/prefiltered_func_data_mcf.mat/',fslMat];</command>
+<command batch="2">AfslMat=load(filename,'-ascii')</command>
+<command batch="2" execution_time="48">% mv_x=floor(vox_sz*sz_x/2)</command>
+<command execution_time="13">inv(Afsl)</command>
+<command execution_time="14">AfslMat*[-0.285045;6.169118;26.998392;1]</command>
+<command execution_time="20">fslCog=[-0.285045;6.169118;26.998392;1]</command>
+<command execution_time="14">AfslMat*fslCog - fslCog</command>
+<command execution_time="508">fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],'MAT_0000')</command>
+<command execution_time="11">a=[-0.1685  -0.2993   0.1456  -0.0388   0.0143  -0.4414];</command>
+<command execution_time="53">r=a(1:3);t=a(4:6);M=makeFslXfmMatrix(t,r,[1,1,1],'afniMat')</command>
+<command execution_time="15">inv(M)</command>
+<command execution_time="478">r=a(1:3);t=a(4:6);M=makeFslXfmMatrix(t,r,[1,1,1],'afniMat')</command>
+<command execution_time="8">M</command>
+<command execution_time="11">[Rx*Ry*Rz*S_3x3 T(:); 0 0 0 1]</command>
+<command error="true" execution_time="91">[RZ*Rx*Ry*S_3x3 T(:); 0 0 0 1]</command>
+<command execution_time="15">[Rz*Rx*Ry*S_3x3 T(:); 0 0 0 1]</command>
+<command execution_time="14">[Rz*Ry*Rx*S_3x3 T(:); 0 0 0 1]</command>
+<command execution_time="13">[-Rx*Ry*Rz*S_3x3 T(:); 0 0 0 1]</command>
+<command error="true" execution_time="54">a=[0.999992    -0.0029414   -0.00252542     -0.130108 0;    0.00292816      0.999982   -0.00523036      0.444078 0;    0.00254076    0.00522293      0.999983      0.247391 0;0 0 0 1]</command>
+<command error="true" execution_time="17">a=0.999992    -0.0029414   -0.00252542     -0.130108    0.00292816      0.999982   -0.00523036      0.444078    0.00254076    0.00522293      0.999983      0.247391]</command>
+<command execution_time="199">a=[0.999992    -0.0029414   -0.00252542     -0.130108    0.00292816      0.999982   -0.00523036      0.444078    0.00254076    0.00522293      0.999983      0.247391]</command>
+<command execution_time="46">a=[0.999992    -0.0029414   -0.00252542     -0.130108;    0.00292816      0.999982   -0.00523036      0.444078;    0.00254076    0.00522293      0.999983      0.247391;0 0 0 1]</command>
+<command execution_time="535">fsl2afni([-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856],'MAT_0000')</command>
+<command error="true" execution_time="23">Afsl*[-0.285045 6.169118 26.998392]'</command>
+<command execution_time="12">Afsl*[-0.285045 6.169118 26.998392 1]'</command>
+<command execution_time="12">AfslMat*[-0.285045 6.169118 26.998392 1]'</command>
+<command execution_time="22">Afsl*[-0.284984 6.172222 27.034572 1]'</command>
+<command execution_time="13">AfslMat*[-0.284984 6.172222 27.034572 1]'</command>
+<command execution_time="15" repeat="2">a</command>
+<command execution_time="16">a*[-0.284984 6.172222 27.034572 1]'</command>
+<command execution_time="15">b=a.*[1 1 1 0;1 1 1  0;1 1 1 0;0 0 0 1]</command>
+<command execution_time="15">b*[-0.284984 6.172222 27.034572 1]'</command>
+<command execution_time="15">b*[-0.285045 6.169118 26.998392 1]'</command>
+</session>
+<session>
+<command time_stamp="14c51ff5c9b">%-- 03/25/2015 10:33:52 AM --%</command>
+<command execution_time="17">[a,b,c]=deal([1,2,3])</command>
+<command execution_time="893">[xx,yy,zz] = mri_get_cmass('/projects2/udall/pboord/pic/preproc/nogmwm/RC4101-1_rest_150.nii')</command>
+<command execution_time="14">afniMat=[2.999728,-0.040382,0.000126,-115.6412;-0.038908,-2.887699,0.812203,77.62011;0.010811,0.812136,2.887943,-60.70567;0 0 0 1]</command>
+<command execution_time="19">afniMat=[2.999728,-0.040382,0.000126,-115.6412;-0.038908,-2.887699,0.812203,77.62011;0.010811,0.812136,2.887943,-60.70567;0 0 0 1]*[0 0 0 1]'</command>
+<command execution_time="28">coord = mri_get_cmass('/projects2/udall/pboord/pic/preproc/nogmwm/RC4101-1_rest_150.nii')</command>
+<command execution_time="8">[coord 1]'</command>
+<command error="true" execution_time="72">afniMat*[coord 1]'</command>
+<command execution_time="13">[coord 1]</command>
+<command execution_time="21">afniMat=[2.999728,-0.040382,0.000126,-115.6412;-0.038908,-2.887699,0.812203,77.62011;0.010811,0.812136,2.887943,-60.70567;0 0 0 1]</command>
+<command execution_time="15">afniMat*[coord 1]'</command>
+<command execution_time="16">afni_0000=[0.999992    -0.0029414   -0.00252542     -0.130108;    0.00292816      0.999982   -0.00523036      0.444078;    0.00254076    0.00522293      0.999983      0.247391;0 0 0 1]</command>
+<command execution_time="9">afni_0000*[coord 1]'</command>
+<command execution_time="21">afni_0000*afniMat*[coord 1]'</command>
+<command execution_time="10">cm=[coord 1]'</command>
+<command execution_time="13">cm_mm=afniMat*cm</command>
+<command execution_time="12">cm_vox = cm</command>
+<command execution_time="12">afni_vox2mm=afniMat</command>
+<command execution_time="12">afni_vox2mm*cm_vox</command>
+<command execution_time="14">afni_0000*afni_vox2mm*cm_vox</command>
+<command execution_time="12">round(cm_vox)</command>
+<command execution_time="12">afni_0000*afni_vox2mm*round(cm_vox)</command>
+<command execution_time="11">afni_vox2mm*cm_vox</command>
+<command error="true" execution_time="56">afni_vox2mm*roun(cm_vox)</command>
+<command execution_time="16">afni_vox2mm*round(cm_vox)</command>
+<command execution_time="17">afni_0000*round(cm_vox)</command>
+<command execution_time="12">rotMat=[1 1 1 0;1 1 1 0;1 1 1 0;0 0 0 1]</command>
+<command execution_time="11">rot_afni_0000=rotMat.*afni_0000</command>
+<command execution_time="11">rot_afni_0000*cm_mm</command>
+<command execution_time="15">cm_mm</command>
+<command execution_time="11">rot_afni_0000*cm_vox</command>
+<command execution_time="11">cm_vox</command>
+<command execution_time="11">rot_afni_0000*round(cm_vox)</command>
+<command execution_time="14">round(cm_vox)</command>
+<command execution_time="16">afni_0000=[0.999993   -0.00274105   -0.00253445     -0.127588;    0.00272535      0.999977   -0.00617706      0.423903;    0.00255132    0.00617011      0.999978       0.21207;0 0 0 1]</command>
+<command execution_time="18">rot_afni_0000=rotMat.*afni_0000</command>
+<command execution_time="15">rot_afni_0000*cm_mm</command>
+<command execution_time="11">cm_mm</command>
+<command execution_time="15">rot_afni_0000*cm_vox</command>
+<command execution_time="11">cm_vox</command>
+<command execution_time="14">afniMat=[2.999728,-0.040382,0.000126,-115.6412;-0.038908,-2.887699,0.812203,77.62011;0.010811,0.812136,2.887943,-60.70567;0 0 0 1]</command>
+<command execution_time="14">afniMat*cm_vox</command>
+<command execution_time="11">afniMat*round(cm_vox)</command>
+<command execution_time="15">rot_afni_0000*afniMat*round(cm_vox)</command>
+<command execution_time="17">afniMat*(cm_vox+1)</command>
+<command execution_time="8">afniMat*(cm_vox+[1;1;1;0])</command>
+<command execution_time="10">rot_afni_0000*afniMat*(cm_vox+[1;1;1;0])</command>
+<command execution_time="6">rot_afni_0000*afniMat*(cm_vox)</command>
+<command execution_time="16">rotMat*afni_0000*afniMat*(cm_vox)</command>
+<command execution_time="9">rotMat</command>
+<command execution_time="10">(rotMat.*afni_0000)*afniMat*(cm_vox)</command>
+<command execution_time="10">afniMat*(cm_vox)</command>
+<command execution_time="34">coord = mri_get_cmass('/projects2/udall/pboord/pic/preproc/nogmwm/RC4101-1_rest_150.nii')</command>
+<command error="true" execution_time="43">com</command>
+<command error="true" execution_time="36">cog</command>
+<command execution_time="34">cog = mri_get_cmass('/projects2/udall/pboord/pic/preproc/nogmwm/RC4101-1_rest_149.nii')</command>
+<command execution_time="12">afniMat</command>
+<command execution_time="18">afniMat*[cog 1]'</command>
+<command execution_time="15">afni_0000=[0.999993   -0.00274105   -0.00253445     -0.127588;    0.00272535      0.999977   -0.00617706      0.423903;    0.00255132    0.00617011      0.999978       0.21207;0 0 0 1]</command>
+<command execution_time="8">afni_0000*afniMat*[cog 1]'</command>
+<command execution_time="13">afni_0000*afniMat*[2.859 -40.880 2.294 1]'</command>
+<command execution_time="16">afni_0000*[2.859 -40.880 2.294 1]'</command>
+<command execution_time="7">afni_0000*[-2.859 40.880 -2.294 1]'</command>
+<command execution_time="23">(rotMat.*afni_0000)*[2.859 -40.880 2.294 1]'</command>
+<command error="true" execution_time="13">load(fsl_0000.mat)</command>
+<command error="true" execution_time="40">load('fsl_0000.mat')</command>
+<command execution_time="10">load('fsl_0000.mat','-ascii')</command>
+<command execution_time="11">fsl_0000</command>
+<command execution_time="17">(rotMat.*fsl_0000)*[-0.28 61.7 27.03 1]'</command>
+<command execution_time="7">(rotMat.*fsl_0000)*[-0.284984 6.172222 27.034572  1]'</command>
+<command execution_time="14">a=[-0.00464935  -0.0018951  -0.00226945  0.0416908  0.395031  -0.0908856]</command>
+<command execution_time="13">t=a(4:6)</command>
+<command execution_time="14">r=a(1:3)</command>
+<command execution_time="106">M=makeFslXfmMatrix(t,r,[1,1,1],'fsl_0000.mat')</command>
+<command execution_time="23">(rotMat.*M)*[-0.284984 6.172222 27.034572  1]'</command>
+<command execution_time="27">(rotMat.*M)*[-0.285045 6.169118 26.998392  1]'</command>
+<command execution_time="15">(rotMat.*afni_0000)*[2.858849 -40.87989 2.293932 1]'</command>
+<command execution_time="11">afni_0000=[0.999993   -0.00274105   -0.00253445     -0.127588;    0.00272535      0.999977   -0.00617706      0.423903;    0.00255132    0.00617011      0.999978       0.21207;0 0 0 1]</command>
+<command execution_time="11">(rotMat.*afni_0000)*[2.858849 -40.87989 2.293932 1]'</command>
+<command execution_time="17">afni_0000=[0.999993 0.002725 0.002551 0.020311; -0.002741 0.999977 0.00617 -0.418304; -0.002534 -0.006177 0.999978 0.035451;0 0 0 1]</command>
+<command execution_time="13">(rotMat.*afni_0000)*[2.858849 -40.87989 2.293932 1]'</command>
+<command execution_time="429">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c5c2d9b28">%-- 03/27/2015 10:00:35 AM --%</command>
+<command execution_time="153">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c5c8fddca">%-- 03/27/2015 11:47:55 AM --%</command>
+</session>
+<session>
+<command time_stamp="14c5c92462c">%-- 03/27/2015 11:50:32 AM --%</command>
+</session>
+<session>
+<command time_stamp="14c5d3694ee">%-- 03/27/2015 02:50:00 PM --%</command>
+</session>
+<session>
+<command time_stamp="14c70d8b1d0">%-- 03/31/2015 10:19:52 AM --%</command>
+</session>
+<session>
+<command time_stamp="14c776fc579">%-- 04/01/2015 05:02:36 PM --%</command>
+<command error="true" execution_time="695">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c7773df38">%-- 04/01/2015 05:07:05 PM --%</command>
+<command execution_time="311">deploytool</command>
+<command execution_time="39">load('impulse_responses.mat')</command>
+</session>
+<session>
+<command time_stamp="14c7970c8d5">%-- 04/02/2015 02:22:57 AM --%</command>
+<command execution_time="17">getenv('MATLAB_AFNI_DIR')</command>
+<command execution_time="9">getenv('PESTICA_DIR')</command>
+<command error="true" execution_time="292">load physio_fitted.mat</command>
+<command execution_time="41">load impulse_responses.mat</command>
+<command execution_time="13">getenv('PESTICA_SLICE_TIMING')</command>
+<command error="true" execution_time="273">reference</command>
+<command error="true" execution_time="55">testing</command>
+<command execution_time="153">deploytool</command>
+<command execution_time="47">cardphase=textread('cardphase_pestica.dat');</command>
+<command execution_time="39">respphase=textread('respphase_pestica.dat');</command>
+<command error="true" execution_time="75">matlab_retroicor('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command execution_time="25">addpath '/project_space/pboord/MATLAB/pestica_afni_v2/matlab_retroicor'</command>
+<command execution_time="5330">matlab_retroicor('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command error="true" execution_time="115">cph_slice=disassemble_timeseries_to_slices(cardph,zdim,tdim,TR,TE,slice_timing);</command>
+<command execution_time="10">TE=35;</command>
+<command execution_time="142">cph_slice=disassemble_timeseries_to_slices(cardph,zdim,tdim,TR,TE,slice_timing);</command>
+<command execution_time="20">cph_slice35=disassemble_timeseries_to_slices(cardph,zdim,tdim,TR,35,slice_timing);</command>
+<command execution_time="12">cph_slice25=disassemble_timeseries_to_slices(cardph,zdim,tdim,TR,25,slice_timing);</command>
+<command execution_time="6073">figure,plot(cph_slice35)</command>
+<command execution_time="73">figure,plot(cph_slice35(:))</command>
+<command execution_time="67">figure,plot(cph_slice35(:)-cph_slice25(:))</command>
+<command execution_time="9">cph_slice35(9394)</command>
+<command execution_time="9">cph_slice25(9394)</command>
+<command execution_time="56">figure,plot(cph_slice35(1,:))</command>
+<command execution_time="12">rph_slice=disassemble_timeseries_to_slices(respph,zdim,tdim,TR,TE,slice_timing);</command>
+<command execution_time="56">figure,plot(rph_slice(1,:))</command>
+<command execution_time="454">tmp</command>
+<command execution_time="2081">matlab_retroicor('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command execution_time="11">Avec=A(:);</command>
+<command execution_time="1879" repeat="3">matlab_retroicor('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command execution_time="29">sin((1:M)'*cph_slice(z,:));</command>
+<command execution_time="7">[sin((1:M)'*cph_slice(z,:))' cos((1:M)'*cph_slice(z,:))' sin((1:M)'*rph_slice(z,:))' cos((1:M)'*rph_slice(z,:))'];</command>
+<command execution_time="9">sin((1:M)'*cph_slice(z,:));</command>
+<command execution_time="11">[sin((1:M)'*cph_slice(z,:))' cos((1:M)'*cph_slice(z,:))' sin((1:M)'*rph_slice(z,:))' cos((1:M)'*rph_slice(z,:))'];</command>
+<command execution_time="9">[sin((1:M)'*cph_slice(z,:))' cos((1:M)'*cph_slice(z,:))' sin((1:M)'*rph_slice(z,:))' cos((1:M)'*rph_slice(z,:))']';</command>
+<command execution_time="27">A=zeros(4*M,zdim,tdim);</command>
+<command execution_time="10">A(:,z,:)=[sin((1:M)'*cph_slice(z,:))' cos((1:M)'*cph_slice(z,:))' sin((1:M)'*rph_slice(z,:))' cos((1:M)'*rph_slice(z,:))']';</command>
+<command batch="3">A=zeros(4*M,zdim,tdim);</command>
+<command batch="3">for z=1:zdim</command>
+<command batch="3">A(:,z,:)=[sin((1:M)'*cph_slice(z,:))' cos((1:M)'*cph_slice(z,:))' sin((1:M)'*rph_slice(z,:))' cos((1:M)'*rph_slice(z,:))']';</command>
+<command batch="3" execution_time="46">end</command>
+<command error="true" execution_time="39">save('oba.slibase.1D',A,'-ascii');</command>
+<command execution_time="99">save('oba.slibase.1D','A','-ascii');</command>
+<command execution_time="7">43*300</command>
+<command error="true" execution_time="107">figure,plot(card - cph_slice(:))</command>
+<command execution_time="67">figure,plot(card(:) - cph_slice(:))</command>
+<command execution_time="58">figure,plot(resp(:) - rph_slice(:))</command>
+<command execution_time="18">cph_slice=disassemble_timeseries_to_slices(cardph,zdim,tdim,TR,TE,slice_timing);</command>
+<command execution_time="21">cph_slice=disassemble_timeseries_to_slices(cardph,zdim,tdim,TR,TE,'alt-asc');</command>
+<command execution_time="56">figure,plot(card(:) - cph_slice(:))</command>
+<command execution_time="11">cph_slice=disassemble_timeseries_to_slices(cardph,zdim,tdim,TR,TE,slice_timing);</command>
+<command error="true" execution_time="33">sin((1:M)'*card(:));</command>
+<command execution_time="13">sin((1:M)'*card(:)');</command>
+<command execution_time="9">(1:M)'</command>
+<command execution_time="8">card(:)';</command>
+<command execution_time="10">1:M;</command>
+<command execution_time="12">card(:)*(1:M);</command>
+<command error="true" execution_time="9">A=[sin(cph_slice*(1:M)) cos(cph_slice*(1:M)) sin(rph_slice*(1:M)) cos(rph_slice*(1:M))];</command>
+<command execution_time="13">A=[sin(cph_slice(:)*(1:M)) cos(cph_slice(:)*(1:M)) sin(rph_slice(:)*(1:M)) cos(rph_slice(:)*(1:M))];</command>
+<command execution_time="106">save('oba.slibase.1D','A','-ascii');</command>
+<command execution_time="1844">matlab_retroicor('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command error="true" execution_time="84">phaseToRetroicor2('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command execution_time="35">addpath '/project_space/pboord/usr/bin/matlab'</command>
+<command execution_time="2003" repeat="2">phaseToRetroicor2('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command error="true" execution_time="100">[sin((1:M)'*cph_slice(z,:))' cos((1:M)'*cph_slice(z,:))' sin((1:M)'*rph_slice(z,:))' cos((1:M)'*rph_slice(z,:))'];</command>
+<command execution_time="14">z=1</command>
+<command execution_time="8">[sin((1:M)'*cph_slice(z,:))' cos((1:M)'*cph_slice(z,:))' sin((1:M)'*rph_slice(z,:))' cos((1:M)'*rph_slice(z,:))'];</command>
+<command execution_time="9">[sin((1:M)'*cph_slice(z,:))' cos((1:M)'*cph_slice(z,:))' sin((1:M)'*rph_slice(z,:))' cos((1:M)'*rph_slice(z,:))']';</command>
+<command execution_time="1777">phaseToRetroicor2('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command execution_time="5">reshape(A,[],tdim);</command>
+<command execution_time="5">reshape(A,[],tdim)';</command>
+<command execution_time="1723">phaseToRetroicor2('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command execution_time="1691">phaseToRetroicor('rest_brain_reg+orig',cardphase,respphase,2,'seq-asc','rest_brain_reg.brain+orig')</command>
+<command execution_time="23" repeat="8">deploytool</command>
+<command execution_time="18">path</command>
+</session>
+<session>
+<command time_stamp="14c7daa8e6e">%-- 04/02/2015 10:04:32 PM --%</command>
+<command execution_time="316">deploytool</command>
+</session>
+<session>
+<command time_stamp="14c7ddc42ad">%-- 04/02/2015 10:58:49 PM --%</command>
+<command execution_time="59">path</command>
+<command error="true" execution_time="65">which</command>
+<command execution_time="62">which startup.m</command>
+<command execution_time="27">which startup</command>
+<command execution_time="25">userpath</command>
+<command execution_time="92">ls /mnt/home/pboord/Documents/MATLAB</command>
+<command execution_time="25">ls /mnt/home/pboord/matlab</command>
+<command execution_time="35">path</command>
+<command execution_time="175">deploytool</command>
+<command error="true" execution_time="403">BrikLoad</command>
+</session>
+</history>

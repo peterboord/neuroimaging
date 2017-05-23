@@ -1,0 +1,99 @@
+#!/bin/bash
+nasDir=/project_space/pboord/act/rest
+scratchDir=/mnt/pboord_5TB/pic/act
+antsDir=/projects2/act-plus/Standard
+subjPattern=109???
+metrics=("pic" "fc")
+preSteps=("raw" "despike" "ricor" "tshift" "volreg" "regress")
+cwd=$(pwd)
+cd $(echo $subjPattern|cut -d' ' -f 1)/${preSteps[0]}/${metrics[0]}
+seeds=($(ls -d *))
+cd $cwd
+nrRand=100
+p=0.001
+posThrIdx=$(echo "($(echo "(1-${p})*(${nrRand}-1)"|bc)+0.5)/1"|bc)
+negThrIdx=$(echo "($(echo "${p}*(${nrRand}-1)"|bc)+0.5)/1"|bc)
+thrPercent=99.999
+negThrPercent=0.001
+nrSubj=$(ls -d $subjPattern|wc -l)
+for seed in ${seeds[@]}; do
+    for preStep in ${preSteps[@]}; do
+	for metric in ${metrics[@]}; do
+		if [ $nrSubj != $(ls $subjPattern/$preStep/$metric/$seed/0.nii.gz|wc -l) ];then
+			echo "$preStep/$metric/$seed nrSubj != $nrSubj"
+			exit
+		fi
+#		for session in $(ls -d $subjPattern); do
+#			echo "$session/$preStep/$metric/$seed"
+#			cd $cwd/$session/$preStep/$metric/$seed
+#			fslmerge -t 0_rand $(ls [1-9]*.nii.gz)
+#			gzip -d 0_rand.nii.gz
+#			3dTsort -overwrite -prefix 0_rand 0_rand.nii
+#			3dAFNItoNIFTI 0_rand+orig
+#			gzip 0_rand.nii
+#			\rm -f 0_rand+orig.*
+#			# pos tail. Output: 0_posThr_${p}_to_MNI.nii.gz
+#			fslroi 0_rand 0_rand_posThr $posThrIdx 1
+#			fslmaths 0.nii.gz -sub 0_rand_posThr -thr 0 -bin -mul 0.nii.gz 0_posThr_${p}
+#			${ANTSPATH}WarpImageMultiTransform 3 0_posThr_${p}.nii.gz 0_posThr_${p}_to_MNI.nii.gz -R $MNI1mm \
+#			$antsDir/CT_to_mni_Warp.nii.gz $antsDir/CT_to_mni_Affine.txt $nasDir/$session/xfm_dir/T1_to_CT_Warp.nii.gz \
+#			$nasDir/$session/xfm_dir/T1_to_CT_Affine.txt $nasDir/$session/mean_func_to_T1_ras.txt
+#			# neg tail
+#			fslroi 0_rand 0_rand_negThr $negThrIdx 1
+#			fslmaths 0.nii.gz -sub 0_rand_negThr -mul -1 -thr 0 -bin -mul 0.nii.gz -mas $nasDir/$session/mask \
+#			0_negThr_${p}
+#			${ANTSPATH}WarpImageMultiTransform 3 0_negThr_${p}.nii.gz 0_negThr_${p}_to_MNI.nii.gz -R $MNI1mm \
+#			$antsDir/CT_to_mni_Warp.nii.gz $antsDir/CT_to_mni_Affine.txt $nasDir/$session/xfm_dir/T1_to_CT_Warp.nii.gz \
+#			$nasDir/$session/xfm_dir/T1_to_CT_Affine.txt $nasDir/$session/mean_func_to_T1_ras.txt
+#			\rm -f 0_rand.nii* 0_posThr_${p}.nii.gz 0_negThr_${p}.nii.gz
+#		done
+		cd $cwd
+		# pos tail
+		fslmerge -t ${preStep}_${metric}_${seed}_posThr $(ls $cwd/$subjPattern/$preStep/$metric/$seed/0_posThr_${p}_to_MNI.nii.gz)
+		fslmaths ${preStep}_${metric}_${seed}_posThr -bin -Tmean -mul $nrSubj ${preStep}_${metric}_${seed}_posThr_binSum
+		# neg tail
+#		fslmerge -t ${preStep}_${metric}_${seed}_neg $(ls $cwd/$subjPattern/$preStep/${metric}/${seed}/0_negThr_${p}_mni.nii*)
+#		fslmerge -t ${preStep}_${metric}_${seed}_negThr_stat_bin $(ls $cwd/$subjPattern/$preStep/${metric}/${seed}/0_negThr_${p}_mni_bin.nii*)
+#		fslmaths ${preStep}_${metric}_${seed}_negThr_stat_bin -Tmean -mul $nrSubj ${preStep}_${metric}_${seed}_negThr_stat
+	done
+	# Conjunction of FC>neg thresh & FC<pos thresh & PIC>thresh
+#	fslmaths ${preStep}_fc_${seed}_posThr_stat_bin -add ${preStep}_fc_${seed}_negThr_stat_bin -bin -mul -1 -add ${preStep}_pic_${seed}_posThr_stat_bin -bin ${preStep}_pic_no_fc_${seed}_stat_bin
+#	fslmaths ${preStep}_pic_no_fc_${seed}_stat_bin -Tmean -mul $nrSubj ${preStep}_pic_no_fc_${seed}_stat
+    done
+done
+exit
+
+if [ $seed == picFcCorr ]; then
+	cd $cwd
+	if [ $nrSubj != $(ls $subjPattern/$preStep/$seed/0.nii.gz|wc -l) ];then echo "nrSubj != $nrSubj";exit;fi
+	for session in $(ls -d $subjPattern); do
+		echo $seed
+		echo $session
+		cd $cwd/$session/$preStep/$seed
+		flirt -in 0.nii -ref $MNI2mm -applyxfm -init $cwd/$session/func_to_mni.mat -out 0_mni
+		fslmerge -t 0_rand.nii $(ls [1-9]*.nii)
+		3dTsort -overwrite -prefix 0_rand 0_rand.nii
+		3dAFNItoNIFTI 0_rand+orig
+		\rm -f 0_rand+orig.*
+		# pos tail
+		fslroi 0_rand.nii 0_rand_posThr.nii $posThrIdx 1
+		fslmaths 0.nii -sub 0_rand_posThr.nii -thr 0 -bin -mul 0.nii 0_posThr_${p}
+		flirt -in 0_posThr_${p} -ref $MNI2mm -applyxfm -init $cwd/$session/func_to_mni.mat -interp nearestneighbour -out 0_posThr_${p}_mni
+		fslmaths 0_posThr_${p}_mni -bin 0_posThr_${p}_mni_bin
+		# neg tail
+		fslroi 0_rand.nii 0_rand_negThr.nii $negThrIdx 1
+		\rm -f 0_rand.nii
+		fslmaths 0.nii -sub 0_rand_negThr.nii -mul -1 -thr 0 -bin -mul 0.nii -mas $cwd/$session/mask.nii 0_negThr_${p}
+		flirt -in 0_negThr_${p} -ref $MNI2mm -applyxfm -init $cwd/$session/func_to_mni.mat -interp nearestneighbour -out 0_negThr_${p}_mni
+		fslmaths 0_negThr_${p}_mni -mul -1 -bin 0_negThr_${p}_mni_bin
+	done
+	cd $cwd
+	# pos tail
+	fslmerge -t ${preStep}_${seed}_pos $(ls $cwd/$subjPattern/$preStep/${seed}/0_posThr_${p}_mni.nii)
+	fslmerge -t ${preStep}_${seed}_posThr_stat $(ls $cwd/$subjPattern/$preStep/${seed}/0_posThr_${p}_mni_bin.nii)
+	fslmaths ${preStep}_${seed}_posThr_stat -Tmean -mul $nrSubj ${preStep}_${seed}_posThr_stat
+	# neg tail
+	fslmerge -t ${preStep}_${seed}_neg $(ls $cwd/$subjPattern/$preStep/${seed}/0_negThr_${p}_mni.nii)
+	fslmerge -t ${preStep}_${seed}_negThr_stat $(ls $cwd/$subjPattern/$preStep/${seed}/0_negThr_${p}_mni_bin.nii)
+	fslmaths ${preStep}_${seed}_negThr_stat -Tmean -mul $nrSubj ${preStep}_${seed}_negThr_stat
+

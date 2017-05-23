@@ -1,0 +1,57 @@
+#!/bin/bash
+if [ "x$1" = "x" ]; then
+	echo 'collateResults - collect single values across directories into a table'
+	echo 'Usage:'
+	echo $0 'collateResults pathOut [header] -b file1prefix "file1dirs" [-b file2prefix "file2dirs"] ...'
+	echo 'inputs:'
+	echo 'pathOut = output file'
+	echo 'header = print column header'
+	echo 'file1prefix = filename prefix preceeding {index}.txt'
+	echo 'file1dirs = list of directories for file1'
+	echo '* list lengths MUST BE EQUAL'
+	echo '* number of files in each directory MUST BE EQUAL'
+	echo '* ALL FILES MUST END IN .txt'
+	echo '* fileDirs MUST BE IN QUOTES'
+else
+	pathOut=$1
+	echo -n "" > $pathOut
+	shift
+	if [ $1 == header ]; then
+		header=1
+		shift
+	else
+		header=0
+	fi
+	while (( $# )); do
+		if [ $1 == -b ]; then
+			filePrefix=$2
+			shift 2
+		fi
+		if [ -z $filePrefix ]; then
+			echo 'empty filePrefix'
+			exit
+		else
+			declare -a fileDirs=($1)
+			nrDirs=${#fileDirs[@]}
+			declare -a fileNames=($((ls ${fileDirs[1]}/${filePrefix}*.txt)|sed 's|'${fileDirs[1]}'/||'g))
+			nrFiles=${#fileNames[@]}
+			for fileNr in $(seq 0 $(($nrFiles-1))); do
+				if (( header )); then
+					echo -n $(basename ${fileNames[$fileNr]} .txt) >> $pathOut
+				fi
+				for dirNr in $(seq 0 $(($nrDirs-1))); do
+					echo -n \ >> $pathOut
+					echo -n $(cat ${fileDirs[$dirNr]}/${fileNames[$fileNr]}) >> $pathOut
+				done
+				echo >> $pathOut
+			done
+			shift
+		fi
+	done
+	cat ${pathOut}|transpose|sed 's/ /,/g'>${pathOut}_transpose
+	mv ${pathOut}_transpose ${pathOut}
+fi
+
+# EXAMPLES
+#  2106  collateResults clusters1-18.csv -b c2z2c '/projects2/udall/standardFC/RC4???/cluster2.gfeat/cope1.feat/stats' -b c4z2c '/projects2/udall/standardFC/RC4???/cluster4.gfeat/cope1.feat/stats' -b c2z2c1z1c '/projects2/udall/standardFC/RC4???/cluster2fc1.gfeat/cope1.feat/stats' -b c2z2c1z2c '/projects2/udall/standardFC/RC4???/cluster2fc1.gfeat/cope1.feat/stats' -b c4z2c1z1c '/projects2/udall/standardFC/RC4???/cluster4fc1.gfeat/cope1.feat/stats' -b c2z2c2z2c '/projects2/udall/standardFC/RC4???/cluster2fc2.gfeat/cope1.feat/stats'
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+echo $(dirname $1)
+echo $(basename $1)
+#${ANTSPATH}antsIntroduction.sh  -d 3 -i T1_brain.nii.gz -m 30x90x20 -o T1_to_MNI_ -s CC -r /usr/share/fsl/5.0/data/standard/MNI152_T1_1mm_brain.nii.gz -t GR

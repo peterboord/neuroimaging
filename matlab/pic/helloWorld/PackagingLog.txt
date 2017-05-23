@@ -1,0 +1,25 @@
+ant:
+<ant>
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/pic/helloWorld/for_redistribution" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/pic/helloWorld/for_testing" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/pic/helloWorld/for_redistribution_files_only" />
+</ant>
+mcc -R -nojvm -R -nodisplay -o helloWorld -W WinMain:helloWorld -T link:exe -d /project_space/pboord/usr/bin/matlab/pic/helloWorld/for_testing -v /project_space/pboord/usr/bin/matlab/pic/helloWorld.m 
+process 24438: arguments to dbus_move_error() were incorrect, assertion "(dest) == NULL || !dbus_error_is_set ((dest))" failed in file ../../dbus/dbus-errors.c line 282.
+This is normally a bug in some application using the D-Bus library.
+libhal.c 3483 : Error unsubscribing to signals, error=The name org.freedesktop.Hal was not provided by any .service files
+Warning: You have specified '-R -nojvm', which may restrict or eliminate MATLAB graphics functionality at runtime.
+Compiler version: 5.2 (R2014b)
+Dependency analysis by REQUIREMENTS.
+[Warning: Adding path "/project_space/pboord/usr/bin/matlab/pic" to Compiler
+path instance.] 
+Parsing file "/project_space/pboord/usr/bin/matlab/pic/helloWorld.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 1 temporary MEX authorization files.
+Removing: '/tmp/05f76sgOMnI_24438.auth'.
+Generating file "/project_space/pboord/usr/bin/matlab/pic/helloWorld/for_testing/readme.txt".
+Generating file "/project_space/pboord/usr/bin/matlab/pic/helloWorld/for_testing/run_helloWorld.sh".
+Packaging...
+Creating the bundle...
+Web based installer created at /project_space/pboord/usr/bin/matlab/pic/helloWorld/for_redistribution/MyAppInstaller_web.install.
+Packaging complete.

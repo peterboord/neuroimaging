@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo $@
+
+awk '{for (j=1;j<=NF;j++) a[j,FNR]+=$j;b[FNR]=$1;c[FNR]=$0}END{print c[1];for(i=2;i<=FNR;i++) {printf "%s ",b[i];for(j=2;j<=NF;j++) printf "%s ",a[j,i]/2; printf "\n";}}' $@

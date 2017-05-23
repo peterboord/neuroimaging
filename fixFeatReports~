@@ -1,0 +1,3 @@
+#!/bin/bash
+# fix report
+echo $(pwd) 

@@ -1,0 +1,5 @@
+i=$(ls -d RC4101-1/fc_cope10z?c?z?c?*);for j in $i; do echo $j ${j:0:22}_${j:22};done
+i=$(ls fc_cope10z?c?z?c?*);for j in $i; do k=$(echo $j|sed 's/.fsf//');m=${k:0:13}_${k:13};sed -i "s/${k}/${m}/g" $j;mv $j ${m}.fsf;done
+i=$(ls RC4???-?_fc_cope10z?c?_z?c?*);for j in $i; do k=$(echo $j|sed 's/.fsf//');m=${k:9};n=${m:0:13}${m:14};sed -i "s/${n}/${m}/g" $j;done
+i=$(ls RC4???_fc_cope10z?c?z?c?*);for j in $i; do k=$(echo $j|sed 's/.fsf//');m=${k:7};n=${m:0:13}_${m:13};p=$(echo $j|sed "s/${m}/${n}/");sed -i "s/${m}/${n}/g" $j;mv $j $p;done
+

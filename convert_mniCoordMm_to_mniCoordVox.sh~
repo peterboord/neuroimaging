@@ -1,0 +1,7 @@
+#SFLRCM
+for x in $(ls mni*[SFLRCMl]);do 
+cmd="fslmaths $MNI1mm -mul 0 -add 1 -roi $(echo $(echo $(cat $x) | std2imgcoord -img $MNI1mm -std $MNI1mm -vox -)|sed 's/ / 1 /g') 1 0 1 -bin $(echo $x|sed 's/mniCoordMm/mniCoordVox/')"
+echo $cmd
+eval $cmd
+done
+

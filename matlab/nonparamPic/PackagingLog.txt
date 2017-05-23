@@ -1,0 +1,21 @@
+ant:
+<ant>
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/nonparamPic/for_redistribution" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/nonparamPic/for_testing" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/nonparamPic/for_redistribution_files_only" />
+</ant>
+mcc -C -R -nodisplay -R -nosplash -o nonparamPic -W WinMain:nonparamPic -T link:exe -d /project_space/pboord/usr/bin/matlab/nonparamPic/for_testing -C -v /project_space/pboord/usr/bin/matlab/nonparamPic.m -a /project_space/pboord/MATLAB/corrColumns.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_fileexists.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_ldbhdr.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_ldbslice.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_mri_struct.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_svbhdr.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_svbslice.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_bfiledim.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_bvoldim.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_hdrdatstruct.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_ldbfile.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_lddat2.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_lddat3.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_svbfile.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_analyze.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_analyze_hdr.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_mgh.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_nifti.m -a /project_space/pboord/MATLAB/freesurfer_matlab/load_nifti_hdr.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/mar.m -a /project_space/pboord/MATLAB/freesurfer_matlab/MRIfspec.m -a /project_space/pboord/MATLAB/freesurfer_matlab/MRIread.m -a /project_space/pboord/usr/bin/MRIsave.m -a /project_space/pboord/MATLAB/freesurfer_matlab/MRIwrite.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/qoe.m -a /usr/local/freesurfer/stable5_3/fsfast/toolbox/reshape1d.m -a /project_space/pboord/MATLAB/freesurfer_matlab/save_mgh.m -a /project_space/pboord/MATLAB/freesurfer_matlab/save_nifti.m -a /project_space/pboord/MATLAB/freesurfer_matlab/strlen.m -a /project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_0to1.m -a /project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_1to0.m -a /project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_tkreg.m -a /project_space/pboord/MATLAB/freesurfer_matlab/vox2rasToQform.m 
+Compiler version: 5.2 (R2014b)
+Dependency analysis by REQUIREMENTS.
+[Warning: Adding path "/project_space/pboord/usr/bin/matlab" to Compiler path
+instance.] 
+Parsing file "/project_space/pboord/usr/bin/matlab/nonparamPic.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 1 temporary MEX authorization files.
+Removing: '/tmp/05d47jNCKFn_23879.auth'.
+Generating file "/project_space/pboord/usr/bin/matlab/nonparamPic/for_testing/readme.txt".
+Generating file "/project_space/pboord/usr/bin/matlab/nonparamPic/for_testing/run_nonparamPic.sh".
+Packaging...
+Creating the bundle...
+Web based installer created at /project_space/pboord/usr/bin/matlab/nonparamPic/for_redistribution/MyAppInstaller_web.install.
+Packaging complete.

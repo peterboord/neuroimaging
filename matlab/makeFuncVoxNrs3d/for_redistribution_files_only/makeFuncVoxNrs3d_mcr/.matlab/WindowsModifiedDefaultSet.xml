@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CustomKeySet derivedfrom="Windows" modifieddefault="true">
+   <Context id="Global">
+      <Action id="caret-begin-line">
+         <Stroke code="VK_HOME"/>
+         <Stroke code="VK_B" ctrl="on"/>
+      </Action>
+      <Action id="shift-tab-pressed"/>
+   </Context>
+   <Context id="MATLABEditor"/>
+   <Context id="CommandWindow">
+      <Action id="caret-backward"/>
+   </Context>
+</CustomKeySet>

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ "x$1" = "x" ]; then
+	echo 'ls --color=auto'>>~/.bashrc
+	#xfce4-terminal --maximize --working-directory=$1 --title=$(basename $1) --command="/project_space/pboord/usr/bin/bashCmd ls --color=auto"
+	xfce4-terminal --maximize --title=$(basename $(pwd))
+else
+	xfce4-terminal --maximize --working-directory=$1 --title=$(basename $1)
+fi

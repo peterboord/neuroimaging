@@ -1,0 +1,276 @@
+#!/bin/bash
+# constants
+session=Boord3
+TR=2
+funcFile="WIP_30min_fMRI_ascending_SENSE-d0900.nii"
+nrSlices=
+sliceOrder=
+ANTSdir=
+# directories
+funcDir="/mnt/pboord_5TB/EEG-fMRI/data/Boord3/MRI/WIP_30min_fMRI_ascending_SENSE"
+SUBJECTS_DIR="/mnt/pboord_5TB/EEG-fMRI/data/Boord3/MRI/WIP_MPRAGE_S2_SENSE/freesurfer"
+subject="boord"
+fsMriDir="$SUBJECTS_DIR/$subject/mri"
+matlabDir="/project_space/pboord/MATLAB"
+if [ 0 == 1 ]; then
+# T1.nii.gz
+mri_vol2vol --mov $fsMriDir/T1.mgz --targ $fsMriDir/rawavg.mgz --regheader --o T1.nii.gz --no-save-reg
+fslreorient2std T1 T1
+# white
+mri_surf2vol --mkmask --hemi lh --surf white --fillribbon --identity $subject --subject $subject --o lh.white.mgz \
+--template $fsMriDir/T1.mgz
+mri_surf2vol --mkmask --hemi rh --surf white --fillribbon --identity $subject --subject $subject --o rh.white.mgz \
+--template $fsMriDir/T1.mgz
+mri_binarize --i lh.white.mgz --o cortRibbon.mgz --match 1 --merge rh.white.mgz
+mri_vol2vol --mov cortRibbon.mgz --targ $fsMriDir/rawavg.mgz --regheader --o white.nii.gz --no-save-reg
+fslreorient2std white white
+# pial
+mri_surf2vol --mkmask --hemi lh --surf pial --identity $subject --subject $subject --o lh.pial.mgz \
+--template $fsMriDir/T1.mgz
+mri_surf2vol --mkmask --hemi rh --surf pial --identity $subject --subject $subject --o rh.pial.mgz \
+--template $fsMriDir/T1.mgz
+mri_binarize --i lh.pial.mgz --o cortRibbon.mgz --match 1 --merge rh.pial.mgz
+mri_vol2vol --mov cortRibbon.mgz --targ $fsMriDir/rawavg.mgz --regheader --o pial.nii.gz --no-save-reg
+fslreorient2std pial pial
+# midCort
+mri_surf2vol --mkmask --hemi lh --surf white --projfrac 0.5 --identity $subject --subject $subject --o lh.white.mgz \
+--template $fsMriDir/T1.mgz
+mri_surf2vol --mkmask --hemi rh --surf white --projfrac 0.5 --identity $subject --subject $subject --o rh.white.mgz \
+--template $fsMriDir/T1.mgz
+mri_binarize --i lh.white.mgz --o cortRibbon.mgz --match 1 --merge rh.white.mgz
+mri_vol2vol --mov cortRibbon.mgz --targ $fsMriDir/rawavg.mgz --regheader --o white.nii.gz --no-save-reg
+fslreorient2std white white
+
+# T1_brain.nii.gz
+mri_vol2vol --mov $fsMriDir/brain.mgz --targ $fsMriDir/rawavg.mgz --regheader --o T1_brain.mgz --no-save-reg
+mri_convert T1_brain.mgz T1_brain.nii.gz
+fslreorient2std T1_brain T1_brain
+# T1_brain_wmseg.nii.gz
+mri_label2vol --seg $fsMriDir/aparc+aseg.mgz --temp $fsMriDir/rawavg.mgz --o aparc+aseg_in_T1.mgz --regheader $fsMriDir/aparc+aseg.mgz
+mri_convert aparc+aseg_in_T1.mgz aparc+aseg_in_T1.nii.gz
+fslreorient2std aparc+aseg_in_T1.nii.gz aparc+aseg_in_T1.nii.gz
+mri_binarize --i aparc+aseg_in_T1.nii.gz --match 2 41 --o T1_brain_wmseg.nii.gz
+# aseg
+mri_label2vol --seg $fsMriDir/aseg.mgz --temp $fsMriDir/rawavg.mgz --o aseg_in_T1.mgz --regheader $fsMriDir/aseg.mgz
+mri_convert aseg_in_T1.mgz aseg_in_T1.nii.gz
+fslreorient2std aseg_in_T1 aseg_in_T1
+##
+fslreorient2std $funcFile rest.nii
+3drefit -TR $TR rest.nii
+afni_proc.py -subj_id ${session}                          \
+                  -blocks despike tshift volreg mask \
+                  -dsets rest.nii          \
+                  -tshift_opts_ts -tpattern seq+z -TR ${TR}s      \
+                  -volreg_align_to MIN_OUTLIER
+chmod +x proc.$session
+./proc.$session
+3dAFNItoNIFTI -prefix min_outlier ${session}.results/min_outlier_volume+orig
+gzip -f min_outlier.nii
+3dAFNItoNIFTI -prefix mask ${session}.results/full_mask.${session}+orig
+gzip -f mask.nii
+fslmaths min_outlier -mas mask min_outlier_brain
+epi_reg --epi=min_outlier_brain --t1=T1 --t1brain=T1_brain --out=min_outlier_to_T1
+flirt -in mask -ref T1_brain -applyxfm -init min_outlier_to_T1.mat -out mask_in_T1 -interp nearestneighbour
+fslmaths min_outlier_to_T1 -mas mask_in_T1 min_outlier_to_T1
+# vS=MRIread(fullfile(funcDir,'min_outlier_brain.nii.gz'));
+# MRIsave(vS,reshape(find(ones(vS.volsize)),vS.volsize),fullfile(funcDir,'funcVoxNrs3d.nii.gz'),1);
+run_makeFuncVoxNrs3d.sh $MCRROOT $funcDir min_outlier_brain.nii.gz
+fi
+flirt -in funcVoxNrs3d -ref T1_brain -applyxfm -init min_outlier_to_T1.mat -out funcVoxNrs3d_in_T1 -interp nearestneighbour
+fslmaths funcVoxNrs3d_in_T1 -mas mask_in_T1 funcVoxNrs3d_in_T1
+mri_vol2vol --mov mask_in_T1.nii.gz --targ $fsMriDir/T1.mgz --regheader --o mask_in_FS.nii.gz --nearest --no-save-reg
+mri_vol2vol --mov funcVoxNrs3d_in_T1.nii.gz --targ $fsMriDir/T1.mgz --regheader --o funcVoxNrs3d_in_FS.nii.gz --nearest --no-save-reg
+mri_mask funcVoxNrs3d_in_FS.nii.gz cortRibbon.mgz funcVoxNrs3d_in_cortRibbon.mgz
+#mri_convert funcVoxNrs3d_in_cortRibbon.mgz funcVoxNrs3d_in_cortRibbon.nii.gz
+mri_convert funcVoxNrs3d_in_pial.mgz funcVoxNrs3d_in_pial.nii.gz
+
+convert_xfm -omat T1_to_min_outlier.mat -inverse min_outlier_to_T1.mat
+flirt -in T1_brain -ref min_outlier_brain -applyxfm -init T1_to_min_outlier.mat -out T1_brain_in_func
+flirt -in aseg_in_T1 -ref min_outlier_brain -applyxfm -init T1_to_min_outlier.mat -out aseg_in_func
+gunzip -f aseg_in_func.nii.gz
+# min_outlier_to_T1
+
+# anaticor
+@ANATICOR    -ts ${session}.results/pb03.${session}.r01.volreg+orig \
+             -polort 3 \
+             -motion ${session}.results/dfile.r01.1D \
+             -aseg aseg_in_func.nii \
+             -prefix aicor \
+             -radius 30 \
+             -no_ventricles \
+             -Rsq_WMe \
+             -coverage
+3dAFNItoNIFTI aicor+orig
+gzip -f aicor.nii
+fslmaths aicor -mas mask aicor_brain
+# mean_func_to_MNI.nii.gz
+c3d_affine_tool -ref T1_brain.nii.gz -src min_outlier_brain min_outlier_to_T1.mat -fsl2ras -oitk min_outlier_to_T1_ras.txt
+${ANTSPATH}antsIntroduction.sh -d 3 -r $MNI1mm -i T1_brain.nii.gz -o T1_in_MNI
+# %vS=MRIread('/mnt/pboord_5TB/EEG-fMRI/data/Ojemann/MRI/WIP_RS_1sTR_10min_SENSE/min_outlier_brain.nii.gz');
+# %MRIsave(vS,reshape(find(ones(vS.volsize)),vS.volsize),... \
+# '/mnt/pboord_5TB/EEG-fMRI/data/Ojemann/MRI/WIP_RS_1sTR_10min_SENSE/funcVoxNrs3d.nii.gz',1);
+${ANTSPATH}WarpImageMultiTransform 3 min_outlier_brain.nii.gz min_outlier_to_MNI.nii.gz -R $MNI1mm \
+T1_in_MNIWarp.nii.gz \
+T1_in_MNIAffine.txt \
+min_outlier_to_T1_ras.txt
+# seeds to func space
+for coordImg in $(ls $matlabDir/mniCoordVox_*.nii.gz); do
+	seed=$(basename $coordImg .nii.gz|sed 's/mniCoordVox_//')
+	${ANTSPATH}WarpImageMultiTransform 3 $coordImg func_${seed}.nii.gz -R min_outlier_brain.nii.gz \
+	-i min_outlier_to_T1_ras.txt \
+	-i T1_in_MNIAffine.txt \
+	T1_in_MNIInverseWarp.nii.gz
+	fslstats func_${seed}.nii.gz -x > func_${seed}
+done
+
+exit
+
+# insert afni stuff
+3dAFNItoNIFTI -prefix volreg ${session}.results/pb04.${session}.r01.volreg+orig
+fslmaths volreg -Tmean mean_func
+bet mean_func mask -m -R
+fslmaths mean_func -mas mask mean_func
+
+restFilePrefix=rest_e002
+#restFilePrefix=rest_e00213_tsoc
+
+subjDir=/projects2/act-plus/subjects
+matlabDir=/project_space/pboord/MATLAB
+physioDir=/projects2/act-plus/physio
+antsDir=/projects2/act-plus/Standard
+if [ 1 = 2 ]; then
+# code
+echo "Starting code"
+\rm -f ${restFilePrefix}.nii.gz raw_resting.nii raw_resting.nii.gz
+\cp -f $subjDir/session1/$session/rest/${restFilePrefix}.nii.gz .
+gunzip -f ${restFilePrefix}.nii.gz
+\mv -f ${restFilePrefix}.nii raw_resting.nii
+% wmS=MRIread(fullfile(nasDir,subjCodeNrStr,'func_wm_ero.nii.gz'));
+% gmS=MRIread(fullfile(nasDir,subjCodeNrStr,'func_gm_ero.nii.gz'));
+3drefit -TR $TR raw_resting.nii
+# physio
+
+#run_McRetroTS $MCRROOT Opt.Respfile=rest_resp_ds.txt Opt.Cardfile=rest_cardio_ds.txt Opt.VolTR=$TR Opt.Nslices=$nrSlices Opt.PhysFS=100 Opt.SliceOrder=$sliceOrder
+
+# process rest
+echo "processing rest file"
+rm -f proc.$session
+rm -rf ${session}.results
+
+# ###################################### check aseg_in_rest, ${session}_vent.nii, ${session}_WM.nii have used applywarp as per below
+# ########### check preproc_physio
+afni_proc.py -subj_id ${session}                          \
+                  -blocks despike ricor tshift align volreg mask regress \
+                  -copy_anat ${session}_SurfVol.nii                                  \
+                  -anat_follower_ROI aaseg anat aparc.a2009s+aseg_rank.nii   \
+                  -anat_follower_ROI aeseg epi  aparc.a2009s+aseg_rank.nii   \
+                  -anat_follower_ROI FSvent epi ${session}_vent.nii                  \
+                  -anat_follower_ROI FSWe epi ${session}_WM.nii                   \
+                  -anat_follower_erode FSvent FSWe                           \
+                  -dsets raw_resting.nii          \
+                  -ricor_regs oba.slibase.1D \
+                  -tshift_opts_ts -tpattern seq+z -TR ${TR}s      \
+                  -volreg_align_to MIN_OUTLIER                               \
+                  -regress_ROI_PC FSvent 3                                   \
+                  -regress_ROI FSWe                                          \
+                  -regress_anaticor_fast                                     \
+                  -regress_anaticor_label FSWe                               \
+                  -regress_apply_mot_types demean deriv                      \
+                  -regress_run_clustsim no
+# modifications:
+# removed -volreg_align_e2a
+# "For alignment in either direction, add the 'align' block, which aligns the anatomy to the EPI. To then align the EPI to the anat,
+# apply -volreg_align_e2a, where that transform (inverse) is applied along with the motion alignment."
+# removed -volreg_tlrc_warp
+# "complete the processing in standard space by running @auto_tlrc on the anat (via the 'tlrc' block) and applying the same
+# transformation to the EPI via -volreg_tlrc_warp."
+# To process in orig space, remove -volreg_tlrc_warp. To apply manual tlrc transformation, use -volreg_tlrc_adwarp.
+# To process as anat aligned to EPI, remove -volreg_align_e2a."
+# removed tlrc block, -tlrc_base MNI_caez_N27+tlrc & -tlrc_NL_warp
+# "To correspond to common tractography, this example stays in orig space (no 'tlrc' block, no -volreg_tlrc_warp option)."
+chmod +x proc.$session
+/mnt/pboord_5TB/EEG-fMRI/data/Boord3/MRI/WIP_30min_fMRI_ascending_SENSE/funcVoxNrs3d_in_pial.nii.gz./proc.$session
+
+# to NIFTI
+\rm -f mask.nii* raw.nii* despike.nii* ricor.nii* tshift.nii* volreg.nii* regress.nii* \
+	mean_func.nii* T1_brain_wmseg.nii*
+3dAFNItoNIFTI -prefix mask ${session}.results/full_mask.${session}+orig
+3dAFNItoNIFTI -prefix raw ${session}.results/pb00.${session}.r01.tcat+orig
+3dAFNItoNIFTI -prefix despike ${session}.results/pb01.${session}.r01.despike+orig
+3dAFNItoNIFTI -prefix ricor ${session}.results/pb02.${session}.r01.ricor+orig
+3dAFNItoNIFTI -prefix tshift ${session}.results/pb03.${session}.r01.tshift+orig
+3dAFNItoNIFTI -prefix volreg ${session}.results/pb04.${session}.r01.volreg+orig
+3dAFNItoNIFTI -prefix regress ${session}.results/errts.${session}.fanaticor+orig
+gzip -f *.nii
+
+# xfm
+echo "Transforming"
+\rm -f T1.nii* T1_brain.nii*
+\cp -f $subjDir/$session/session1/memprage/T1.nii.gz .
+bet T1 T1_brain -c $brainVoxCenter
+fslreorient2std T1 T1
+fslreorient2std T1_brain T1_brain
+fast -g -o T1_brain -p T1_brain.nii.gz
+ln -sf T1_brain_seg_2.nii.gz T1_brain_wmseg.nii.gz
+
+# mean_func
+\rm -f mask.nii* mean_func.nii* func_to_T1.nii* mni_to_T1.nii* T1_to_mni.nii* func_to_mni.nii*
+fslmaths volreg -Tmean mean_func
+bet mean_func mean_func_brain -m -R
+mv -f mean_func_brain_mask.nii.gz mask.nii.gz
+fslmaths mean_func -mas mask mean_func
+#echo "epi_reg"
+echo B0 stuff
+epi_reg_withB0.sh "*_WIP_ME-RS_SENSE_3_1.PAR" "*_WIP_B0_*.PAR" 2.5 mean_func mean_func_to_T1 T1 T1_brain
+echo "flirt"
+# warp mask
+applywarp -i mask -r T1 -w mean_func_to_T1_warp -o mask_to_T1
+fslmaths mask_to_T1 -thr 0.5 -bin mask_to_T1
+
+# mean_func_to_MNI.nii.gz
+ln -sf /projects2/act-plus/subjects/$session/session1/xfm_dir
+c3d_affine_tool -ref T1_brain.nii.gz -src mean_func.nii.gz mean_func_to_T1.mat -fsl2ras -oitk mean_func_to_T1_ras.txt
+${ANTSPATH}WarpImageMultiTransform 3 mean_func.nii.gz mean_func_to_MNI.nii.gz -R $MNI1mm $antsDir/CT_to_mni_Warp.nii.gz \
+$antsDir/CT_to_mni_Affine.txt xfm_dir/T1_to_CT_Warp.nii.gz xfm_dir/T1_to_CT_Affine.txt mean_func_to_T1_ras.txt
+#fi
+# seeds to func space
+for coordImg in $(ls $matlabDir/mniCoordVox_*.nii.gz); do
+	seed=$(basename $coordImg .nii.gz|sed 's/mniCoordVox_//')
+	cmd="${ANTSPATH}WarpImageMultiTransform 3 $coordImg func_${seed}.nii.gz -R mean_func.nii.gz \
+	-i mean_func_to_T1_ras.txt -i xfm_dir/T1_to_CT_Affine.txt xfm_dir/T1_to_CT_InverseWarp.nii.gz \
+	-i $antsDir/CT_to_mni_Affine.txt $antsDir/CT_to_mni_InverseWarp.nii.gz"
+	echo $cmd
+	eval $cmd
+	fslstats func_${seed}.nii.gz -x > func_${seed}
+done
+fi
+invwarp -w mean_func_to_T1_warp -o inv_mean_func_to_T1_warp -r mean_func
+# aseg
+mri_label2vol --seg aseg.mgz --temp rawavg.mgz --o aseg_in_T1.mgz --regheader aseg.mgz
+mri_convert aseg_in_T1.mgz aseg_in_T1.nii.gz
+applywarp -i aseg_in_T1.nii.gz -r mean_func -w inv_mean_func_to_T1_warp -o aseg_in_func --interp=nn
+mri_binarize --i aseg_in_func.nii.gz --match $(cat $pbubin/FreeSurferColorLUT_gm_codes) --o func_gm.nii.gz
+fslmaths func_gm.nii.gz -mas mask func_gm.nii.gz
+# aparc+aseg
+mri_label2vol --seg aparc+aseg.mgz --temp rawavg.mgz --o aparc+aseg_in_T1.mgz --regheader aparc+aseg.mgz
+mri_convert aparc+aseg_in_T1.mgz aparc+aseg_in_T1.nii.gz
+applywarp -i aparc+aseg_in_T1.nii.gz -r mean_func -w inv_mean_func_to_T1_warp -o aparc+aseg_in_func --interp=nn
+mri_binarize --i aparc+aseg_in_func.nii.gz --match 2 41 --o func_wm.nii.gz
+fslmaths func_wm.nii.gz -mas mask func_wm.nii.gz
+
+exit
+
+# PIC
+echo "Running PIC"
+echo "raw"
+run_nonparamPic $MCRROOT $dataDir $session raw mask.nii.gz $nrRand &
+echo "despike"
+run_nonparamPic $MCRROOT $dataDir $session despike mask.nii.gz $nrRand
+echo "ricor"
+run_nonparamPic $MCRROOT $dataDir $session ricor mask.nii.gz $nrRand &
+echo "tshift"
+run_nonparamPic $MCRROOT $dataDir $session tshift mask.nii.gz $nrRand
+echo "volreg"
+#run_nonparamPic $MCRROOT $dataDir $session volreg mask.nii.gz $nrRand &
+echo "regress"
+#run_nonparamPic $MCRROOT $dataDir $session regress mask.nii.gz $nrRand

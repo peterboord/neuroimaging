@@ -1,0 +1,4 @@
+cwd=$(pwd)
+cd $pbubin
+ln -s $(cwd)/$1 $1
+cd $cwd

@@ -1,0 +1,4 @@
+echo 'fc <img in> <img2std xfm> <std img> <out textfile> <coord>'
+funcCoord=$(echo $5 |std2imgcoord -img $1 -xfm $2 -std $3 -vox -)
+echo $funcCoord
+fslmeants -i $1 -c $funcCoord -o $4

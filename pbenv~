@@ -1,0 +1,17 @@
+#!/bin/bash
+pbubin='/project_space/pboord/usr/bin'
+pbdirs=$(cat ${pbubin}/pbdirs)
+for dirName in ${pbdirs}; do
+	if [ ! ${dirName:0:1} = '#' ]; then
+		echo "${dirName[@]}"
+		dirList=( "${dirName[@]}" )
+		xtCmd="xfce4-terminal --maximize --working-directory=${dirName[0]}"
+		if ((${#dirList[@]} > 1)); then
+			for dirNr in "${dirList[@]}"; do
+				xtCmd=$xtCmd "--tab --working-directory=${dirList[$dirNr]}"
+			done
+		fi
+		echo $xtCmd
+		eval $xtCmd &
+	fi
+done

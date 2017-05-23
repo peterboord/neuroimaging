@@ -1,0 +1,32 @@
+ant:
+<ant>
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_redistribution" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_testing" />
+  <mkdir dir="/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_redistribution_files_only" />
+</ant>
+mcc -R -nodisplay -R -nojvm -R -nosplash -o pesticaStage5 -W WinMain:pesticaStage5 -T link:exe -d /project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_testing -v /project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5.m -a /project_space/pboord/MATLAB/pestica_afni_v2/matlab_retroicor/fit_each_physio_peak.m -a /project_space/pboord/MATLAB/pestica_afni_v2/matlab_retroicor/irf_retroicor.m -a /project_space/pboord/MATLAB/pestica_afni_v2/matlab_retroicor/retroicor_get_irf.m 
+process 5890: arguments to dbus_move_error() were incorrect, assertion "(dest) == NULL || !dbus_error_is_set ((dest))" failed in file ../../dbus/dbus-errors.c line 282.
+This is normally a bug in some application using the D-Bus library.
+libhal.c 3483 : Error unsubscribing to signals, error=The name org.freedesktop.Hal was not provided by any .service files
+Warning: You have specified '-R -nojvm', which may restrict or eliminate MATLAB graphics functionality at runtime.
+Compiler version: 5.2 (R2014b)
+Dependency analysis by REQUIREMENTS.
+[Warning: Adding path "/project_space/pboord/usr/bin/matlab/v84/pestica" to
+Compiler path instance.] 
+Parsing file "/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 8 temporary MEX authorization files.
+Removing: '/tmp/01702zWSVRi_5890.auth'.
+Removing: '/tmp/01702uFilP5_5890.auth'.
+Removing: '/tmp/01702mM3qF7_5890.auth'.
+Removing: '/tmp/01702884yv9_5890.auth'.
+Removing: '/tmp/01702rArjnb_5890.auth'.
+Removing: '/tmp/01702NRchfd_5890.auth'.
+Removing: '/tmp/01702uW2k7e_5890.auth'.
+Removing: '/tmp/017026hoCZg_5890.auth'.
+Generating file "/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_testing/readme.txt".
+Generating file "/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_testing/run_pesticaStage5.sh".
+Packaging...
+Creating the bundle...
+Web based installer created at /project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_redistribution/MyAppInstaller_web.install.
+Packaging complete.

@@ -1,0 +1,217 @@
+#!/bin/bash
+
+if [ ! $FSLOUTPUTTYPE = NIFTI ]; then
+	echo FSLOUTPUTTYPE is $FSLOUTPUTTYPE
+	echo "Set calling shell: export FSLOUTPUTTYPE=NIFTI"
+	exit
+fi
+export FSLOUTPUTTYPE=NIFTI
+unset module
+
+# called from preproc dir with:
+# old: $(rawDir)/$@_rest.nii.gz
+# cmd="$(scriptDir)/preproc_nogmwm subject""
+
+echo $(hostname) $1
+if [ $(hostname) = genu ]; then
+	queueType=sunfire
+elif [ $(hostname) = sessionmanager ]; then
+	queueType=sunfire
+else
+	queueType=ibic
+fi
+
+subject=$1
+#sessionNr=1
+SGE=YES
+if [ $SGE = YES ]; then
+	if [ $queueType = sunfire ]; then
+		sessionNr=1
+	elif [ $queueType = ibic ]; then
+		sessionNr=2
+	else
+		echo $queueType is unknown
+	fi
+fi
+ALL_SESSIONS=YES
+mkdir -p ${subject}-1
+mkdir -p ${subject}-2
+if [ $ALL_SESSIONS = YES ]; then
+	if [ ! -e ${subject}-1/preproc_done ]; then
+		touch ${subject}-1/preproc_done
+		sessionNr=1
+	elif [ ! -e ${subject}-2/preproc_done ]; then
+		touch ${subject}-2/preproc_done
+		sessionNr=2
+	else
+		echo "Both $subject sessions done"
+		return
+	fi
+fi
+export MCRROOT=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v84
+export LD_LIBRARY_PATH=/usr/lib/fsl/5.0:/opt/SGE/sge6_2u5/lib/UNSUPPORTED-lx3.2.0-4-amd64-amd64:/usr/lib/mrtrix/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MCRROOT/v84/runtime/glnxa64:$MCRROOT/v84/bin/glnxa64:$MCRROOT/v84/sys/os/glnxa64:$MCRROOT/v84/sys/opengl/lib/glnxa64
+export XAPPLRESDIR=$MCRROOT/v84/X11/app-defaults
+
+session=${subject}-$sessionNr
+funcName=${session}_rest
+funcNii=${funcName}.nii
+funcFile=${funcNii}.gz
+funcHead=${funcName}+orig.HEAD
+
+echo $session $funcName $funcNii $funcFile $funcHead
+
+TR=2.4
+export SUBJECTS_DIR=/projects2/udall/freesurferS1S2
+restDir=/projects2/udall/standardFC
+rawDir=/projects2/udall/rest/raw
+pesticaDir=/projects2/udall/pboord/pic/preproc/pestica
+nogmwmDir=/projects2/udall/pboord/pic/preproc/nogmwm
+scriptDir=/projects2/udall/pboord/pic/scripts
+MNI1mm=${FSLDIR}/data/standard/MNI152_T1_1mm_brain.nii.gz
+ANTSdir=/projects2/udall/ANTS
+regFeatDir=/projects2/udall/standardFC/$session/reg.feat
+	cd $rawDir
+	if [ ! -e $funcHead ]; then
+		if [ -e $funcNii ]; then
+			3dcalc -a $funcNii -prefix $funcName -expr 'a'
+			gzip -f $funcNii
+		else
+			if [ -e $rawDir/$funcFile ]; then
+				gzip -df $funcFile
+				3dcalc -a $funcNii -prefix $funcName -expr 'a'
+				gzip -f $funcNii
+			else
+				echo $rawDir/$funcFile not found
+				exit
+			fi
+		fi
+	fi
+	mkdir -p ${pesticaDir}/$session
+	cd ${pesticaDir}/$session
+	# do preliminary stuff in fsl 5.0 (prelude requires it)
+	source $pbubin/setupfsl5
+if [ 0 = 1 ]; then
+	
+	#fslmaths $rawDir/${session}_rest ${mcFunc}
+	fslmaths $rawDir/${session}_T1 T1
+	bet T1 T1_brain -m
+	fast -g -b -B -o t1fast -p T1_brain.nii.gz
+	# DTI
+	eddy_correct DTI eccDTI 0
+	fslroi eccDTI eccDti_0000 0 1
+	# b0 steps from google drive: "b0 unwarping steps.pdf"
+	bet DTIb0_mag DTIb0_mag_brain -f 0.2 -m
+	fslmaths DTIb0_mag_brain_mask -dilM DTIb0_mag_brain_mask_dil
+	fslmaths -dt float DTIb0_phase -div 500 -mul 3.14 DTIb0_phase_radsPerSec
+	prelude -p DTIb0_phase_radsPerSec -a DTIb0_mag -o DTIb0_phase_radsPerSec_unwrapped -m DTIb0_mag_brain_mask_dil
+	# FUNC
+	bet fMRIb0_mag fMRIb0_mag_brain -f 0.2 -m
+	fslmaths fMRIb0_mag_brain_mask -dilM fMRIb0_mag_brain_mask_dil
+	fslmaths -dt float  fMRIb0_phase -div 500 -mul 3.14 fMRIb0_phase_radsPerSec
+	prelude -p fMRIb0_phase_radsPerSec -a fMRIb0_mag -o fMRIb0_phase_radsPerSec_unwrapped -m fMRIb0_mag_brain_mask_dil
+	# set up for fsl4.1
+	source $pbubin/setupfsl4
+	feat b0unwarp_dti.fsf
+	feat b0unwarp_func.fsf
+	source $pbubin/setupfsl5
+	echo "epi_reg func"
+	fslroi b0unwarp_func.feat/filtered_func_data func_b0_0000 0 1	fslroi T1_brain_outskin_mask.nii head_back 0 $(($(fslval T1_brain_outskin_mask.nii dim1)/2)) 0 -1 0 -1
+	
+	epi_reg --epi=func_b0_0000 --t1=T1 --t1brain=T1_brain --out=func_b0_0000_epi_reg
+	echo "epi_reg dti"
+	fslroi b0unwarp_dti.feat/filtered_func_data dtiB0unwarped 0 1
+	#fslmaths dti_FA -mas b0unwarp_dti.feat/mask FAwarped
+	# unwarp FAwarped to FAunwarped - "we recommend using an FA map to register to T1 structural images" ref:http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FDT/UserGuide
+	# epi_reg FAunwarped didn't work! So use dtiB0unwarped
+	# BBR dtiB0unwarped to dtiB0unwarped_in_T1
+	epi_reg --epi=dtiB0unwarped --t1=T1 --t1brain=T1_brain --out=dtiB0unwarped_in_T1
+	# unwarp ADCwarped to ADCunwarped
+	applywarp --ref=dtiB0unwarped --in=dti_MD --warp=b0unwarp_dti.feat/unwarp/EF_UD_warp --out=ADCunwarped
+	# BBR ADCunwarped to ADCunwarped_in_T1
+	flirt -in ADCunwarped -ref T1 -applyxfm -init dtiB0unwarped_in_T1.mat -out ADCunwarped_in_T1
+	# BBR ADCunwarped_in_T1 to ADCunwarped_in_funcUnwarped
+	convert_xfm -omat inv_func_b0_0000_epi_reg.mat -inverse func_b0_0000_epi_reg.mat
+	flirt -in ADCunwarped_in_T1 -ref b0unwarp_func.feat/reg/example_func -applyxfm -init inv_func_b0_0000_epi_reg.mat -out ADCunwarped_in_funcUnwarped
+	# make eye un-mask
+	fslroi T1_brain_outskin_mask.nii head_back 0 -1 0 $(($(fslval T1_brain_outskin_mask.nii dim2)/2)) 0 -1
+	fslroi T1_brain_outskull_mask.nii head_front 0 -1 $(($(fslval T1_brain_outskin_mask.nii dim2)/2+1)) $(($(fslval T1_brain_outskin_mask.nii dim2)/2)) 0 -1
+	fslmerge -y unEyeMask head_back head_front
+	flirt -in  -ref b0unwarp_func.feat/reg/example_func -applyxfm -init inv_func_b0_0000_epi_reg.mat -out ADCunwarped_in_funcUnwarped
+	# warp ADCunwarped_in_funcUnwarped to ADCunwarped_in_funcWarped
+	invwarp --ref=b0unwarp_func.feat/reg/example_func_orig_distorted --warp=b0unwarp_func.feat/unwarp/EF_UD_warp --out=b0unwarp_func.feat/unwarp/inv_EF_UD_warp
+	applywarp --ref=b0unwarp_func.feat/reg/example_func_orig_distorted --in=ADCunwarped_in_funcUnwarped --warp=b0unwarp_func.feat/unwarp/inv_EF_UD_warp --out=ADCunwarped_in_funcWarped
+	# ref:http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FDT/UserGuide
+	tkregister2 --mov $SUBJECTS_DIR/${subject}.s${sessionNr}/mri/orig.mgz --targ $SUBJECTS_DIR/${subject}.s${sessionNr}/mri/rawavg.mgz --regheader --reg junk --fslregout fs_to_T1.mat --noedit
+	convert_xfm -omat T1_to_fs.mat -inverse fs_to_T1.mat
+        # get aseg in funcUnwarped space
+        mri_convert $SUBJECTS_DIR/${subject}.s${sessionNr}/mri/aseg.mgz aseg_in_FS.nii
+        flirt -ref T1 \
+                -in aseg_in_FS.nii \
+                -out aseg_in_T1.nii \
+                -applyxfm -init fs_to_T1.mat \
+                -interp nearestneighbour
+	flirt -in aseg_in_T1 -ref b0unwarp_func.feat/reg/example_func -applyxfm -init inv_func_b0_0000_epi_reg.mat -out aseg_in_funcUnwarped -interp nearestneighbour
+	applywarp --ref=b0unwarp_func.feat/reg/example_func_orig_distorted --in=aseg_in_funcUnwarped --warp=b0unwarp_func.feat/unwarp/inv_EF_UD_warp --out=aseg_in_funcWarped --interp=nn
+	mri_binarize --i aseg_in_funcWarped.nii --match $(cat $scriptDir/FreeSurferColorLUT_gm_codes) --o funcWarped_gm.nii
+	mri_binarize --i aseg_in_funcWarped.nii --match $(cat $scriptDir/FreeSurferColorLUT_ventricles_codes) --o funcWarped_ventricles.nii
+	fslmaths ADCunwarped_in_funcWarped -mas funcWarped_gm ADC_in_gm
+	fslmaths ADCunwarped_in_funcWarped -mas funcWarped_ventricles ADC_in_ventricles
+	fluidThreshold=$(fslstats ADC_in_gm -P 95)
+	fslmaths ADCunwarped_in_funcWarped -thr $fluidThreshold fluid_in_funcWarped
+	fslmaths $rawDir/${session}_rest func_raw
+	fslmaths rest_brain_res_reg -mas fluid_in_funcWarped fluid_masked
+	fslmaths rest_brain_res_reg -mul fluid_in_funcWarped fluid_weighted
+	#fslmeants -i func_raw -m fluid_in_funcWarped -o fluidTs_masked.csv
+	#fslmeants -i func_raw -m fluid_in_funcWarped -w -o fluidTs_weighted.csv
+fi
+	exit
+
+
+
+
+
+
+	ln -sf $rawDir/${session}_rest+orig.HEAD ${mcFunc}+orig.HEAD
+	ln -sf $rawDir/${session}_rest+orig.BRIK ${mcFunc}+orig.BRIK
+	3drefit -TR $TR ${mcFunc}+orig.HEAD
+	run_pestica.sh -d ${mcFunc} -m -s "1 2 3 4"
+	3dAFNItoNIFTI ${mcFunc}.retroicor+orig
+if [ 2 = 3 ]; then
+	if [ -e ${pesticaDir}/$session/${mcFunc}_pestica/resp_pestica.dat ]; then
+		run_pestica.sh -d ${mcFunc} -b -m -s "4"
+	else
+		rm -rf ${pesticaDir}/$session/${mcFunc}_pestica
+		ln -sf $nogmwmDir/$session/rest_brain_res_reg.nii.gz rest_brain_res_reg.nii.gz
+		fslroi $nogmwmDir/$session/prefiltered_func_data_mcf.mat/rest_brain_norm_reg_median rest_brain_norm_reg_median 0 -1 0 -1 1 $(fslval rest_brain_res_reg.nii.gz dim3)
+		ln -sf $nogmwmDir/$session/rest_brain_mask.nii rest_brain_mask.nii
+		mkdir -p ${mcFunc}_pestica
+		fslmaths rest_brain_res_reg.nii.gz -add rest_brain_norm_reg_median ${mcFunc}
+		3drefit -TR $TR ${mcFunc}.nii
+		3dcalc -a ${mcFunc}.nii -prefix ${mcFunc} -expr 'a'
+		3drefit -TR $TR ${mcFunc}+orig.HEAD
+		3dcalc -a rest_brain_mask.nii -prefix ___tmp_mask -expr 'a'
+		# erode mask by one voxel - from run_pestica.sh
+		3dcalc -a ___tmp_mask+orig -prefix ___tmp_mask_ones+orig -expr 'step(a)'
+		3dcalc -a ___tmp_mask_ones+orig -prefix ___tmp_mask_ones_dil -b a+i -c a-i -d a+j -e a-j -f a+k -g a-k -expr 'amongst(1,a,b,c,d,e,f,g)'
+		3dcalc -a "${mcFunc}+orig[0]" -b ___tmp_mask_ones_dil+orig -prefix ${mcFunc}_pestica/${mcFunc}.brain -expr 'a*step(b)'
+		rm ___tmp_mask*
+		run_pestica.sh -d ${mcFunc} -b -m -s "3 4"
+	fi
+	cd ${pesticaDir}/$session/${mcFunc}_pestica
+	run_phaseToRetroicor $MCRROOT ${pesticaDir}/$session/${mcFunc}_pestica ${mcFunc}+orig cardphase_pestica.dat respphase_pestica.dat 2 seq-asc ${mcFunc}.brain+orig
+	rm -f proc.$session
+	rm -rf ${pesticaDir}/$session/${mcFunc}_pestica/${session}.results
+        afni_proc.py -subj_id $session -dsets ${mcFunc}+orig \
+                -blocks despike ricor tshift regress \
+		-ricor_regs oba.slibase.1D \
+		-ricor_regress_method per-run \
+                -regress_no_motion
+        chmod +x ./proc.$session
+        ./proc.$session
+        cd ${pesticaDir}/$session/${mcFunc}_pestica/${session}.results
+	3dAFNItoNIFTI all_runs.${session}+orig.HEAD
+
+        cd ${pesticaDir}/$session/${mcFunc}_pestica/${session}.results
+	run_pic ${MCRROOT} . all_runs.${session}.nii ../../rest_brain_mask.nii
+fi

@@ -1,0 +1,11 @@
+#!/usr/bin/octave -qf
+
+arg_list = argv();
+xFile = arg_list{1};
+yFile = arg_list{2};
+
+x = load("-ascii",xFile);
+y = load("-ascii",yFile);
+corrXY = corr(x,y);
+
+printf("%.4f", corrXY);

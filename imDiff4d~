@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ "x$1" = "x" ]; then
+	echo "Usage: $0 outDir imIn imOut"
+	echo "imOut = imIn(2:end) - imIn(1:end-1)"
+else
+	nrVolsOut=$(($(fslnvols $1) - 1))
+	fslroi $1 lead_$1 1 $nrVolsOut
+	fslroi $1 lag_$1 0 $nrVolsOut
+	fslmaths lead_$1 -sub lag_$1 diff_$1
+fi

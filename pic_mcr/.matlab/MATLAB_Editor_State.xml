@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Editor version="1.0">
+   <File absPath="/project_space/pboord/usr/bin/matlab/pic" lastWrittenTime="1430544331282" name="helloWorld.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab/v84/pestica" lastWrittenTime="1430544369825" name="pesticaStage5.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab/v84/pestica" lastWrittenTime="1430544391988" name="phaseToRetroicor.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1430544425837" name="csfBpm.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1430544427849" name="physio.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1430544433825" name="mAtan2.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1430544435578" name="xcorrMap.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1430687774182" name="findCardioPeaks3.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1430943088863" name="biplot.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1430958595093" name="makeCardioRespRegressors.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1431117044829" name="findCardioPeaks.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1431391445274" name="makeCardioRegressors.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1431702715359" name="findCardioPeaksV1_2.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1431998125198" name="findSlicePhases.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432061301224" name="findSlicePhases2.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432080322129" name="findSlicePhases3.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432243564955" name="findCardioPeaksV1_3.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432243565055" name="getRmsSlice.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432253034286" name="makeEqualizedMask.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432271528315" name="findCardioPeaksV1_1.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432341715116" name="phaseTree.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432677558766" name="MRIsave.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432677560798" name="splitPhaseVol.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432684664400" name="calcAliases.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432684672176" name="phaseTree2.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432684674022" name="findPhysioPeakFreq.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432685091826" name="cardioDotProduct.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432840225358" name="guidetoolfunc.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1432915484786" name="demo.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1433347697649" name="cardioDotProduct2.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1433696121623" name="calcPeakTimes.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1433696123078" name="physioQA.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1433696124261" name="fixPhysioTimes.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1433697363631" name="editPeaks.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1433697368113" name="getPhysioPeaks.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin" lastWrittenTime="1437689865201" name="compareSlopes.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/MATLAB" lastWrittenTime="1438040065023" name="barweb.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1438693451922" name="findCardioPeaksV1_4.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1438693451985" name="cardioErp.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1438693452026" name="findSlicePhases4.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1438693452056" name="getRmsSlice2.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1438693452087" name="cardioDotProduct3.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1438693452116" name="retroicor.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1438693452154" name="peaksToSlicePhase.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab" lastWrittenTime="1438693452201" name="getPeaksFromPhysioData.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/projects2/udall/pboord/analysis/tables" lastWrittenTime="1438693452246" name="compareSlopes.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/projects2/udall/pboord/analysis/tables" lastWrittenTime="1440526171191" name="plotBoxplot.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/projects2/udall/pboord/analysis/tables" lastWrittenTime="1440526171236" name="plotBoxplot_subplot.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin" lastWrittenTime="1440526171265" name="corrAbsFcDiffPic.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="/project_space/pboord/usr/bin/matlab/v84/pic" lastWrittenTime="1440526171327" name="pic.m">
+      <CodeFolds version="1.0"/>
+   </File>
+</Editor>

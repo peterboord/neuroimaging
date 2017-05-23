@@ -1,0 +1,40 @@
+#!/bin/bash
+if [ "x$1" = "x" ]; then
+	echo clusterts - cluster time series
+	echo Usage:
+	echo $0 'prefix mask imageList(3 or 4D)'
+	echo inputs:
+	echo prefix = filename prefix to append cluster mask number to
+	echo mask = image with one or more clusters
+	echo imageList = one or more 3D or 4D images
+	echo 'writes cluster timeseries file in same directory as 3D/4D image'
+else
+	prefix=$1
+	echo prefix=$prefix
+	mask=$2
+	echo mask=$mask
+	maskDir=$(dirname $mask)
+	echo maskDir=$maskDir
+	if [ -e $mask ]; then
+		nrClusters=$(fslstats $mask -R|sed 's/0.000000 //'|sed 's/.000000//')
+		echo nrClusters=$nrClusters
+		shift 2
+		for imagePath in $@; do
+			if [ -e $imagePath ]; then
+				for clusterNr in $(seq 1 $nrClusters); do \
+					imageDir=$(dirname $imagePath)
+					echo imageDir=$imageDir
+					fslmaths $mask -thr $clusterNr -uthr $clusterNr ${maskDir}/${prefix}${clusterNr}
+					fslmeants -i $imagePath -m ${maskDir}/${prefix}${clusterNr} -o ${imageDir}/${prefix}${clusterNr}.txt
+				done
+			else
+				echo missing image: $imagePath
+			fi
+		done
+	else
+		echo missing mask: $mask
+	fi
+fi
+
+# EXAMPLES
+# clusterts cope10z1c /projects2/udall/task/fnirt/group/CombinedBaseline_fnirt_linear/cope10.gfeat/cope1.feat/cluster_mask_zstat1.nii.gz /projects2/udall/task/fnirt/RC4???/pbAll.gfeat/cope10.feat/stats/zstat1.nii.gz

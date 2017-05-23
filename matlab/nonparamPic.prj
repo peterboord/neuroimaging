@@ -1,0 +1,179 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="1842946270" file="/project_space/pboord/usr/bin/matlab/nonparamPic.prj" location="/project_space/pboord/usr/bin/matlab" name="nonparamPic" preferred-package-location="/project_space/pboord/usr/bin/matlab/nonparamPic/for_redistribution" preferred-package-type="package.type.install" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>nonparamPic</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.summary />
+    <param.description />
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>/nonparamPic/</param.installpath.string>
+    <param.installpath.combo>option.installpath.user</param.installpath.combo>
+    <param.logo />
+    <param.install.notes>In the following directions, replace MCR_ROOT by the directory where the MATLAB Runtime is installed on the target machine.
+
+(1) Set the environment variable XAPPLRESDIR to this value:
+
+    MCR_ROOT/v90/X11/app-defaults
+
+
+(2) If the environment variable LD_LIBRARY_PATH is undefined, set it to the concatenation of the following strings:
+
+    MCR_ROOT/v90/runtime/glnxa64:
+    MCR_ROOT/v90/bin/glnxa64:
+    MCR_ROOT/v90/sys/os/glnxa64:
+    MCR_ROOT/v90/sys/opengl/lib/glnxa64
+
+    If it is defined, set it to the concatenation of these strings:
+
+    ${LD_LIBRARY_PATH}: 
+    MCR_ROOT/v90/runtime/glnxa64:
+    MCR_ROOT/v90/bin/glnxa64:
+    MCR_ROOT/v90/sys/os/glnxa64:
+    MCR_ROOT/v90/sys/opengl/lib/glnxa64</param.install.notes>
+    <param.target.install.notes />
+    <param.intermediate>${PROJECT_ROOT}/nonparamPic/for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}/nonparamPic/for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}/nonparamPic/for_redistribution</param.output>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options>-C -R -nodisplay -R -nosplash</param.user.defined.mcr.options>
+    <param.embed.ctf>false</param.embed.ctf>
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.required.mcr.products>
+      <item>35000</item>
+      <item>35010</item>
+      <item>35001</item>
+    </param.required.mcr.products>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>false</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.summary />
+      <param.description />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.target.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.enable.clean.build />
+      <param.target.type />
+      <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/nonparamPic.m</file>
+    </fileset.main>
+    <fileset.resources>
+      <file>/project_space/pboord/MATLAB/corrColumns.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/MRIfspec.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/MRIread.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/MRIwrite.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_analyze.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_analyze_hdr.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_mgh.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_nifti.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/load_nifti_hdr.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/save_mgh.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/save_nifti.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/strlen.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/vox2rasToQform.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_0to1.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_1to0.m</file>
+      <file>/project_space/pboord/MATLAB/freesurfer_matlab/vox2ras_tkreg.m</file>
+      <file>/project_space/pboord/usr/bin/MRIsave.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_fileexists.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_ldbhdr.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_ldbslice.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_mri_struct.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_svbhdr.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fast_svbslice.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_bfiledim.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_bvoldim.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_hdrdatstruct.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_ldbfile.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_lddat2.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_lddat3.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/fmri_svbfile.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/mar.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/qoe.m</file>
+      <file>/usr/local/freesurfer/stable5_3/fsfast/toolbox/reshape1d.m</file>
+    </fileset.resources>
+    <fileset.package />
+    <fileset.depfun />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}/nonparamPic/for_testing" name="readme.txt" optional="true">/project_space/pboord/usr/bin/matlab/nonparamPic/for_testing/readme.txt</file>
+      <file location="${PROJECT_ROOT}/nonparamPic/for_testing" name="run_nonparamPic.sh" optional="false">/project_space/pboord/usr/bin/matlab/nonparamPic/for_testing/run_nonparamPic.sh</file>
+      <file location="${PROJECT_ROOT}/nonparamPic/for_testing" name="splash.png" optional="false">/project_space/pboord/usr/bin/matlab/nonparamPic/for_testing/splash.png</file>
+      <file location="${PROJECT_ROOT}/nonparamPic/for_testing" name="nonparamPic" optional="false">/project_space/pboord/usr/bin/matlab/nonparamPic/for_testing/nonparamPic</file>
+      <file location="${PROJECT_ROOT}/nonparamPic/for_testing" name="nonparamPic.ctf" optional="false">/project_space/pboord/usr/bin/matlab/nonparamPic/for_testing/nonparamPic.ctf</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/usr/local/MATLAB/R2015b</root>
+      <toolboxes>
+        <toolbox name="fixedpoint" />
+        <toolbox name="embeddedcoder" />
+        <toolbox name="matlabcoder" />
+      </toolboxes>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>false</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>true</linux>
+      <solaris>false</solaris>
+      <osver>3.2.0-4-amd64</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>glnxa64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

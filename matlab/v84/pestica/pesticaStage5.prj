@@ -1,0 +1,151 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="2561288329" file="/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5.prj" location="/project_space/pboord/usr/bin/matlab/v84/pestica" name="pesticaStage5" preferred-package-location="/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_redistribution" preferred-package-type="package.type.install" target="target.ezdeploy.standalone" target-name="MATLAB Compiler for Standalone Applications">
+    <param.appname>pesticaStage5</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.summary />
+    <param.description />
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>/pesticaStage5/</param.installpath.string>
+    <param.installpath.combo>option.installpath.user</param.installpath.combo>
+    <param.logo />
+    <param.install.notes>On the target computer, append the following to your LD_LIBRARY_PATH environment variable (Where {MCR_ROOT} is the directory the MCR has been installed into):&lt;br&gt; {MCR_ROOT}/runtime/glnxa64&lt;br&gt; {MCR_ROOT}/bin/glnxa64&lt;br&gt; {MCR_ROOT}/sys/os/glnxa64&lt;br&gt;{MCR_ROOT}/sys/opengl/lib/glnxa64&lt;br&gt;</param.install.notes>
+    <param.intermediate>${PROJECT_ROOT}/pesticaStage5/for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}/pesticaStage5/for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}/pesticaStage5/for_redistribution</param.output>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options>-R -nodisplay -R -nojvm -R -nosplash</param.user.defined.mcr.options>
+    <param.embed.ctf>true</param.embed.ctf>
+    <param.server.ctf>${PROJECT_ROOT}/pesticaStage5/for_testing/.ctf</param.server.ctf>
+    <param.server.readme>${PROJECT_ROOT}/pesticaStage5/for_testing/readme.txt</param.server.readme>
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.required.mcr.products>
+      <item>35000</item>
+    </param.required.mcr.products>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.summary />
+      <param.description />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.enable.clean.build />
+      <param.embed.ctf />
+      <param.server.ctf />
+      <param.server.readme />
+      <param.target.type />
+      <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/pesticaStage5.m</file>
+    </fileset.main>
+    <fileset.resources>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/AfniPrefix.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/BrikInfo.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/BrikInfo_2_niml_writesimple.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/BrikInfo_SectionValue.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/BrikLoad.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/CheckBrikHEAD.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/ErrEval.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/FindChar.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/GetNextLine.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/GetPath.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/GetWord.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/HEAD_Rules.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/HistoryTrace.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/Info_1D.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/NextString.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/PurgeComments.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/Read_1D.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/Remove1DExtension.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/RemoveExtension.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/RemoveNIMLExtension.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/RemoveNiftiExtension.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/SkipMatlabHelp.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/WordCount.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/WriteBrik.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/WriteBrikHEAD.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/afni_ni_defs.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/afni_niml_print.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/afni_niml_write.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/afni_niml_writesimple.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/eq_str.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/filexist.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/get_required_precision.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/isint.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/newid.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/pad_strn.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/split_string.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/tross_Encode_String.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/uiget1Dfile.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/unsplit_string.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/wryte3.m</file>
+      <file>/project_space/pboord/MATLAB/afni_matlab/matlab/zdeblank.m</file>
+      <file>/project_space/pboord/MATLAB/pestica_afni_v2/matlab_retroicor/fit_each_physio_peak.m</file>
+      <file>/project_space/pboord/MATLAB/pestica_afni_v2/matlab_retroicor/irf_retroicor.m</file>
+      <file>/project_space/pboord/MATLAB/pestica_afni_v2/matlab_retroicor/retroicor_get_irf.m</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}/pesticaStage5/for_testing" name="run_pesticaStage5.sh" optional="false">/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_testing/run_pesticaStage5.sh</file>
+      <file location="${PROJECT_ROOT}/pesticaStage5/for_testing" name="splash.png" optional="false">/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_testing/splash.png</file>
+      <file location="${PROJECT_ROOT}/pesticaStage5/for_testing" name="pesticaStage5" optional="false">/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_testing/pesticaStage5</file>
+      <file location="${PROJECT_ROOT}/pesticaStage5/for_testing" name="readme.txt" optional="true">/project_space/pboord/usr/bin/matlab/v84/pestica/pesticaStage5/for_testing/readme.txt</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/usr/local/MATLAB/R2014b</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>false</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>true</linux>
+      <solaris>false</solaris>
+      <osver>3.2.0-4-amd64</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>glnxa64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

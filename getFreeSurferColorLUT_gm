@@ -1,0 +1,3 @@
+#!/bin/bash
+a=( `cat "FreeSurferColorLUT_gm" `)
+for i in $(seq 0 6 222);do echo ${a[$i]};done>FreeSurferColorLUT_gm_codes

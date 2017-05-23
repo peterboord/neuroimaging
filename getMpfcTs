@@ -1,0 +1,4 @@
+#!/bin/bash
+flirt -in /projects2/udall/pboord/analysis/clusters/fc_cope10z1c4_z2c1.nii.gz -ref rest_ssmooth.nii.gz -applyxfm -init reg.feat/reg/standard2example_func.mat -out fc_cope10z1c4_z2c1_func -interp nearestneighbour
+fslmeants -i rest_ssmooth.nii.gz -m fc_cope10z1c4_z2c1_func.nii -o fc_cope10z1c4_z2c1_func.txt
+

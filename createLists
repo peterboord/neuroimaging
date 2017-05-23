@@ -1,0 +1,18 @@
+#!/bin/bash
+
+hosts=(broca dentate homunculus pole pons precuneus triangularis)
+for m in ${hosts[@]};do
+	rm -f ${m}List
+done
+
+nrHosts=${#hosts[@]}
+idx=0
+for preStep in raw despike ricor tshift volreg regress;do
+	for subj in $(ls -d 109???);do
+		if [[ $(ls -ld $subj/$preStep) == *"Jan"* ]] || [ -z "$(ls -ld $subj/$preStep)" ];then
+			echo $subj/$preStep >> ${hosts[$(($idx % $nrHosts))]}List
+			idx=$(($idx+1))
+		fi
+	done
+done
+

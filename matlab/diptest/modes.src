@@ -1,0 +1,168 @@
+*
+*  @MODES( options) modes series start end
+*
+*  MODE-HUNTING PROCEDURE  *
+*
+*  SOURCE: Silverman B.W.: "Density Estimation for Statistics
+*     and Data Analysis", Monographs on Statistics and Applied
+*     Probability 26",  Chapman & Hall, London 1986.
+*
+*   This procedure finds the critical windows and the number of modes
+*   of a given time series by KERNEL looping from an initially small
+*   window up to the largest obtained through selected increments and
+*   incremental values. Optional graphics is provided. Tests of the null
+*   are obtainable from the companion procedure BOOTS.SRC. To this end,
+*   the critical windows and modes are stored in a temporary file.
+*
+*   Parameters:
+*
+*    series       Series to analyze.
+*    start end    Time range. If working with balanced panel series of N
+*                 individuals  and T observations, set start = 1, end = NT
+*
+*  Options:
+*    m=number of bins[128]
+*    maxm=maximum number of modes to select[6]
+*    ninc=Number of increments in loop starting for hini[100]
+*    hini=Initial window width[.01]
+*    inc=incremental value of window width[.001]
+*
+*    hini and inc need to adjust to the range of the data
+*
+* Revision Schedule:
+*   Written by Guido Travaglini.
+*   Utilizes modified MBKERNEL.SRC by Tom Doan (1994).
+* 09/2011 Change call to @KERNEL to pass through the gridsize. Change to
+*         use options rather than parameters for the controls
+*
+procedure modes series start end maxm hini ninc inc m
+type series     series
+type integer    start end
+*
+option integer  m   		128
+option integer  maxm		6
+option integer  ninc    100
+option real     hini    .01
+option real     inc     .001
+*
+local real      hfin h0 ss mini maxh minh
+local integer   i j k startl endl scs minninc sum maxmode minmode
+local series    ly dyn xout yout x1 x2 xx2 imm1 hh1 mm1 mm2 summ2
+local vector    h01 mod1 mm hh imm critwin critmode
+local string    ghead gsubhead head subhead
+option switch   scatter 0
+option switch   spgraph 0
+dim h01(ninc) mod1(ninc) mm(ninc) hh(ninc) imm(ninc) critwin(ninc) critmode(ninc)
+*
+inquire(series=series) startl>>start endl>>end
+DISPLAY ' '
+DISPLAY @2 '***********************************'
+DISPLAY @2 '*      MODE-HUNTING PROCEDURE     *'
+DISPLAY @2 '***********************************'
+DISPLAY ' '
+com hfin = hini+inc*ninc
+disp @5 'You selected an initial window size of' @43 hini
+disp @5 'Your window increment is' @33 #.#### inc
+disp @5 'You selected a total number of' ninc @40 'increments'
+disp @5 'Your final window will be' @34 #.#### hfin
+*
+*clear all
+do i = 1,ninc
+   com h0 = hini+i*inc
+   @kernel(kernel=gaussian,window=h0,gridsize=m) series start end xout yout
+   set dyn = yout-yout{1}
+   *
+   * Stage 1: binarize dyn by letting values gt. 0 be = 1.0 and others = 0.0
+   *
+   set x1 2 m = %if(dyn.gt.0.0,1.0,0.0)
+   *
+   * Stage 2: make 1st. diff of such values and square them to check for 0/1 changes
+   *
+   set x2 2 m = (x1-x1{1})**2
+   *
+   * Stage 3: compute total # of sign changes (0/1)
+   *
+   acc x2 2 m xx2
+   com scs = fix(xx2(m))              ;* Computing sign changes (scs)
+   do j = 1,maxm+1
+      com ss = 2*j-1
+      if scs==ss
+         com mod = j                       ;* Associating modes to sign changes
+   end do j
+   com h01(i) = h0, mod1(i) = mod
+   com mm(i) = (mod1(i)-mod1(i-1))**2   ;* Checking for modes
+   com hh(i) = h01(i)*mm(i)
+   if mm(i).eq.1.0
+      com imm(i) = i*mm(i)
+end do i
+*
+smpl 1 ninc
+set imm1 = imm(t)
+ext(noprint) imm1
+com mini = %minvalue(imm1), minninc = fix(mini) ;*Establish first valid ninc
+smpl minninc ninc
+set hh1 = h01(t)
+set mm1 = mod1(t)
+set mm2 = mm(t)
+acc mm2 minninc ninc summ2
+com sum = fix(summ2(ninc))
+com maxh = %maxvalue(hh1), minh = %minvalue(hh1)
+disp(unit=output) @5 'Windows found range from' @30 #.#### minh 'to' @40 #.#### maxh
+com maxmode = fix(%maxvalue(mm1)), minmode = fix(%minvalue(mm1))
+disp(unit=output) @5 'Modes found range from'  maxmode 'to'  minmode
+{
+if sum.gt.maxmode
+disp(unit=output) @5 'Mode jump detected: you must tighten inc value or start from higher hini'
+if maxmode.gt.maxm
+disp @5 'Highest mode found exceeds maximum mode initially set'
+}
+*
+open temp temp.dat      ;*Opens temp file where critical windows are stored.
+do j = 1,1
+   disp
+   disp @1 'Critical window' ##.#### @20  'Number of modes'
+   disp '***************************************'
+   disp
+ do i = minninc,ninc
+   com critwin(i) =  %if(hh(i).gt.0.0,hh(i),0.0)
+   com critmode(i) = mm1(i)
+   if critwin(i).gt.0.0.and.mm(i).eq.1.0
+   disp @4 ##.#### critwin(i) @26 fix(critmode(i))
+   if critwin(i).gt.0.0.and.mm(i).eq.1.0
+   disp(unit=temp) ##.#### critwin(i) fix(critmode(i))
+ end do i
+end do j
+close temp
+*
+if scatter
+scatter(header='Critical window width and number of modes',style=lines, $
+hlabel='Critical window width',vlabel='Number of modes') 1
+#hh1 mm1 minninc ninc
+*
+***Graphing alternative critical window kernels***
+*
+
+disp(store=ghead) 'Gaussian KDEs and critical windows of' %label(series)
+disp(store=gsubhead) %label(series)
+if spgraph
+{
+spgraph(hfield=3,vfield=2,head=ghead,vlabel='Frequency',hlabel=%label(series))
+do i = minninc,ninc
+   com critwin(i) =  %if(hh(i).gt.0.0,hh(i),0.0)
+   com critmode(i) = mm1(i)
+   disp(store=head) 'Critical window:' ##.#### critwin(i)
+   disp(store=subhead) 'Modes:' # critmode(i)
+   if critwin(i).gt.0.0.and.mm1(i).le.maxm
+   {
+   @kernel(kernel=gaussian,window=critwin(i)) series / xout yout
+   graph(head=head,subhead=subhead,style=poly) 1
+   #yout 1 m
+   }
+end do i
+spgraph(done)
+}
+*
+smpl
+end modes
+
+

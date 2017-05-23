@@ -1,0 +1,26 @@
+#!/bin/bash
+afni_proc.py -subj_id ${1}                          \
+                  -blocks despike ricor tshift align tlrc volreg mask regress \
+                  -copy_anat ${1}_SurfVol.nii                                  \
+                  -anat_follower_ROI aaseg anat aparc.a2009s+aseg_rank.nii   \
+                  -anat_follower_ROI aeseg epi  aparc.a2009s+aseg_rank.nii   \
+                  -anat_follower_ROI FSvent epi ${1}_vent.nii                  \
+                  -anat_follower_ROI FSWe epi ${1}_WM.nii                   \
+                  -anat_follower_erode FSvent FSWe                           \
+                  -dsets rest_e002.nii		\
+                  -ricor_regs oba.slibase.1D \
+                  -tshift_opts_ts -tpattern seq+z -TR 2.5s	\
+                  -tlrc_base MNI_caez_N27+tlrc                               \
+                  -tlrc_NL_warp                                              \
+                  -volreg_align_to MIN_OUTLIER                               \
+                  -volreg_align_e2a                                          \
+                  -volreg_tlrc_warp                                          \
+                  -regress_ROI_PC FSvent 3                                   \
+                  -regress_ROI FSWe                                          \
+                  -regress_make_corr_vols aeseg FSvent                       \
+                  -regress_anaticor_fast                                     \
+                  -regress_anaticor_label FSWe                               \
+                  -regress_censor_motion 0.2                                 \
+                  -regress_censor_outliers 0.1                               \
+                  -regress_apply_mot_types demean deriv                      \
+                  -regress_run_clustsim no
