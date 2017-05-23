@@ -1,5 +1,5 @@
 # neuroimaging
-Miscellaneous functions for neuroimaging, written in Bash, Make and Matlab (including compiled Matlab).
+Scripts for neuroimaging, written in Bash, Make and Matlab (including compiled Matlab).
 
 The files were created while working on three main projects:
 
